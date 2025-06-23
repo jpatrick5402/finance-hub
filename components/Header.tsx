@@ -7,7 +7,13 @@ export default function Header() {
   let pathname = usePathname();
   return (
     <nav className="flex mt-5 mb-5 bg-(--background-accent) p-1 rounded-lg items-center shadow-xl/20">
-      <Image width="70" height="70" src="/octopus.png" alt="Octopus Logo" />
+      <Image
+        className="m-3"
+        width="70"
+        height="70"
+        src="/octopus.png"
+        alt="Octopus Logo"
+      />
       <h1 className="text-3xl m-5">Finance Hub</h1>
       <span className="flex gap-5 ml-10 items-center ">
         <Link
