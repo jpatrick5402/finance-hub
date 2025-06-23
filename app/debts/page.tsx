@@ -1,3 +1,3 @@
 export default function NetWorth() {
-  return <div>Net Worth</div>;
+  return <div>Debts</div>;
 }
