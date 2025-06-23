@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   let pathname = usePathname();
   return (
-    <nav className="flex mt-5 mb-5 bg-(--background-accent) p-1 rounded-lg items-center shadow-xl/20">
+    <nav className="flex mt-3 mb-5 bg-(--background-accent) p-1 rounded-lg items-center shadow-xl/20">
       <Image
         className="m-3"
         width="70"
@@ -20,7 +20,7 @@ export default function Header() {
           href="/"
           className={
             pathname.split("/")[1] == ""
-              ? "rounded-lg p-2 bg-(--color-primary)"
+              ? "rounded-lg p-2 bg-(--color-primary) shadow-lg"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
         >
