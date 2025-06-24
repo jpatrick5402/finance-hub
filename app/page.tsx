@@ -18,45 +18,83 @@ export default function Home() {
 
   return (
     <div>
-      <div className="container text-xl">Name: {test.name}</div>
       <div className="container text-xl">
-        Net Worth: {(assetsTotal - debtsTotal).toFixed(2)}
+        <p>Name: {test.name}</p>
+        <p>
+          Salary: $
+          {test.salary.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}{" "}
+        </p>
+        <p>Email: {test.email}</p>
       </div>
       <div className="container">
         <p className="text-xl">
-          Monthly Budget: ${(test.salary / 12).toFixed(2)}
+          Monthly Budget: $
+          {(test.salary / 12).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
         </p>
         <p>Monthly Expenses:</p>
-        <ul>
+        <ul className="pl-5 list-disc">
           {test.expenses.map((expense, index) => (
-            <li key={index}>
-              {expense.name} | -${expense.value.toFixed(2)}
+            <li key={index} className="">
+              {expense.name} | -$
+              {expense.value.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </li>
           ))}
         </ul>
-        <p>Remaining: ${(test.salary - expenseTotal).toFixed(2)}</p>
+        <p>
+          Remaining: $
+          {(test.salary / 12 - expenseTotal).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </p>
       </div>
-      <div className="columns-2 gap-4">
+      <div className="columns-2 gap-3">
         <div className="container">
           <p className="text-xl">Assets:</p>
-          <ul>
+          <ul className="pl-5 list-disc">
             {test.assets.map((asset, index) => (
               <li key={index}>
-                {asset.name} | ${asset.value.toFixed(2)} (APY: {asset.APY})
+                {asset.name} | $
+                {asset.value.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                (APY: {asset.APY})
               </li>
             ))}
           </ul>
         </div>
         <div className="container">
           <p className="text-xl">Debts:</p>
-          <ul>
+          <ul className="pl-5 list-disc">
             {test.debts.map((debt, index) => (
               <li key={index}>
-                {debt.name} | -${debt.value.toFixed(2)} (APR: {debt.APR})
+                {debt.name} | $
+                {debt.value.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                (APR: {debt.APR})
               </li>
             ))}
           </ul>
         </div>
+      </div>
+      <div className="container text-xl">
+        Net Worth: $
+        {(assetsTotal - debtsTotal).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
       </div>
     </div>
   );
