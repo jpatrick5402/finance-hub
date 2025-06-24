@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   let pathname = usePathname().split("/")[1];
   return (
-    <nav className="flex mt-3 mb-14 bg-(--background-accent) p-1 rounded-lg items-center shadow-xl/20">
+    <nav className="flex mt-3 mb-3 sm:mb-14 bg-(--background-accent) p-1 rounded-lg items-center shadow-xl/20">
       <img src="/octopus.png" alt="Octopus Logo" className="m-3 w-15" />
       <h1 className="text-3xl m-5">Finance Hub</h1>
       <span className="flex gap-5 ml-10 items-center ">
@@ -61,7 +61,7 @@ export default function Header() {
         </Link>
       </span>
       <button
-        className="ml-auto mr-5 bg-(--color-primary) p-3 rounded-lg transition-all duration-300 hover:shadow-xl/30"
+        className="m-3 ml-auto bg-(--color-primary) p-3 rounded-lg transition-all duration-300 hover:shadow-xl/30"
         onClick={() => {
           alert("This is not yet implemented");
         }}

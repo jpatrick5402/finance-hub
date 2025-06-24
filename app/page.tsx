@@ -3,6 +3,7 @@ import User from "@components/User";
 export default function Home() {
   let test = new User("Bob", "Bob@test.com", 0, [], [], []);
   test.assets.push({ name: "House", value: 300000, APY: 0.03 });
+  test.assets.push({ name: "Gold", value: 10000, APY: 0.05 });
   test.debts.push({ name: "Mortgage", value: 250000, APR: 0.04 });
   test.expenses.push({ name: "Utilities", value: 200 });
   test.salary = 50000;
@@ -17,7 +18,7 @@ export default function Home() {
   let debtsTotal = test.debts.reduce((total, debt) => total + debt.value, 0);
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <div className="container text-xl">
         <p>Name: {test.name}</p>
         <p>
@@ -57,7 +58,7 @@ export default function Home() {
           })}
         </p>
       </div>
-      <div className="columns-2 gap-3">
+      <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
         <div className="container">
           <p className="text-xl">Assets:</p>
           <ul className="pl-5 list-disc">
