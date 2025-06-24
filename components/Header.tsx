@@ -1,25 +1,18 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
-  let pathname = usePathname();
+  let pathname = usePathname().split("/")[1];
   return (
     <nav className="flex mt-3 mb-5 bg-(--background-accent) p-1 rounded-lg items-center shadow-xl/20">
-      <Image
-        className="m-3"
-        width="70"
-        height="70"
-        src="/octopus.png"
-        alt="Octopus Logo"
-      />
+      <img src="/octopus.png" alt="Octopus Logo" className="m-3 w-15" />
       <h1 className="text-3xl m-5">Finance Hub</h1>
       <span className="flex gap-5 ml-10 items-center ">
         <Link
           href="/"
           className={
-            pathname.split("/")[1] == ""
+            pathname == ""
               ? "rounded-lg p-2 bg-(--color-primary) shadow-lg"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -29,7 +22,7 @@ export default function Header() {
         <Link
           href="/net-worth"
           className={
-            pathname.split("/")[1] == "net-worth"
+            pathname == "net-worth"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -39,7 +32,7 @@ export default function Header() {
         <Link
           href="/budget"
           className={
-            pathname.split("/")[1] == "budget"
+            pathname == "budget"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -49,7 +42,7 @@ export default function Header() {
         <Link
           href="/assets"
           className={
-            pathname.split("/")[1] == "assets"
+            pathname == "assets"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -59,7 +52,7 @@ export default function Header() {
         <Link
           href="/debts"
           className={
-            pathname.split("/")[1] == "debts"
+            pathname == "debts"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
