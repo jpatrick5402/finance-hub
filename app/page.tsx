@@ -1,29 +1,40 @@
 import User from "@models/User";
 import { neon } from "@neondatabase/serverless";
+import { useContext } from "react";
+import { userContext } from "@lib/userContext";
 
 export default function Home() {
-  let test = new User(
-    "100",
-    "Billy",
-    "Billy@test.com",
-    100000,
-    [{ name: "Utilities", value: 200 }],
-    [
-      { name: "House", value: 300000 },
-      { name: "Gold", value: 10000 },
-    ],
-    [{ name: "Mortgage", value: 250000, APR: 0.04 }]
-  );
+  //  new User(
+  //  "100",
+  //  "Billy",
+  //  "Billy@test.com",
+  //  100000,
+  //  [{ name: "Utilities", value: 200 }],
+  //  [
+  //    { name: "House", value: 300000 },
+  //    { name: "Gold", value: 10000 },
+  //  ],
+  //  [{ name: "Mortgage", value: 250000, APR: 0.04 }]
+  //);
 
-  let expenseTotal = test.expenses.reduce(
-    (total, expense) => total + expense.value,
+  // import user context
+  let user = useContext(userContext);
+  console.log(user);
+
+  // turn user json into user object
+
+  let expenseTotal = user.expenses.reduce(
+    (total: number, expense: any) => total + expense.value,
     0
   );
-  let assetsTotal = test.assets.reduce(
-    (total, asset) => total + asset.value,
+  let assetsTotal = user.assets.reduce(
+    (total: number, asset: any) => total + asset.value,
     0
   );
-  let debtsTotal = test.debts.reduce((total, debt) => total + debt.value, 0);
+  let debtsTotal = user.debts.reduce(
+    (total: number, debt: any) => total + debt.value,
+    0
+  );
 
   const now = new Date();
   const readableTime = now.toLocaleTimeString([], {
@@ -60,54 +71,53 @@ export default function Home() {
     console.log(`${name}'s data has been successfully uploaded!`);
   }
 
-  async function getUserData(email: string) {
-    "use server";
-    const sql = neon(`${process.env.DATABASE_URL}`);
-    // Insert the comment from the form into the Postgres database
-    const res = await sql`SELECT * FROM Users WHERE email=(${email})`;
-    console.log(res[0]);
-  }
+  // async function getUserData(email: string) {
+  //   "use server";
+  //   const sql = neon(`${process.env.DATABASE_URL}`);
+  //   // Insert the comment from the form into the Postgres database
+  //   const res = await sql`SELECT * FROM Users WHERE email=(${email})`;
+  //   console.log(res[0]);
+  // }
 
   return (
     <div className="flex flex-col items-center">
       <button
         onClick={setUserData.bind(
           null,
-          test.id,
-          test.email,
-          test.name,
-          test.salary,
-          test.assets,
-          test.debts,
-          test.expenses
+          user.id,
+          user.email,
+          user.name,
+          user.salary,
+          user.assets,
+          user.debts,
+          user.expenses
         )}
       >
         upload
       </button>
-      <button onClick={getUserData.bind(null, test.email)}>retrieve</button>
       <div className="container text-xl">
-        <p>Name: {test.name}</p>
+        <p>Name: {user.name}</p>
         <p>
           Salary: $
-          {test.salary.toLocaleString("en-US", {
+          {user.salary.toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
         </p>
-        <p>Email: {test.email}</p>
+        <p>Email: {user.email}</p>
         <p>Accurate as of {readableTime}</p>
       </div>
       <div className="container">
         <p className="text-xl">
           Monthly Budget: $
-          {(test.salary / 12).toLocaleString("en-US", {
+          {(user.salary / 12).toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
         </p>
         <p>Monthly Expenses:</p>
         <ul className="pl-5 list-disc">
-          {test.expenses.map((expense, index) => (
+          {user.expenses.map((expense, index) => (
             <li key={index} className="">
               {expense.name} | -$
               {expense.value.toLocaleString("en-US", {
@@ -119,7 +129,7 @@ export default function Home() {
         </ul>
         <p>
           Remaining: $
-          {(test.salary / 12 - expenseTotal).toLocaleString("en-US", {
+          {(user.salary / 12 - expenseTotal).toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
@@ -129,7 +139,7 @@ export default function Home() {
         <div className="container">
           <p className="text-xl">Assets:</p>
           <ul className="pl-5 list-disc">
-            {test.assets.map((asset, index) => (
+            {user.assets.map((asset, index) => (
               <li key={index}>
                 {asset.name} | $
                 {asset.value.toLocaleString("en-US", {
@@ -144,7 +154,7 @@ export default function Home() {
         <div className="container">
           <p className="text-xl">Debts:</p>
           <ul className="pl-5 list-disc">
-            {test.debts.map((debt, index) => (
+            {user.debts.map((debt, index) => (
               <li key={index}>
                 {debt.name} | $
                 {debt.value.toLocaleString("en-US", {
