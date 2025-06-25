@@ -2,12 +2,19 @@ import User from "@models/User";
 import { neon } from "@neondatabase/serverless";
 
 export default function Home() {
-  let test = new User("Billy", "Billy@test.com", 0, [], [], []);
-  test.assets.push({ name: "House", value: 300000, APY: 0.03 });
-  test.assets.push({ name: "Gold", value: 10000, APY: 0.05 });
-  test.debts.push({ name: "Mortgage", value: 250000, APR: 0.04 });
-  test.expenses.push({ name: "Utilities", value: 200 });
-  test.salary = 50000;
+  let test = new User(
+    "100",
+    "Billy",
+    "Billy@test.com",
+    100000,
+    [{ name: "Utilities", value: 200 }],
+    [
+      { name: "House", value: 300000 },
+      { name: "Gold", value: 10000 },
+    ],
+    [{ name: "Mortgage", value: 250000, APR: 0.04 }]
+  );
+
   let expenseTotal = test.expenses.reduce(
     (total, expense) => total + expense.value,
     0
@@ -29,6 +36,7 @@ export default function Home() {
   });
 
   async function setUserData(
+    id: string,
     email: string,
     name: string,
     salary: number,
@@ -38,11 +46,11 @@ export default function Home() {
   ) {
     "use server";
     const sql = neon(`${process.env.DATABASE_URL}`);
-    await sql`INSERT INTO Users VALUES (${email}, ${name}, ${salary.toString()}, ${JSON.stringify(
+    await sql`INSERT INTO Users VALUES (${id}, ${email}, ${name}, ${salary.toString()}, ${JSON.stringify(
       assets
     )}, ${JSON.stringify(debts)}, ${JSON.stringify(
       expenses
-    )}) ON CONFLICT (email) DO UPDATE SET
+    )}) ON CONFLICT (id) DO UPDATE SET
       name = EXCLUDED.name,
       salary = EXCLUDED.salary,
       assets = EXCLUDED.assets,
@@ -65,6 +73,7 @@ export default function Home() {
       <button
         onClick={setUserData.bind(
           null,
+          test.id,
           test.email,
           test.name,
           test.salary,

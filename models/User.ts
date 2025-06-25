@@ -1,38 +1,5 @@
-class Asset {
-  name: string;
-  value: number;
-  APY: number;
-
-  constructor(name: string, value: number, APY: number) {
-    this.name = name;
-    this.value = value;
-    this.APY = APY;
-  }
-}
-
-class Debt {
-  name: string;
-  value: number;
-  APR: number;
-
-  constructor(name: string, value: number, APR: number) {
-    this.name = name;
-    this.value = value;
-    this.APR = APR;
-  }
-}
-
-class Expense {
-  name: string;
-  value: number;
-
-  constructor(name: string, value: number) {
-    this.name = name;
-    this.value = value;
-  }
-}
-
 export default class User {
+  id: string;
   name: string;
   email: string;
   salary: number;
@@ -41,6 +8,7 @@ export default class User {
   debts: any[];
 
   constructor(
+    id: string,
     name: string,
     email: string,
     salary: number,
@@ -48,6 +16,7 @@ export default class User {
     assets: any[],
     debts: any[]
   ) {
+    this.id = id;
     this.name = name;
     this.email = email;
     this.salary = salary;
