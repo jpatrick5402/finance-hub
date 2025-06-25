@@ -1,4 +1,5 @@
-import User from "@components/User";
+import User from "@models/User";
+import { neon } from "@neondatabase/serverless";
 
 export default function Home() {
   let test = new User("Bob", "Bob@test.com", 0, [], [], []);
@@ -17,8 +18,62 @@ export default function Home() {
   );
   let debtsTotal = test.debts.reduce((total, debt) => total + debt.value, 0);
 
+  const now = new Date();
+  const readableTime = now.toLocaleTimeString([], {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  async function setUserData(
+    email: string,
+    name: string,
+    salary: number,
+    assets: any[],
+    debts: any[],
+    expenses: any[]
+  ) {
+    "use server";
+    const sql = neon(`${process.env.DATABASE_URL}`);
+    await sql`INSERT INTO Users VALUES (${email}, ${name}, ${salary.toString()}, ${JSON.stringify(
+      assets
+    )}, ${JSON.stringify(debts)}, ${JSON.stringify(
+      expenses
+    )}) ON CONFLICT (email) DO UPDATE SET
+      name = EXCLUDED.name,
+      salary = EXCLUDED.salary,
+      assets = EXCLUDED.assets,
+      debts = EXCLUDED.debts,
+      expenses = EXCLUDED.expenses`;
+  }
+
+  async function getUserData(email: string) {
+    "use server";
+    const sql = neon(`${process.env.DATABASE_URL}`);
+    // Insert the comment from the form into the Postgres database
+    const res = await sql`SELECT * FROM Users WHERE email=(${email})`;
+    console.log(res);
+  }
+
   return (
     <div className="flex flex-col items-center">
+      <button
+        onClick={setUserData.bind(
+          null,
+          test.email,
+          test.name,
+          test.salary,
+          test.assets,
+          test.debts,
+          test.expenses
+        )}
+      >
+        upload
+      </button>
+      <button onClick={getUserData.bind(null, test.email)}>retrieve</button>
       <div className="container text-xl">
         <p>Name: {test.name}</p>
         <p>
@@ -26,9 +81,10 @@ export default function Home() {
           {test.salary.toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-          })}{" "}
+          })}
         </p>
         <p>Email: {test.email}</p>
+        <p>Accurate as of {readableTime}</p>
       </div>
       <div className="container">
         <p className="text-xl">
