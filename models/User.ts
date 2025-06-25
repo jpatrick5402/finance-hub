@@ -36,17 +36,17 @@ export default class User {
   name: string;
   email: string;
   salary: number;
-  expenses: Expense[];
-  assets: Asset[];
-  debts: Debt[];
+  expenses: any[];
+  assets: any[];
+  debts: any[];
 
   constructor(
     name: string,
     email: string,
     salary: number,
-    expenses: Expense[],
-    assets: Asset[],
-    debts: Debt[]
+    expenses: any[],
+    assets: any[],
+    debts: any[]
   ) {
     this.name = name;
     this.email = email;

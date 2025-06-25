@@ -2,7 +2,7 @@ import User from "@models/User";
 import { neon } from "@neondatabase/serverless";
 
 export default function Home() {
-  let test = new User("Bob", "Bob@test.com", 0, [], [], []);
+  let test = new User("Billy", "Billy@test.com", 0, [], [], []);
   test.assets.push({ name: "House", value: 300000, APY: 0.03 });
   test.assets.push({ name: "Gold", value: 10000, APY: 0.05 });
   test.debts.push({ name: "Mortgage", value: 250000, APR: 0.04 });
@@ -48,6 +48,8 @@ export default function Home() {
       assets = EXCLUDED.assets,
       debts = EXCLUDED.debts,
       expenses = EXCLUDED.expenses`;
+
+    console.log(`${name}'s data has been successfully uploaded!`);
   }
 
   async function getUserData(email: string) {
@@ -55,7 +57,7 @@ export default function Home() {
     const sql = neon(`${process.env.DATABASE_URL}`);
     // Insert the comment from the form into the Postgres database
     const res = await sql`SELECT * FROM Users WHERE email=(${email})`;
-    console.log(res);
+    console.log(res[0]);
   }
 
   return (
