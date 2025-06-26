@@ -1,11 +1,10 @@
+"use client";
 import User from "@models/User";
-import { cookies } from "next/headers";
-import { getUserData } from "@/lib/getUserData";
+import useSWR from "swr";
+import { useUser } from "@lib/useUser";
 
-export default async function Home() {
-  const cookieStore = await cookies();
-  const knownId = cookieStore.get("userId");
-  let user = await getUserData("1");
+export default function Home() {
+  const user = useUser("1");
 
   return (
     <div className="flex flex-col items-center">
