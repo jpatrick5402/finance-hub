@@ -10,8 +10,8 @@ export async function getUserData(id: string) {
 
   const result = new User(
     objectData["id"],
-    objectData["email"],
     objectData["name"],
+    objectData["email"],
     objectData["salary"],
     JSON.parse(objectData["expenses"]),
     JSON.parse(objectData["assets"]),
