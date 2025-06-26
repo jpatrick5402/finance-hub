@@ -1,8 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function Links() {
+  const setMyCookie = (id: string) => {
+    Cookies.set("userId", id, { expires: 7 }); // Expires in 7 days
+  };
+
   let pathname = usePathname().split("/")[1];
   return (
     <>
@@ -58,14 +63,28 @@ export default function Links() {
           Debts
         </Link>
       </span>
-      <button
-        className="m-3 ml-auto bg-(--color-primary) p-3 rounded-lg transition-all duration-300 hover:shadow-xl/30 hover:bg-(--color-secondary) hover:text-black"
-        onClick={() => {
-          alert("This is not yet implemented");
-        }}
-      >
-        Sign in
-      </button>
+      <div className="ml-auto">
+        <input
+          type="text"
+          id="idInput"
+          className="bg-(--background) m-3 p-[revert] text-(--foreground)"
+          placeholder="User ID"
+        />
+        <button
+          className="m-3 ml-auto bg-(--color-primary) p-3 rounded-lg transition-all duration-300 hover:shadow-xl/30 hover:bg-(--color-secondary) hover:text-black"
+          onClick={() => {
+            let el = document.getElementById(
+              "idInput"
+            ) as HTMLInputElement | null;
+            if (!el) return;
+            let value = el.value;
+            setMyCookie(value.toString());
+            location.reload();
+          }}
+        >
+          Sign in
+        </button>
+      </div>
     </>
   );
 }
