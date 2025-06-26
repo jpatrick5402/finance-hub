@@ -1,23 +1,23 @@
 export default class User {
   id: string;
-  name: string;
   email: string;
+  full_name: string;
   salary: number;
-  expenses: any[];
   assets: any[];
   debts: any[];
+  expenses: any[];
 
   constructor(
     id: string,
-    name: string,
     email: string,
+    full_name: string,
     salary: number,
-    expenses: any[],
     assets: any[],
-    debts: any[]
+    debts: any[],
+    expenses: any[]
   ) {
     this.id = id;
-    this.name = name;
+    this.full_name = full_name;
     this.email = email;
     this.salary = salary;
     this.expenses = expenses;

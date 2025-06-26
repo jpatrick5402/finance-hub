@@ -8,14 +8,16 @@ export async function getUserData(id: string) {
   const res = await sql`SELECT * FROM Users WHERE id=(${id})`;
   let objectData = res[0];
 
+  if (!res[0]) return new User("", "", "", 0, [], [], []);
+
   const result = new User(
     objectData["id"],
-    objectData["name"],
     objectData["email"],
+    objectData["full_name"],
     objectData["salary"],
-    JSON.parse(objectData["expenses"]),
     JSON.parse(objectData["assets"]),
-    JSON.parse(objectData["debts"])
+    JSON.parse(objectData["debts"]),
+    JSON.parse(objectData["expenses"])
   );
 
   return result;

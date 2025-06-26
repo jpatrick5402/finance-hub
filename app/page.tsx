@@ -5,13 +5,12 @@ import { getUserData } from "@/lib/getUserData";
 export default async function Home() {
   const cookieStore = await cookies();
   const knownId = cookieStore.get("userId");
-  let user = new User("", "", "", 0, [], [], []);
-  user = await getUserData("100");
+  let user = await getUserData("1");
 
   return (
     <div className="flex flex-col items-center">
       <div className="container text-xl">
-        <p>Name: {user.name}</p>
+        <p>Name: {user.full_name}</p>
         <p>
           Salary: $
           {user.salary.toLocaleString("en-US", {
