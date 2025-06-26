@@ -1,12 +1,8 @@
 "use client";
 import { useUser } from "@lib/useUser";
-import Cookies from "js-cookie";
-import User from "@models/User";
 
 export default function Home() {
-  const id = Cookies.get("userId");
-
-  let user = id ? useUser(id) : new User("", "", "", 0, [], [], []);
+  let user = useUser();
 
   return (
     <div className="flex flex-col items-center">
