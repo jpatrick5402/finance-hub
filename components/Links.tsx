@@ -4,10 +4,6 @@ import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 
 export default function Links() {
-  const setMyCookie = (id: string) => {
-    Cookies.set("userId", id, { expires: 7 }); // Expires in 7 days
-  };
-
   let pathname = usePathname().split("/")[1];
   return (
     <>
@@ -67,7 +63,7 @@ export default function Links() {
         <input
           type="text"
           id="idInput"
-          className="bg-(--background) m-3 p-[revert] text-(--foreground)"
+          className="bg-(--background) m-3 p-3 rounded-lg text-(--foreground)"
           placeholder="User ID"
         />
         <button
@@ -78,7 +74,7 @@ export default function Links() {
             ) as HTMLInputElement | null;
             if (!el) return;
             let value = el.value;
-            setMyCookie(value.toString());
+            Cookies.set("userId", value.toString(), { expires: 7 });
             location.reload();
           }}
         >
