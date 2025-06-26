@@ -10,10 +10,11 @@ export default function Home() {
         <p>Name: {user.full_name}</p>
         <p>
           Salary: $
-          {user.salary.toLocaleString("en-US", {
+          {(user.salary / 1).toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
+          /year
         </p>
         <p>Email: {user.email}</p>
       </div>
@@ -24,6 +25,7 @@ export default function Home() {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
+          /month
         </p>
         <p>Monthly Expenses:</p>
         <ul className="pl-5 list-disc">
@@ -96,7 +98,7 @@ export default function Home() {
           maximumFractionDigits: 2,
         })}
       </div>
-      <button className="bg-(--color-primary) p-3 m-2 rounded-lg">
+      <button className="m-3 ml-auto bg-(--color-primary) p-3 rounded-lg transition-all duration-300 hover:shadow-xl/30 hover:bg-(--color-secondary) hover:text-black">
         Save Info
       </button>
     </div>
