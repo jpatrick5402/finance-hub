@@ -1,100 +1,15 @@
 import User from "@models/User";
-import { neon } from "@neondatabase/serverless";
-import { useContext } from "react";
-import { userContext } from "@lib/userContext";
+import { cookies } from "next/headers";
+import { getUserData } from "@/lib/getUserData";
 
-export default function Home() {
-  //  new User(
-  //  "100",
-  //  "Billy",
-  //  "Billy@test.com",
-  //  100000,
-  //  [{ name: "Utilities", value: 200 }],
-  //  [
-  //    { name: "House", value: 300000 },
-  //    { name: "Gold", value: 10000 },
-  //  ],
-  //  [{ name: "Mortgage", value: 250000, APR: 0.04 }]
-  //);
-
-  // import user context
-  let user = useContext(userContext);
-  console.log(user);
-
-  // turn user json into user object
-
-  let expenseTotal = user.expenses.reduce(
-    (total: number, expense: any) => total + expense.value,
-    0
-  );
-  let assetsTotal = user.assets.reduce(
-    (total: number, asset: any) => total + asset.value,
-    0
-  );
-  let debtsTotal = user.debts.reduce(
-    (total: number, debt: any) => total + debt.value,
-    0
-  );
-
-  const now = new Date();
-  const readableTime = now.toLocaleTimeString([], {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-
-  async function setUserData(
-    id: string,
-    email: string,
-    name: string,
-    salary: number,
-    assets: any[],
-    debts: any[],
-    expenses: any[]
-  ) {
-    "use server";
-    const sql = neon(`${process.env.DATABASE_URL}`);
-    await sql`INSERT INTO Users VALUES (${id}, ${email}, ${name}, ${salary.toString()}, ${JSON.stringify(
-      assets
-    )}, ${JSON.stringify(debts)}, ${JSON.stringify(
-      expenses
-    )}) ON CONFLICT (id) DO UPDATE SET
-      name = EXCLUDED.name,
-      salary = EXCLUDED.salary,
-      assets = EXCLUDED.assets,
-      debts = EXCLUDED.debts,
-      expenses = EXCLUDED.expenses`;
-
-    console.log(`${name}'s data has been successfully uploaded!`);
-  }
-
-  // async function getUserData(email: string) {
-  //   "use server";
-  //   const sql = neon(`${process.env.DATABASE_URL}`);
-  //   // Insert the comment from the form into the Postgres database
-  //   const res = await sql`SELECT * FROM Users WHERE email=(${email})`;
-  //   console.log(res[0]);
-  // }
+export default async function Home() {
+  const cookieStore = await cookies();
+  const knownId = cookieStore.get("userId");
+  let user = new User("", "", "", 0, [], [], []);
+  user = await getUserData("100");
 
   return (
     <div className="flex flex-col items-center">
-      <button
-        onClick={setUserData.bind(
-          null,
-          user.id,
-          user.email,
-          user.name,
-          user.salary,
-          user.assets,
-          user.debts,
-          user.expenses
-        )}
-      >
-        upload
-      </button>
       <div className="container text-xl">
         <p>Name: {user.name}</p>
         <p>
@@ -105,7 +20,6 @@ export default function Home() {
           })}
         </p>
         <p>Email: {user.email}</p>
-        <p>Accurate as of {readableTime}</p>
       </div>
       <div className="container">
         <p className="text-xl">
@@ -129,7 +43,13 @@ export default function Home() {
         </ul>
         <p>
           Remaining: $
-          {(user.salary / 12 - expenseTotal).toLocaleString("en-US", {
+          {(
+            user.salary / 12 -
+            user.expenses.reduce(
+              (total: number, expense: any) => total + expense.value,
+              0
+            )
+          ).toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
@@ -169,11 +89,20 @@ export default function Home() {
       </div>
       <div className="container text-xl">
         Net Worth: $
-        {(assetsTotal - debtsTotal).toLocaleString("en-US", {
+        {(
+          user.assets.reduce(
+            (total: number, asset: any) => total + asset.value,
+            0
+          ) -
+          user.debts.reduce((total: number, debt: any) => total + debt.value, 0)
+        ).toLocaleString("en-US", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })}
       </div>
+      <button className="bg-(--color-primary) p-3 m-2 rounded-lg">
+        Save Info
+      </button>
     </div>
   );
 }
