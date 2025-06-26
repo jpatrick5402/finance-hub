@@ -5,9 +5,10 @@
   --foreground: #2a2a2a;
   --color-primary: #c48edd;
   --color-secondary: #9fccff;
-  --color-header: #bdbdbd;
-  --color-footer: #93aad6;
-  --color-container: #c9c9c9;
+  --color-header: #bdbdbdee;
+  --color-footer: #93aad6ee;
+  --color-container: #c9c9c9bb;
+  --background-darkness: 0;
 }
 
 @theme inline {
@@ -24,15 +25,24 @@
     --foreground: #ededed;
     --color-primary: #003988;
     --color-secondary: #ffffff;
-    --color-header: #818181;
-    --color-footer: #4a4a4a;
-    --color-container: #79716b;
+    --color-header: #818181ee;
+    --color-footer: #4a4a4aee;
+    --color-container: #79716bbb;
+    --background-darkness: 0.5;
   }
 }
 
-body {
-  background: url(/water.jpg);
+html {
+  background-image: linear-gradient(
+      rgba(0, 0, 0, var(--background-darkness)),
+      rgba(0, 0, 0, var(--background-darkness))
+    ),
+    url(/water.jpg);
   background-size: cover;
+  backdrop-filter: brightness(50%);
+}
+
+body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
@@ -46,6 +56,7 @@ body {
   border-radius: 10px;
   padding: 10px;
   max-width: unset;
+  backdrop-filter: blur(10px);
 }
 
 @media screen and (max-width: 1200px) {
