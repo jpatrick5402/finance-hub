@@ -2,15 +2,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
+import { useState } from "react";
 
-export default function Links() {
-  let pathname = usePathname().split("/")[1];
+interface LinksProps {
+  current?: string;
+  setCurrent?: Function;
+}
+
+export default function Links({ current, setCurrent }: LinksProps) {
   return (
-    <span className="flex gap-5 mb-3 sm:mb-0 items-center flex-col sm:flex-row">
+    <>
+      <span className="flex gap-5 mb-3 sm:mb-0 items-center flex-col sm:flex-row">
         <Link
-          href="/"
+          href="/dashboard"
           className={
-            pathname == ""
+            current == "dashboard"
               ? "rounded-lg p-2 bg-(--color-primary) shadow-lg"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -20,7 +26,7 @@ export default function Links() {
         <Link
           href="/net-worth"
           className={
-            pathname == "net-worth"
+            current == "net-worth"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -30,7 +36,7 @@ export default function Links() {
         <Link
           href="/budget"
           className={
-            pathname == "budget"
+            current == "budget"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -40,7 +46,7 @@ export default function Links() {
         <Link
           href="/assets"
           className={
-            pathname == "assets"
+            current == "assets"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }
@@ -50,7 +56,7 @@ export default function Links() {
         <Link
           href="/debts"
           className={
-            pathname == "debts"
+            current == "debts"
               ? "rounded-lg p-2 bg-(--color-primary)"
               : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
           }

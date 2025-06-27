@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { neon } from "@neondatabase/serverless";
+import React from "react";
+
 import Header from "@components/Header";
 import Footer from "@components/Footer";
+import User from "@models/User";
+
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +28,34 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let id = "1";
+
+  if (!id) return new User("", "", "", 0, [], [], []);
+
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  const res = await sql`SELECT * FROM Users WHERE id=(${id})`;
+  const userData = res[0];
+
+  const user =
+    !res[0] || !userData
+      ? new User("", "", "", 0, [], [], [])
+      : new User(
+          userData["id"],
+          userData["email"],
+          userData["full_name"],
+          userData["salary"],
+          userData["assets"],
+          userData["debts"],
+          userData["expenses"]
+        );
+
+  console.log(user);
+
   return (
     <html lang="en">
       <body
