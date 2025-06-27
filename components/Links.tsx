@@ -6,8 +6,7 @@ import Cookies from "js-cookie";
 export default function Links() {
   let pathname = usePathname().split("/")[1];
   return (
-    <>
-      <span className="flex gap-5 items-center sm:flex-row flex-col">
+    <span className="flex gap-5 mb-3 sm:mb-0 items-center flex-col sm:flex-row">
         <Link
           href="/"
           className={
