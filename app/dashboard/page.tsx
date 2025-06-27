@@ -1,3 +1,5 @@
+import SignIn from "@components/SignIn";
+
 import User from "@models/User";
 
 export default function Dashboard() {
@@ -96,7 +98,7 @@ export default function Dashboard() {
           maximumFractionDigits: 2,
         })}
       </div>
-      <button className="btn">Save Info</button>
+      <SignIn />
     </div>
   );
 }

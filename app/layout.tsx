@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { neon } from "@neondatabase/serverless";
-import React from "react";
+import React, { ReactNode } from "react";
 
 import Header from "@components/Header";
 import Footer from "@components/Footer";
@@ -56,13 +56,23 @@ export default async function RootLayout({
 
   console.log(user);
 
+  interface ChildrenProps {
+    children?: ReactNode;
+  }
+
+  let childrenWithParams = React.Children.map(children, (child) => {
+    return React.isValidElement(child)
+      ? React.cloneElement(child as React.ReactElement<any>, { user: user })
+      : child;
+  });
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
       >
         <Header />
-        <div className="grow-1">{children}</div>
+        <div className="grow-1">{childrenWithParams}</div>
         <Footer />
       </body>
     </html>
