@@ -82,6 +82,7 @@ body {
     margin-top: 0px;
   }
   nav span {
+    margin: 0px;
     margin-bottom: 5px;
   }
 }

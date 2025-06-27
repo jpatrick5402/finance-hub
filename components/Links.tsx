@@ -11,7 +11,7 @@ interface LinksProps {
 
 export default function Links({ current, setCurrent }: LinksProps) {
   return (
-    <span className="flex gap-5 mb-3 sm:mb-0 items-center flex-col sm:flex-row">
+    <span className="flex ml-auto m-3 gap-5 items-center flex-col sm:flex-row">
       <Link
         href="/dashboard"
         className={
