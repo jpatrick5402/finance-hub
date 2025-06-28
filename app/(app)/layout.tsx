@@ -43,7 +43,6 @@ export default async function RootLayout({
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <Header />
         <div className="grow-1">{children}</div>
       </Suspense>
     </>

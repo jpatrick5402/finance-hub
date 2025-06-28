@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import React, { ReactNode } from "react";
 
-import Footer from "@/app/components/Footer";
+import Header from "@components/AppHeader";
+import SignUp from "@components/SignUp";
+import SignIn from "@components/SignIn";
+import Footer from "@components/Footer";
 
 import "@app/globals.css";
 
@@ -35,6 +38,16 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
       >
+        <Header />
+        {true ? (
+          <div className="grid container">
+            <p>Please sign in or sign up</p>
+            <div className="flex flex-col sm:flex-row m-auto self-center">
+              <SignIn />
+              <SignUp />
+            </div>
+          </div>
+        ) : null}
         <div className="grow-1">{children}</div>
         <Footer />
       </body>

@@ -1,6 +1,4 @@
-import SignIn from "@components/SignIn";
-
-import User from "@/models/User";
+import User from "@models/User";
 
 export default function Dashboard() {
   let user = new User("", "", "", 0, [], [], []);
