@@ -1,6 +1,6 @@
 import SignIn from "@components/SignIn";
 
-import User from "@models/User";
+import User from "@/models/User";
 
 export default function Dashboard() {
   let user = new User("", "", "", 0, [], [], []);
@@ -98,7 +98,6 @@ export default function Dashboard() {
           maximumFractionDigits: 2,
         })}
       </div>
-      <SignIn />
     </div>
   );
 }

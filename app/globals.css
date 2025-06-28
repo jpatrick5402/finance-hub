@@ -2,6 +2,7 @@
 
 :root {
   --background: #fafafa;
+  --background-accent: #ada39b;
   --foreground: #2a2a2a;
   --color-primary: #c48edd;
   --color-secondary: #9fccff;
@@ -45,7 +46,6 @@ body {
 
 .btn {
   margin: 12px;
-  margin-left: auto;
   background-color: var(--color-primary);
   padding: 12px;
   border-radius: 10px;
@@ -59,6 +59,7 @@ body {
 
 .container {
   background-color: var(--color-container);
+  margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
   padding: 10px;
