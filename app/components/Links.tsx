@@ -6,7 +6,7 @@ export default function Links() {
   let current = "/" + usePathname().split("/")[1];
 
   let links = [
-    { href: "/", name: "Home" },
+    { href: "/", name: "About" },
     { href: "/dashboard", name: "Dashboard" },
     { href: "/net-worth", name: "Net Worth" },
     { href: "/budget", name: "Budget" },
@@ -20,6 +20,7 @@ export default function Links() {
         let isLoggedIn = current === link.href;
         return (
           <Link
+            key={link.href}
             href={link.href}
             className={
               isLoggedIn

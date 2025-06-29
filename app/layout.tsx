@@ -41,8 +41,8 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
       >
         <SessionProvider>
-          <Header />
           {!session?.user ? <Auth /> : null}
+          <Header />
           <div className="grow-1">{children}</div>
           <Footer />
         </SessionProvider>
