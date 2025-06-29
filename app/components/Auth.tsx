@@ -4,12 +4,18 @@ import { login } from "@lib/auth";
 
 export default function Auth() {
   return (
-    <>
-      <form action={() => login()} className="flex align-center">
-        <button className="btn" type="submit">
-          Sign In with Github
+    <div className="container grid">
+      <p>Please sign in or sign up</p>
+      <div className="flex flex-col sm:flex-row m-auto self-center">
+        <button
+          className="btn"
+          onClick={async () => {
+            await login("github", "/dashboard");
+          }}
+        >
+          Sign in with Github
         </button>
-      </form>
-    </>
+      </div>
+    </div>
   );
 }

@@ -8,6 +8,7 @@ import Footer from "@components/Footer";
 import { auth } from "@/auth";
 
 import "@app/globals.css";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,17 +40,12 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
       >
-        <Header />
-        {!session?.user ? (
-          <div className="grid container">
-            <p>Please sign in or sign up</p>
-            <div className="flex flex-col sm:flex-row m-auto self-center">
-              <Auth />
-            </div>
-          </div>
-        ) : null}
-        <div className="grow-1">{children}</div>
-        <Footer />
+        <SessionProvider>
+          <Header />
+          {!session?.user ? <Auth /> : null}
+          <div className="grow-1">{children}</div>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

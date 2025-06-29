@@ -1,7 +1,12 @@
+"use client";
 import User from "@models/User";
+import { useSession } from "next-auth/react";
 
 export default function Dashboard() {
+  const { data: session } = useSession();
   let user = new User("", "", "", 0, [], [], []);
+  user.email = session?.user?.email ?? "";
+  user.full_name = session?.user?.name ?? "";
   return (
     <div className="flex flex-col items-center">
       <div className="container text-xl">
