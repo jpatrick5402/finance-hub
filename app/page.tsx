@@ -1,8 +1,12 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+"use client";
 
-export default async function Home() {
+import { redirect } from "next/navigation";
+
+export default function Login() {
   // if user is logged in, redirect to /dashboard
-  let session = await auth();
+
+  let isLoggedIn = false;
+  if (isLoggedIn) redirect("/dashboard");
+
   return <></>;
 }
