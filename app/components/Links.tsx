@@ -1,64 +1,36 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Cookies from "js-cookie";
-import { useState } from "react";
 
 export default function Links() {
-  let current = usePathname().split("/")[1];
+  let current = "/" + usePathname().split("/")[1];
+
+  let links = [
+    { href: "/", name: "Home" },
+    { href: "/dashboard", name: "Dashboard" },
+    { href: "/net-worth", name: "Net Worth" },
+    { href: "/budget", name: "Budget" },
+    { href: "/assets", name: "Assets" },
+    { href: "/debts", name: "Debts" },
+  ];
 
   return (
     <span className="flex ml-auto m-3 gap-5 items-center flex-col sm:flex-row">
-      <Link
-        href="/dashboard"
-        className={
-          current == "dashboard"
-            ? "rounded-lg p-2 bg-(--color-primary) shadow-lg cursor-default"
-            : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
-        }
-      >
-        Dashboard
-      </Link>
-      <Link
-        href="/net-worth"
-        className={
-          current == "net-worth"
-            ? "rounded-lg p-2 bg-(--color-primary) shadow-lg cursor-default"
-            : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
-        }
-      >
-        Net Worth
-      </Link>
-      <Link
-        href="/budget"
-        className={
-          current == "budget"
-            ? "rounded-lg p-2 bg-(--color-primary)"
-            : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
-        }
-      >
-        Budget
-      </Link>
-      <Link
-        href="/assets"
-        className={
-          current == "assets"
-            ? "rounded-lg p-2 bg-(--color-primary)"
-            : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
-        }
-      >
-        Assets
-      </Link>
-      <Link
-        href="/debts"
-        className={
-          current == "debts"
-            ? "rounded-lg p-2 bg-(--color-primary)"
-            : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
-        }
-      >
-        Debts
-      </Link>
+      {links.map((link) => {
+        let isLoggedIn = current === link.href;
+        return (
+          <Link
+            href={link.href}
+            className={
+              isLoggedIn
+                ? "rounded-lg p-2 bg-(--color-primary) shadow-lg cursor-default"
+                : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
+            }
+          >
+            {link.name}
+          </Link>
+        );
+      })}
     </span>
   );
 }

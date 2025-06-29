@@ -27,15 +27,14 @@ export default function Header() {
       <h1 className="text-3xl m-5">Finance Hub</h1>
       <Links />
       {!isLoggedIn ? (
-        <button
-          onClick={async () => {
+        <form
+          action={async () => {
             await logout("/");
             setIsLoggedIn(false);
           }}
-          className="btn"
         >
-          Sign Out
-        </button>
+          <button className="btn">Sign Out</button>
+        </form>
       ) : null}
     </nav>
   );
