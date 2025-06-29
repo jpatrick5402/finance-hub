@@ -3,9 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import React, { ReactNode } from "react";
 
 import Header from "@components/AppHeader";
-import SignUp from "@components/SignUp";
-import SignIn from "@components/SignIn";
+import Auth from "@components/Auth";
 import Footer from "@components/Footer";
+import { auth } from "@/auth";
 
 import "@app/globals.css";
 
@@ -33,18 +33,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
       >
         <Header />
-        {true ? (
+        {!session?.user ? (
           <div className="grid container">
             <p>Please sign in or sign up</p>
             <div className="flex flex-col sm:flex-row m-auto self-center">
-              <SignIn />
-              <SignUp />
+              <Auth />
             </div>
           </div>
         ) : null}
