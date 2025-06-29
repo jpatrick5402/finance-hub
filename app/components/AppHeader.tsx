@@ -4,6 +4,14 @@ import Image from "next/image";
 import Links from "@components/Links";
 
 export default function Header() {
+  const links = [
+    { href: "/dashboard", name: "Dashboard" },
+    { href: "/net-worth", name: "Net Worth" },
+    { href: "/budget", name: "Budget" },
+    { href: "/assets", name: "Assets" },
+    { href: "/debts", name: "Debts" },
+  ];
+
   return (
     <nav className="flex mt-3 mb-3 sm:mb-10 bg-(--color-header) p-1 rounded-lg items-center shadow-xl/20">
       <a href="/">
@@ -17,7 +25,7 @@ export default function Header() {
         />
       </a>
       <h1 className="text-3xl m-5">Finance Hub</h1>
-      <Links />
+      <Links links={links} />
     </nav>
   );
 }
