@@ -26,12 +26,15 @@ export default function Dashboard() {
   return (
     <form
       onSubmit={async (e: React.FormEvent) => {
+        e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
 
         const formValues: User = {
           email: user.email,
           full_name: formData.get("name") as string,
-          salary: Number(formData.get("salary") as string),
+          salary: Number(
+            (formData.get("salary") as string)?.replace(/,/g, "") || 0
+          ),
           assets: formData.getAll("assets").map((name, i) => ({
             name: name as string,
             value:
@@ -64,6 +67,7 @@ export default function Dashboard() {
         };
 
         await save(formValues, user);
+        //location.reload();
       }}
       className="flex flex-col items-center"
       id="dashboardForm"
@@ -128,7 +132,7 @@ export default function Dashboard() {
       <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
         <div className="container">
           <p className="text-xl">Assets:</p>
-          <ul className="pl-5 list-disc">
+          <ul className="inline-block pl-5 list-disc">
             {user.assets.map((asset, index) => (
               <li key={index}>
                 <input type="text" name="assets" defaultValue={asset.name} />$
@@ -140,8 +144,8 @@ export default function Dashboard() {
                     maximumFractionDigits: 2,
                   })}
                 />
-                (APY:
-                <input type="text" name="assetsAPY" defaultValue={asset.APY} />)
+                APY:
+                <input type="text" name="assetsAPY" defaultValue={asset.APY} />
               </li>
             ))}
           </ul>
@@ -160,11 +164,8 @@ export default function Dashboard() {
                     maximumFractionDigits: 2,
                   })}
                 />
-                <input
-                  type="text"
-                  name="debtsAPR"
-                  defaultValue={"(APR: " + debt.APR + ")"}
-                />
+                APR:
+                <input type="text" name="debtsAPR" defaultValue={debt.APR} />
               </li>
             ))}
           </ul>
