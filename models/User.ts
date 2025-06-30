@@ -1,14 +1,27 @@
+type Debt = {
+  name: string;
+  value: number;
+  APR: number;
+};
+type Asset = {
+  name: string;
+  value: number;
+  APY: number;
+};
+type Expense = {
+  name: string;
+  value: number;
+};
+
 export default class User {
-  id: string;
   email: string;
   full_name: string;
   salary: number;
-  assets: any[];
-  debts: any[];
-  expenses: any[];
+  assets: Asset[];
+  debts: Debt[];
+  expenses: Expense[];
 
   constructor(
-    id: string,
     email: string,
     full_name: string,
     salary: number,
@@ -16,12 +29,11 @@ export default class User {
     debts: any[],
     expenses: any[]
   ) {
-    this.id = id;
-    this.full_name = full_name;
     this.email = email;
+    this.full_name = full_name;
     this.salary = salary;
-    this.expenses = expenses;
     this.assets = assets;
     this.debts = debts;
+    this.expenses = expenses;
   }
 }

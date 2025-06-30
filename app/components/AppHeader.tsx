@@ -42,7 +42,9 @@ export default function Header() {
             setIsLoggedIn(false);
           }}
         >
-          <button className="btn">Sign Out</button>
+          <button className="btn" type="submit">
+            Sign Out
+          </button>
         </form>
       ) : null}
     </nav>

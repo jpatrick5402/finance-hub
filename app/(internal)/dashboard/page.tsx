@@ -1,22 +1,86 @@
 "use client";
-import User from "@models/User";
 import { useSession } from "next-auth/react";
+import { useEffect, useRef, useState } from "react";
+
+import User from "@models/User";
+import { save } from "@lib/save";
+import { getData } from "@lib/getData";
 
 export default function Dashboard() {
   const { data: session } = useSession();
-  let user = new User("", "", "", 0, [], [], []);
-  user.email = session?.user?.email ?? "";
-  user.full_name = session?.user?.name ?? "";
+  const [user, setUser] = useState<User>(new User("", "", 0, [], [], []));
+
+  useEffect(() => {
+    async function fetchUser() {
+      if (session?.user?.email) {
+        const resUser = await getData(session?.user?.email);
+        resUser.email = session?.user?.email;
+        setUser(resUser);
+      } else {
+        setUser(new User("", "", 0, [], [], []));
+      }
+    }
+    fetchUser();
+  }, [session]);
+
   return (
-    <div className="flex flex-col items-center">
+    <form
+      onSubmit={async (e: React.FormEvent) => {
+        const formData = new FormData(e.target as HTMLFormElement);
+
+        const formValues: User = {
+          email: user.email,
+          full_name: formData.get("name") as string,
+          salary: Number(formData.get("salary") as string),
+          assets: formData.getAll("assets").map((name, i) => ({
+            name: name as string,
+            value:
+              Number(
+                (formData.getAll("assetsVal")[i] as string)?.replace(/,/g, "")
+              ) || 0,
+            APY: Number(formData.getAll("assetsAPY")[i]) || 0,
+          })),
+          debts: formData.getAll("debts").map((name, i) => ({
+            name: name as string,
+            value:
+              Number(
+                (formData.getAll("debtsVal")[i] as string)?.replace(/,/g, "")
+              ) || 0,
+            APR:
+              Number(
+                (formData.getAll("debtsAPR")[i] as string)?.replace(
+                  /[^\d.-]/g,
+                  ""
+                )
+              ) || 0,
+          })),
+          expenses: formData.getAll("expense").map((name, i) => ({
+            name: name as string,
+            value:
+              Number(
+                (formData.getAll("expenseVal")[i] as string)?.replace(/,/g, "")
+              ) || 0,
+          })),
+        };
+
+        await save(formValues, user);
+      }}
+      className="flex flex-col items-center"
+      id="dashboardForm"
+    >
       <div className="container text-xl">
-        <p>Name: {user.full_name}</p>
+        <p>
+          Name: <input defaultValue={user.full_name} name="name" />
+        </p>
         <p>
           Salary: $
-          {(user.salary / 1).toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
+          <input
+            defaultValue={(user.salary / 1).toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+            name="salary"
+          />
           /year
         </p>
         <p>Email: {user.email}</p>
@@ -34,11 +98,16 @@ export default function Dashboard() {
         <ul className="pl-5 list-disc">
           {user.expenses.map((expense, index) => (
             <li key={index} className="">
-              {expense.name} | -$
-              {expense.value.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              <input type="text" name="expense" defaultValue={expense.name} />
+              $
+              <input
+                type="text"
+                name="expenseVal"
+                defaultValue={expense.value.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              />
             </li>
           ))}
         </ul>
@@ -62,12 +131,17 @@ export default function Dashboard() {
           <ul className="pl-5 list-disc">
             {user.assets.map((asset, index) => (
               <li key={index}>
-                {asset.name} | $
-                {asset.value.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}{" "}
-                (APY: {asset.APY})
+                <input type="text" name="assets" defaultValue={asset.name} />$
+                <input
+                  type="text"
+                  name="assetsVal"
+                  defaultValue={asset.value.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                />
+                (APY:
+                <input type="text" name="assetsAPY" defaultValue={asset.APY} />)
               </li>
             ))}
           </ul>
@@ -77,12 +151,20 @@ export default function Dashboard() {
           <ul className="pl-5 list-disc">
             {user.debts.map((debt, index) => (
               <li key={index}>
-                {debt.name} | $
-                {debt.value.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}{" "}
-                (APR: {debt.APR})
+                <input type="text" name="debts" defaultValue={debt.name} />$
+                <input
+                  type="text"
+                  name="debtsVal"
+                  defaultValue={debt.value.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                />
+                <input
+                  type="text"
+                  name="debtsAPR"
+                  defaultValue={"(APR: " + debt.APR + ")"}
+                />
               </li>
             ))}
           </ul>
@@ -101,6 +183,9 @@ export default function Dashboard() {
           maximumFractionDigits: 2,
         })}
       </div>
-    </div>
+      <button className="btn" type="submit">
+        Save Info
+      </button>
+    </form>
   );
 }
