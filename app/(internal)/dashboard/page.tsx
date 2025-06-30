@@ -184,9 +184,11 @@ export default function Dashboard() {
           maximumFractionDigits: 2,
         })}
       </div>
-      <button className="btn" type="submit">
-        Save Info
-      </button>
+      {session?.user?.email ? (
+        <button className="btn" type="submit">
+          Save Info
+        </button>
+      ) : null}
     </form>
   );
 }
