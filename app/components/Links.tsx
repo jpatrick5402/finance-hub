@@ -2,17 +2,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Links() {
-  let current = "/" + usePathname().split("/")[1];
+interface LinksType {
+  href: string;
+  name: string;
+}
+interface LinksParam {
+  links: LinksType[];
+}
 
-  let links = [
-    { href: "/", name: "About" },
-    { href: "/dashboard", name: "Dashboard" },
-    { href: "/net-worth", name: "Net Worth" },
-    { href: "/budget", name: "Budget" },
-    { href: "/assets", name: "Assets" },
-    { href: "/debts", name: "Debts" },
-  ];
+export default function Links({ links }: LinksParam) {
+  let current = "/" + usePathname().split("/")[1];
 
   return (
     <span className="flex ml-auto m-3 gap-5 items-center flex-col sm:flex-row">

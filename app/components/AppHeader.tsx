@@ -7,6 +7,15 @@ import { logout } from "@lib/auth";
 import { useEffect, useState } from "react";
 
 export default function Header() {
+  let links = [
+    { href: "/", name: "About" },
+    { href: "/dashboard", name: "Dashboard" },
+    { href: "/net-worth", name: "Net Worth" },
+    { href: "/budget", name: "Budget" },
+    { href: "/assets", name: "Assets" },
+    { href: "/debts", name: "Debts" },
+  ];
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { data: session } = useSession();
   useEffect(() => {
@@ -25,7 +34,7 @@ export default function Header() {
         />
       </a>
       <h1 className="text-3xl m-5">Finance Hub</h1>
-      <Links />
+      <Links links={links} />
       {!isLoggedIn ? (
         <form
           action={async () => {
