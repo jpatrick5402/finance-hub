@@ -67,12 +67,13 @@ export default function Dashboard() {
         };
 
         await save(formValues, user);
-        //location.reload();
+        location.reload();
       }}
       className="flex flex-col items-center"
       id="dashboardForm"
     >
       <div className="container text-xl">
+        <p>Email: {user.email}</p>
         <p>
           Name: <input defaultValue={user.full_name} name="name" />
         </p>
@@ -87,7 +88,6 @@ export default function Dashboard() {
           />
           /year
         </p>
-        <p>Email: {user.email}</p>
       </div>
       <div className="container">
         <p className="text-xl">
