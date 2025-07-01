@@ -54,7 +54,6 @@ export default function Dashboard() {
         resUser.expenses = resUser.expenses.sort((a, b) => {
           return b.value - a.value;
         });
-        console.log(resUser);
         setUser(resUser);
       } else {
         setUser(new User("", "", 0, [], [], []));
@@ -185,7 +184,7 @@ export default function Dashboard() {
                 />
                 <button
                   type="button"
-                  className="ml-2 p-1 rounded bg-(--color-primary) btn-sm"
+                  className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
                   onClick={() => {
                     setUser((prev) => ({
                       ...prev,
@@ -193,7 +192,7 @@ export default function Dashboard() {
                     }));
                   }}
                 >
-                  Remove
+                  X
                 </button>
               </li>
             ))}
@@ -228,6 +227,19 @@ export default function Dashboard() {
           <Doughnut data={BudgetData} className="m-auto self-center" />
         </div>
       </div>
+      <div className="container text-xl">
+        Net Worth: $
+        {(
+          user.assets.reduce(
+            (total: number, asset: any) => total + asset.value,
+            0
+          ) -
+          user.debts.reduce((total: number, debt: any) => total + debt.value, 0)
+        ).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
+      </div>
       <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
         <div className="container">
           <p className="text-xl">Assets:</p>
@@ -247,7 +259,7 @@ export default function Dashboard() {
                 <input type="text" name="assetsAPY" defaultValue={asset.APY} />
                 <button
                   type="button"
-                  className="ml-2 p-1 rounded bg-(--color-primary) btn-sm"
+                  className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
                   onClick={() => {
                     setUser((prev) => ({
                       ...prev,
@@ -255,7 +267,7 @@ export default function Dashboard() {
                     }));
                   }}
                 >
-                  Remove
+                  X
                 </button>
               </li>
             ))}
@@ -291,7 +303,7 @@ export default function Dashboard() {
                 <input type="text" name="debtsAPR" defaultValue={debt.APR} />
                 <button
                   type="button"
-                  className="ml-2 p-1 rounded bg-(--color-primary) btn-sm"
+                  className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
                   onClick={() => {
                     setUser((prev) => ({
                       ...prev,
@@ -299,7 +311,7 @@ export default function Dashboard() {
                     }));
                   }}
                 >
-                  Remove
+                  X
                 </button>
               </li>
             ))}
@@ -317,19 +329,6 @@ export default function Dashboard() {
             Add Debt
           </button>
         </div>
-      </div>
-      <div className="container text-xl">
-        Net Worth: $
-        {(
-          user.assets.reduce(
-            (total: number, asset: any) => total + asset.value,
-            0
-          ) -
-          user.debts.reduce((total: number, debt: any) => total + debt.value, 0)
-        ).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
       </div>
       {session?.user?.email ? (
         <button className="btn" type="submit">

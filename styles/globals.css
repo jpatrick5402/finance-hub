@@ -9,6 +9,7 @@
   --color-header: #bdbdbdee;
   --color-footer: #93aad6ee;
   --color-green: #93ffab;
+  --color-red: #f57272;
   --color-container: #c9c9c9bb;
   --background-darkness: 0;
 }
@@ -23,6 +24,7 @@
     --color-header: #818181ee;
     --color-footer: #4a4a4aee;
     --color-green: #21572d;
+    --color-red: #7a2929;
     --color-container: #79716bbb;
     --background-darkness: 0.5;
   }
