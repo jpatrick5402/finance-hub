@@ -45,6 +45,16 @@ export default function Dashboard() {
     async function fetchUser() {
       if (session?.user?.email) {
         const resUser = await getData(session?.user?.email);
+        resUser.assets = resUser.assets.sort((a, b) => {
+          return b.value - a.value;
+        });
+        resUser.debts = resUser.debts.sort((a, b) => {
+          return b.value - a.value;
+        });
+        resUser.expenses = resUser.expenses.sort((a, b) => {
+          return b.value - a.value;
+        });
+        console.log(resUser);
         setUser(resUser);
       } else {
         setUser(new User("", "", 0, [], [], []));
@@ -126,7 +136,7 @@ export default function Dashboard() {
         </p>
       </div>
       <div className="container flex flex-col sm:grid grid-cols-2">
-        <div className="">
+        <div>
           <p className="text-xl">
             Monthly Budget: $
             {(user.salary / 12).toLocaleString("en-US", {
