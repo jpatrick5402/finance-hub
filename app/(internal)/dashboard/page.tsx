@@ -145,6 +145,15 @@ export default function Dashboard() {
                   type="text"
                   name="expenses"
                   defaultValue={expense.name}
+                  onChange={(e) => {
+                    const newName = e.target.value;
+                    setUser((prev) => ({
+                      ...prev,
+                      expenses: prev.expenses.map((exp, i) =>
+                        i === index ? { ...exp, name: newName } : exp
+                      ),
+                    }));
+                  }}
                 />
                 $
                 <input
@@ -154,6 +163,17 @@ export default function Dashboard() {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
+                  onChange={(e) => {
+                    const newValue = Number(
+                      e.target.value.replace(/,/g, "") || 0
+                    );
+                    setUser((prev) => ({
+                      ...prev,
+                      expenses: prev.expenses.map((exp, i) =>
+                        i === index ? { ...exp, value: newValue } : exp
+                      ),
+                    }));
+                  }}
                 />
                 <button
                   type="button"
