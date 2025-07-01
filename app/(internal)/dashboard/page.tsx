@@ -197,7 +197,7 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex h-100 w-full">
-          <Doughnut data={BudgetData} className="m-auto" />
+          <Doughnut data={BudgetData} className="m-auto self-center" />
         </div>
       </div>
       <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
