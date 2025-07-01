@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import User from "@models/User";
 import { save } from "@lib/save";
@@ -41,7 +41,13 @@ export default function Dashboard() {
               Number(
                 (formData.getAll("assetsVal")[i] as string)?.replace(/,/g, "")
               ) || 0,
-            APY: Number(formData.getAll("assetsAPY")[i]) || 0,
+            APY:
+              Number(
+                (formData.getAll("assetsAPY")[i] as string)?.replace(
+                  /[^\d.-]/g,
+                  ""
+                )
+              ) || 0,
           })),
           debts: formData.getAll("debts").map((name, i) => ({
             name: name as string,
@@ -128,7 +134,7 @@ export default function Dashboard() {
           ))}
         </ul>
         <button
-          className="btn"
+          className="bg-(--color-green) p-2 m-2 rounded border-1"
           type="button"
           onClick={() => {
             setUser((prev) => ({
@@ -186,7 +192,7 @@ export default function Dashboard() {
             ))}
           </ul>
           <button
-            className="btn"
+            className="bg-(--color-green) p-2 m-2 rounded border-1"
             type="button"
             onClick={() => {
               setUser((prev) => ({
@@ -230,7 +236,7 @@ export default function Dashboard() {
             ))}
           </ul>
           <button
-            className="btn"
+            className="bg-(--color-green) p-2 m-2 rounded border-1"
             type="button"
             onClick={() => {
               setUser((prev) => ({

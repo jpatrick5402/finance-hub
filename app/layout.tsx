@@ -7,7 +7,7 @@ import Auth from "@components/Auth";
 import Footer from "@components/Footer";
 import { auth } from "@/auth";
 
-import "@app/globals.css";
+import "@styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({

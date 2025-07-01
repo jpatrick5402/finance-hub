@@ -8,6 +8,7 @@
   --color-secondary: #9fccff;
   --color-header: #bdbdbdee;
   --color-footer: #93aad6ee;
+  --color-green: #93ffab;
   --color-container: #c9c9c9bb;
   --background-darkness: 0;
 }
@@ -21,6 +22,7 @@
     --color-secondary: #ffffff;
     --color-header: #818181ee;
     --color-footer: #4a4a4aee;
+    --color-green: #21572d;
     --color-container: #79716bbb;
     --background-darkness: 0.5;
   }
