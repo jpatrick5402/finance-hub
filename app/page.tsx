@@ -1,3 +1,7 @@
 export default function Home() {
-  return <></>;
+  return (
+    <div className="container">
+      <p>This application is currently in development</p>
+    </div>
+  );
 }
