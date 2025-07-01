@@ -140,6 +140,19 @@ export default function Dashboard() {
             b.name = "expensesVal";
             b.defaultValue = "";
             li.appendChild(b);
+            let d = document.createElement("button");
+            d.type = "button";
+            d.className = "ml-2 p-1 rounded bg-(--color-primary) btn-sm";
+            d.textContent = "Remove";
+            d.addEventListener("click", () => {
+              // Remove the last asset input (since index is not available here)
+              setUser((prev) => ({
+                ...prev,
+                assets: prev.assets.slice(0, -1),
+              }));
+              li.remove();
+            });
+            li.appendChild(d);
             document.getElementById("expenseList")?.appendChild(li);
           }}
         >
@@ -208,6 +221,19 @@ export default function Dashboard() {
               c.name = "assetsAPY";
               c.defaultValue = "";
               li.appendChild(c);
+              let d = document.createElement("button");
+              d.type = "button";
+              d.className = "ml-2 p-1 rounded bg-(--color-primary) btn-sm";
+              d.textContent = "Remove";
+              d.addEventListener("click", () => {
+                // Remove the last asset input (since index is not available here)
+                setUser((prev) => ({
+                  ...prev,
+                  assets: prev.assets.slice(0, -1),
+                }));
+                li.remove();
+              });
+              li.appendChild(d);
               document.getElementById("assetsList")?.appendChild(li);
             }}
           >
@@ -262,6 +288,19 @@ export default function Dashboard() {
               c.name = "debtsAPY";
               c.defaultValue = "";
               li.appendChild(c);
+              let d = document.createElement("button");
+              d.type = "button";
+              d.className = "ml-2 p-1 rounded bg-(--color-primary) btn-sm";
+              d.textContent = "Remove";
+              d.addEventListener("click", () => {
+                // Remove the last asset input (since index is not available here)
+                setUser((prev) => ({
+                  ...prev,
+                  assets: prev.assets.slice(0, -1),
+                }));
+                li.remove();
+              });
+              li.appendChild(d);
               document.getElementById("debtsList")?.appendChild(li);
             }}
           >
