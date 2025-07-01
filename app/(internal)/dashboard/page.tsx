@@ -12,9 +12,7 @@ Chart.register(ArcElement, Tooltip, Title);
 
 export default function Dashboard() {
   const { data: session } = useSession();
-  const [user, setUser] = useState<User>(
-    new User("Loading...", "Loading...", 0, [], [], [])
-  );
+  const [user, setUser] = useState<User>(new User("", "", 0, [], [], []));
 
   const BudgetData = {
     labels: user.expenses.map((expense) => expense.name),
