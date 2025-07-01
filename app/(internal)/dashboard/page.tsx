@@ -57,11 +57,11 @@ export default function Dashboard() {
                 )
               ) || 0,
           })),
-          expenses: formData.getAll("expense").map((name, i) => ({
+          expenses: formData.getAll("expenses").map((name, i) => ({
             name: name as string,
             value:
               Number(
-                (formData.getAll("expenseVal")[i] as string)?.replace(/,/g, "")
+                (formData.getAll("expensesVal")[i] as string)?.replace(/,/g, "")
               ) || 0,
           })),
         };
@@ -99,22 +99,52 @@ export default function Dashboard() {
           /month
         </p>
         <p>Monthly Expenses:</p>
-        <ul className="pl-5 list-disc">
+        <ul className="pl-5 list-disc" id="expenseList">
           {user.expenses.map((expense, index) => (
             <li key={index} className="">
-              <input type="text" name="expense" defaultValue={expense.name} />
+              <input type="text" name="expenses" defaultValue={expense.name} />
               $
               <input
                 type="text"
-                name="expenseVal"
+                name="expensesVal"
                 defaultValue={expense.value.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
               />
+              <button
+                type="button"
+                className="ml-2 p-1 rounded bg-(--color-primary) btn-sm"
+                onClick={() => {
+                  setUser((prev) => ({
+                    ...prev,
+                    expenses: prev.expenses.filter((_, i) => i !== index),
+                  }));
+                }}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </ul>
+        <button
+          className="btn"
+          type="button"
+          onClick={() => {
+            let li = document.createElement("li");
+            let a = document.createElement("input");
+            a.name = "expenses";
+            a.defaultValue = "";
+            li.appendChild(a);
+            let b = document.createElement("input");
+            b.name = "expensesVal";
+            b.defaultValue = "";
+            li.appendChild(b);
+            document.getElementById("expenseList")?.appendChild(li);
+          }}
+        >
+          Add Expense
+        </button>
         <p>
           Remaining: $
           {(
@@ -132,7 +162,7 @@ export default function Dashboard() {
       <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
         <div className="container">
           <p className="text-xl">Assets:</p>
-          <ul className="inline-block pl-5 list-disc">
+          <ul className="inline-block pl-5 list-disc" id="assetsList">
             {user.assets.map((asset, index) => (
               <li key={index}>
                 <input type="text" name="assets" defaultValue={asset.name} />$
@@ -146,13 +176,47 @@ export default function Dashboard() {
                 />
                 APY:
                 <input type="text" name="assetsAPY" defaultValue={asset.APY} />
+                <button
+                  type="button"
+                  className="ml-2 p-1 rounded bg-(--color-primary) btn-sm"
+                  onClick={() => {
+                    setUser((prev) => ({
+                      ...prev,
+                      assets: prev.assets.filter((_, i) => i !== index),
+                    }));
+                  }}
+                >
+                  Remove
+                </button>
               </li>
             ))}
           </ul>
+          <button
+            className="btn"
+            type="button"
+            onClick={() => {
+              let li = document.createElement("li");
+              let a = document.createElement("input");
+              a.name = "assets";
+              a.defaultValue = "";
+              li.appendChild(a);
+              let b = document.createElement("input");
+              b.name = "assetsVal";
+              b.defaultValue = "";
+              li.appendChild(b);
+              let c = document.createElement("input");
+              c.name = "assetsAPY";
+              c.defaultValue = "";
+              li.appendChild(c);
+              document.getElementById("assetsList")?.appendChild(li);
+            }}
+          >
+            Add Asset
+          </button>
         </div>
         <div className="container">
           <p className="text-xl">Debts:</p>
-          <ul className="pl-5 list-disc">
+          <ul className="inline-block pl-5 list-disc" id="debtsList">
             {user.debts.map((debt, index) => (
               <li key={index}>
                 <input type="text" name="debts" defaultValue={debt.name} />$
@@ -166,9 +230,43 @@ export default function Dashboard() {
                 />
                 APR:
                 <input type="text" name="debtsAPR" defaultValue={debt.APR} />
+                <button
+                  type="button"
+                  className="ml-2 p-1 rounded bg-(--color-primary) btn-sm"
+                  onClick={() => {
+                    setUser((prev) => ({
+                      ...prev,
+                      debts: prev.debts.filter((_, i) => i !== index),
+                    }));
+                  }}
+                >
+                  Remove
+                </button>
               </li>
             ))}
           </ul>
+          <button
+            className="btn"
+            type="button"
+            onClick={() => {
+              let li = document.createElement("li");
+              let a = document.createElement("input");
+              a.name = "debts";
+              a.defaultValue = "";
+              li.appendChild(a);
+              let b = document.createElement("input");
+              b.name = "debtsVal";
+              b.defaultValue = "";
+              li.appendChild(b);
+              let c = document.createElement("input");
+              c.name = "debtsAPY";
+              c.defaultValue = "";
+              li.appendChild(c);
+              document.getElementById("debtsList")?.appendChild(li);
+            }}
+          >
+            Add Debt
+          </button>
         </div>
       </div>
       <div className="container text-xl">

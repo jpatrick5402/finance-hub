@@ -42,6 +42,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-width: 80vw;
 }
 
 input {
@@ -79,9 +80,10 @@ input {
   box-shadow: 0px 5px 1rem #00000085;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1020px) {
   body {
     padding: 0 1rem;
+    max-width: revert;
   }
 
   nav {
