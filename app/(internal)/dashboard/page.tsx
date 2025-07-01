@@ -131,29 +131,10 @@ export default function Dashboard() {
           className="btn"
           type="button"
           onClick={() => {
-            let li = document.createElement("li");
-            let a = document.createElement("input");
-            a.name = "expenses";
-            a.defaultValue = "";
-            li.appendChild(a);
-            let b = document.createElement("input");
-            b.name = "expensesVal";
-            b.defaultValue = "";
-            li.appendChild(b);
-            let d = document.createElement("button");
-            d.type = "button";
-            d.className = "ml-2 p-1 rounded bg-(--color-primary) btn-sm";
-            d.textContent = "Remove";
-            d.addEventListener("click", () => {
-              // Remove the last asset input (since index is not available here)
-              setUser((prev) => ({
-                ...prev,
-                assets: prev.assets.slice(0, -1),
-              }));
-              li.remove();
-            });
-            li.appendChild(d);
-            document.getElementById("expenseList")?.appendChild(li);
+            setUser((prev) => ({
+              ...prev,
+              expenses: [...prev.expenses, { name: "", value: 0 }],
+            }));
           }}
         >
           Add Expense
@@ -175,7 +156,7 @@ export default function Dashboard() {
       <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
         <div className="container">
           <p className="text-xl">Assets:</p>
-          <ul className="inline-block pl-5 list-disc" id="assetsList">
+          <ul className="pl-5 list-disc" id="assetsList">
             {user.assets.map((asset, index) => (
               <li key={index}>
                 <input type="text" name="assets" defaultValue={asset.name} />$
@@ -208,33 +189,10 @@ export default function Dashboard() {
             className="btn"
             type="button"
             onClick={() => {
-              let li = document.createElement("li");
-              let a = document.createElement("input");
-              a.name = "assets";
-              a.defaultValue = "";
-              li.appendChild(a);
-              let b = document.createElement("input");
-              b.name = "assetsVal";
-              b.defaultValue = "";
-              li.appendChild(b);
-              let c = document.createElement("input");
-              c.name = "assetsAPY";
-              c.defaultValue = "";
-              li.appendChild(c);
-              let d = document.createElement("button");
-              d.type = "button";
-              d.className = "ml-2 p-1 rounded bg-(--color-primary) btn-sm";
-              d.textContent = "Remove";
-              d.addEventListener("click", () => {
-                // Remove the last asset input (since index is not available here)
-                setUser((prev) => ({
-                  ...prev,
-                  assets: prev.assets.slice(0, -1),
-                }));
-                li.remove();
-              });
-              li.appendChild(d);
-              document.getElementById("assetsList")?.appendChild(li);
+              setUser((prev) => ({
+                ...prev,
+                assets: [...prev.assets, { name: "", value: 0, APY: 0 }],
+              }));
             }}
           >
             Add Asset
@@ -242,7 +200,7 @@ export default function Dashboard() {
         </div>
         <div className="container">
           <p className="text-xl">Debts:</p>
-          <ul className="inline-block pl-5 list-disc" id="debtsList">
+          <ul className="pl-5 list-disc" id="debtsList">
             {user.debts.map((debt, index) => (
               <li key={index}>
                 <input type="text" name="debts" defaultValue={debt.name} />$
@@ -275,33 +233,10 @@ export default function Dashboard() {
             className="btn"
             type="button"
             onClick={() => {
-              let li = document.createElement("li");
-              let a = document.createElement("input");
-              a.name = "debts";
-              a.defaultValue = "";
-              li.appendChild(a);
-              let b = document.createElement("input");
-              b.name = "debtsVal";
-              b.defaultValue = "";
-              li.appendChild(b);
-              let c = document.createElement("input");
-              c.name = "debtsAPY";
-              c.defaultValue = "";
-              li.appendChild(c);
-              let d = document.createElement("button");
-              d.type = "button";
-              d.className = "ml-2 p-1 rounded bg-(--color-primary) btn-sm";
-              d.textContent = "Remove";
-              d.addEventListener("click", () => {
-                // Remove the last asset input (since index is not available here)
-                setUser((prev) => ({
-                  ...prev,
-                  assets: prev.assets.slice(0, -1),
-                }));
-                li.remove();
-              });
-              li.appendChild(d);
-              document.getElementById("debtsList")?.appendChild(li);
+              setUser((prev) => ({
+                ...prev,
+                debts: [...prev.debts, { name: "", value: 0, APR: 0 }],
+              }));
             }}
           >
             Add Debt
