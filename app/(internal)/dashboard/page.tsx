@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import User from "@models/User";
-import { save } from "@lib/save";
+import { setData } from "@lib/setData";
 import { getData } from "@lib/getData";
 
 export default function Dashboard() {
@@ -72,7 +72,7 @@ export default function Dashboard() {
           })),
         };
 
-        await save(formValues, user);
+        await setData(formValues, user);
         location.reload();
       }}
       className="flex flex-col items-center"

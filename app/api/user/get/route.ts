@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
+import { auth } from "@/auth";
 
-export async function POST(req: NextRequest) {
+export const POST = auth(async function POST(req) {
+  if (!req.auth)
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+
   let body = await req.json();
+  if (req.auth.user?.email != body) {
+    console.error(
+      "Attacker present on account: " + JSON.stringify(req.auth.user)
+    );
+    return NextResponse.json(
+      { message: "Incorrect usage, this will be reported" },
+      { status: 401 }
+    );
+  }
+
   let email = body;
   let sql = neon(`${process.env.DATABASE_URL}`);
   let data = await sql`SELECT * FROM Users WHERE email=(${email})`;
@@ -11,4 +25,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });
 
   return NextResponse.json(JSON.stringify(data[0]));
-}
+});
