@@ -3,8 +3,8 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import User from "@models/User";
-import { setData } from "@lib/setData";
 import { getData } from "@lib/getData";
+import { getBudgetData, handleForm } from "@lib/dashboard";
 import { Doughnut } from "react-chartjs-2";
 import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 
@@ -12,36 +12,9 @@ Chart.register(ArcElement, Tooltip, Title);
 
 export default function Dashboard() {
   const { data: session } = useSession();
-  const [user, setUser] = useState<User>(
-    new User("Loading...", "Loading...", 0, [], [], [])
-  );
+  const [user, setUser] = useState<User>(new User("", "", 0, [], [], []));
 
-  const BudgetData = {
-    labels: user.expenses.map((expense) => expense.name),
-    datasets: [
-      {
-        label: "Expenses",
-        data: user.expenses.map((expense) => expense.value),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+  let budgetData = getBudgetData(user);
 
   useEffect(() => {
     async function fetchUser() {
@@ -57,56 +30,7 @@ export default function Dashboard() {
 
   return (
     <form
-      onSubmit={async (e: React.FormEvent) => {
-        e.preventDefault();
-        const formData = new FormData(e.target as HTMLFormElement);
-
-        const formValues: User = {
-          email: user.email,
-          full_name: formData.get("name") as string,
-          salary: Number(
-            (formData.get("salary") as string)?.replace(/,/g, "") || 0
-          ),
-          assets: formData.getAll("assets").map((name, i) => ({
-            name: name as string,
-            value:
-              Number(
-                (formData.getAll("assetsVal")[i] as string)?.replace(/,/g, "")
-              ) || 0,
-            APY:
-              Number(
-                (formData.getAll("assetsAPY")[i] as string)?.replace(
-                  /[^\d.-]/g,
-                  ""
-                )
-              ) || 0,
-          })),
-          debts: formData.getAll("debts").map((name, i) => ({
-            name: name as string,
-            value:
-              Number(
-                (formData.getAll("debtsVal")[i] as string)?.replace(/,/g, "")
-              ) || 0,
-            APR:
-              Number(
-                (formData.getAll("debtsAPR")[i] as string)?.replace(
-                  /[^\d.-]/g,
-                  ""
-                )
-              ) || 0,
-          })),
-          expenses: formData.getAll("expenses").map((name, i) => ({
-            name: name as string,
-            value:
-              Number(
-                (formData.getAll("expensesVal")[i] as string)?.replace(/,/g, "")
-              ) || 0,
-          })),
-        };
-
-        await setData(formValues, user);
-        location.reload();
-      }}
+      onSubmit={async (e: React.FormEvent) => handleForm}
       className="flex flex-col items-center"
       id="dashboardForm"
     >
@@ -197,7 +121,7 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex h-100 w-full">
-          <Doughnut data={BudgetData} className="m-auto self-center" />
+          <Doughnut data={budgetData} className="m-auto self-center" />
         </div>
       </div>
       <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
