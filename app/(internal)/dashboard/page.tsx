@@ -118,122 +118,124 @@ export default function Dashboard() {
         <p>
           Salary: $
           <input
-            defaultValue={(user.salary / 1).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            type="text"
             name="salary"
+            value={user.salary.toLocaleString()}
+            onChange={(e) => {
+              const newValue = Number(e.target.value.replace(/,/g, "") || 0);
+              setUser((prev) => ({
+                ...prev,
+                salary: newValue,
+              }));
+            }}
           />
           /year
         </p>
       </div>
-      <div className="container">
-        <p className="text-2xl">Budget</p>
-        <div className=" flex flex-col sm:grid grid-cols-2">
-          <div className="m-auto">
-            <p className="text-xl">
-              Monthly Budget: $
-              {(user.salary / 12).toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-              /month
-            </p>
-            <p>Monthly Expenses:</p>
-            <ul className="pl-5 list-disc" id="expenseList">
-              {user.expenses.map((expense, index) => (
-                <li key={index} className="">
-                  <input
-                    type="text"
-                    name="expenses"
-                    defaultValue={expense.name}
-                    onChange={(e) => {
-                      const newName = e.target.value;
-                      setUser((prev) => ({
-                        ...prev,
-                        expenses: prev.expenses.map((exp, i) =>
-                          i === index ? { ...exp, name: newName } : exp
-                        ),
-                      }));
-                    }}
-                  />
-                  $
-                  <input
-                    type="text"
-                    name="expensesVal"
-                    defaultValue={expense.value.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                    onChange={(e) => {
-                      const newValue = Number(
-                        e.target.value.replace(/,/g, "") || 0
-                      );
-                      setUser((prev) => ({
-                        ...prev,
-                        expenses: prev.expenses.map((exp, i) =>
-                          i === index ? { ...exp, value: newValue } : exp
-                        ),
-                      }));
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
-                    onClick={() => {
-                      setUser((prev) => ({
-                        ...prev,
-                        expenses: prev.expenses.filter((_, i) => i !== index),
-                      }));
-                    }}
-                  >
-                    X
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <button
-              className="bg-(--color-green) p-2 m-2 rounded "
-              type="button"
-              onClick={() => {
-                setUser((prev) => ({
-                  ...prev,
-                  expenses: [...prev.expenses, { name: "", value: 0 }],
-                }));
-              }}
-            >
-              Add Expense
-            </button>
-            <p>
-              Remaining: $
-              {(
-                user.salary / 12 -
-                user.expenses.reduce(
-                  (total: number, expense: any) => total + expense.value,
-                  0
-                )
-              ).toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="flex">
-            <Doughnut
-              data={budgetData}
-              options={{
-                plugins: {
-                  title: {
-                    color: "#000000",
-                    text: "Expenses",
-                    display: true,
-                    font: { weight: "normal" },
-                  },
+      <div className="container flex flex-col sm:flex-row">
+        <div className="m-0">
+          <p className="text-xl">
+            Monthly Budget: $
+            {(Number(user.salary) / 12).toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+            /month
+          </p>
+          <p>Monthly Expenses:</p>
+          <ul className="pl-5 list-disc" id="expenseList">
+            {user.expenses.map((expense, index) => (
+              <li key={index} className="">
+                <input
+                  type="text"
+                  name="expenses"
+                  defaultValue={expense.name}
+                  onChange={(e) => {
+                    const newName = e.target.value;
+                    setUser((prev) => ({
+                      ...prev,
+                      expenses: prev.expenses.map((exp, i) =>
+                        i === index ? { ...exp, name: newName } : exp
+                      ),
+                    }));
+                  }}
+                />
+                $
+                <input
+                  type="text"
+                  name="expensesVal"
+                  defaultValue={expense.value.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                  onChange={(e) => {
+                    const newValue = Number(
+                      e.target.value.replace(/,/g, "") || 0
+                    );
+                    setUser((prev) => ({
+                      ...prev,
+                      expenses: prev.expenses.map((exp, i) =>
+                        i === index ? { ...exp, value: newValue } : exp
+                      ),
+                    }));
+                  }}
+                />
+                <button
+                  type="button"
+                  className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
+                  onClick={() => {
+                    setUser((prev) => ({
+                      ...prev,
+                      expenses: prev.expenses.filter((_, i) => i !== index),
+                    }));
+                  }}
+                >
+                  X
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button
+            className="bg-(--color-green) p-2 m-2 rounded "
+            type="button"
+            onClick={() => {
+              setUser((prev) => ({
+                ...prev,
+                expenses: [...prev.expenses, { name: "", value: 0 }],
+              }));
+            }}
+          >
+            Add Expense
+          </button>
+          <p>
+            Remaining: $
+            {(
+              Number(user.salary) / 12 -
+              user.expenses.reduce(
+                (total: number, expense: any) => total + expense.value,
+                0
+              )
+            ).toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
+        </div>
+        <div className="flex m-auto">
+          <Doughnut
+            data={budgetData}
+            options={{
+              plugins: {
+                title: {
+                  color: "#000000",
+                  text: "Expenses",
+                  display: true,
+                  font: { weight: "normal" },
                 },
-              }}
-              className="flex mt-auto mb-auto"
-            />
-          </div>
+              },
+            }}
+            className="flex m-auto w-50%"
+          />
         </div>
       </div>
       <div className="container text-xl">
@@ -259,10 +261,7 @@ export default function Dashboard() {
                 <input
                   type="text"
                   name="assetsVal"
-                  defaultValue={asset.value.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  defaultValue={asset.value}
                 />
                 APY:
                 <input type="text" name="assetsAPY" defaultValue={asset.APY} />
