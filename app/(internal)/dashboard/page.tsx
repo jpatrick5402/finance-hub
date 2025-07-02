@@ -1,12 +1,20 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { Doughnut } from "react-chartjs-2";
+import {
+  ArcElement,
+  Chart,
+  Tooltip,
+  Title,
+  ArcOptions,
+  Legend,
+  BarElement,
+} from "chart.js";
 
 import User from "@models/User";
 import { setData } from "@lib/setData";
 import { getData } from "@lib/getData";
-import { Doughnut } from "react-chartjs-2";
-import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 
 Chart.register(ArcElement, Tooltip, Title);
 
@@ -18,7 +26,7 @@ export default function Dashboard() {
     labels: user.expenses.map((expense) => expense.name),
     datasets: [
       {
-        label: "Expenses",
+        label: "Cost $",
         data: user.expenses.map((expense) => expense.value),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
@@ -40,7 +48,6 @@ export default function Dashboard() {
       },
     ],
   };
-
   useEffect(() => {
     async function fetchUser() {
       if (session?.user?.email) {
@@ -134,98 +141,113 @@ export default function Dashboard() {
           /year
         </p>
       </div>
-      <div className="container flex flex-col sm:grid grid-cols-2">
-        <div className="m-auto">
-          <p className="text-xl">
-            Monthly Budget: $
-            {(user.salary / 12).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-            /month
-          </p>
-          <p>Monthly Expenses:</p>
-          <ul className="pl-5 list-disc" id="expenseList">
-            {user.expenses.map((expense, index) => (
-              <li key={index} className="">
-                <input
-                  type="text"
-                  name="expenses"
-                  defaultValue={expense.name}
-                  onChange={(e) => {
-                    const newName = e.target.value;
-                    setUser((prev) => ({
-                      ...prev,
-                      expenses: prev.expenses.map((exp, i) =>
-                        i === index ? { ...exp, name: newName } : exp
-                      ),
-                    }));
-                  }}
-                />
-                $
-                <input
-                  type="text"
-                  name="expensesVal"
-                  defaultValue={expense.value.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                  onChange={(e) => {
-                    const newValue = Number(
-                      e.target.value.replace(/,/g, "") || 0
-                    );
-                    setUser((prev) => ({
-                      ...prev,
-                      expenses: prev.expenses.map((exp, i) =>
-                        i === index ? { ...exp, value: newValue } : exp
-                      ),
-                    }));
-                  }}
-                />
-                <button
-                  type="button"
-                  className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
-                  onClick={() => {
-                    setUser((prev) => ({
-                      ...prev,
-                      expenses: prev.expenses.filter((_, i) => i !== index),
-                    }));
-                  }}
-                >
-                  X
-                </button>
-              </li>
-            ))}
-          </ul>
-          <button
-            className="bg-(--color-green) p-2 m-2 rounded "
-            type="button"
-            onClick={() => {
-              setUser((prev) => ({
-                ...prev,
-                expenses: [...prev.expenses, { name: "", value: 0 }],
-              }));
-            }}
-          >
-            Add Expense
-          </button>
-          <p>
-            Remaining: $
-            {(
-              user.salary / 12 -
-              user.expenses.reduce(
-                (total: number, expense: any) => total + expense.value,
-                0
-              )
-            ).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </p>
-        </div>
-        <div className="flex h-100 w-full flex-col">
-          <p className="m-auto text-xl">Budget Breakdown</p>
-          <Doughnut data={budgetData} className="m-auto self-center" />
+      <div className="container">
+        <p className="text-2xl">Budget</p>
+        <div className=" flex flex-col sm:grid grid-cols-2">
+          <div className="m-auto">
+            <p className="text-xl">
+              Monthly Budget: $
+              {(user.salary / 12).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+              /month
+            </p>
+            <p>Monthly Expenses:</p>
+            <ul className="pl-5 list-disc" id="expenseList">
+              {user.expenses.map((expense, index) => (
+                <li key={index} className="">
+                  <input
+                    type="text"
+                    name="expenses"
+                    defaultValue={expense.name}
+                    onChange={(e) => {
+                      const newName = e.target.value;
+                      setUser((prev) => ({
+                        ...prev,
+                        expenses: prev.expenses.map((exp, i) =>
+                          i === index ? { ...exp, name: newName } : exp
+                        ),
+                      }));
+                    }}
+                  />
+                  $
+                  <input
+                    type="text"
+                    name="expensesVal"
+                    defaultValue={expense.value.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                    onChange={(e) => {
+                      const newValue = Number(
+                        e.target.value.replace(/,/g, "") || 0
+                      );
+                      setUser((prev) => ({
+                        ...prev,
+                        expenses: prev.expenses.map((exp, i) =>
+                          i === index ? { ...exp, value: newValue } : exp
+                        ),
+                      }));
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
+                    onClick={() => {
+                      setUser((prev) => ({
+                        ...prev,
+                        expenses: prev.expenses.filter((_, i) => i !== index),
+                      }));
+                    }}
+                  >
+                    X
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button
+              className="bg-(--color-green) p-2 m-2 rounded "
+              type="button"
+              onClick={() => {
+                setUser((prev) => ({
+                  ...prev,
+                  expenses: [...prev.expenses, { name: "", value: 0 }],
+                }));
+              }}
+            >
+              Add Expense
+            </button>
+            <p>
+              Remaining: $
+              {(
+                user.salary / 12 -
+                user.expenses.reduce(
+                  (total: number, expense: any) => total + expense.value,
+                  0
+                )
+              ).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
+          </div>
+          <div className="flex">
+            <Doughnut
+              data={budgetData}
+              options={{
+                plugins: {
+                  title: {
+                    color: "#000000",
+                    text: "Expenses",
+                    display: true,
+                    font: { weight: "normal" },
+                  },
+                },
+              }}
+              className="flex m-auto"
+            />
+          </div>
         </div>
       </div>
       <div className="container text-xl">
