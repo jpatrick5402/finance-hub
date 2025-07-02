@@ -14,7 +14,7 @@ export default function Dashboard() {
   const { data: session } = useSession();
   const [user, setUser] = useState<User>(new User("", "", 0, [], [], []));
 
-  const BudgetData = {
+  const budgetData = {
     labels: user.expenses.map((expense) => expense.name),
     datasets: [
       {
@@ -135,7 +135,7 @@ export default function Dashboard() {
         </p>
       </div>
       <div className="container flex flex-col sm:grid grid-cols-2">
-        <div>
+        <div className="m-auto">
           <p className="text-xl">
             Monthly Budget: $
             {(user.salary / 12).toLocaleString("en-US", {
@@ -225,7 +225,7 @@ export default function Dashboard() {
         </div>
         <div className="flex h-100 w-full flex-col">
           <p className="m-auto text-xl">Budget Breakdown</p>
-          <Doughnut data={BudgetData} className="m-auto self-center" />
+          <Doughnut data={budgetData} className="m-auto self-center" />
         </div>
       </div>
       <div className="container text-xl">
