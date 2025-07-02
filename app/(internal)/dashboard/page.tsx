@@ -2,15 +2,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
-import {
-  ArcElement,
-  Chart,
-  Tooltip,
-  Title,
-  ArcOptions,
-  Legend,
-  BarElement,
-} from "chart.js";
+import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 
 import User from "@models/User";
 import { setData } from "@lib/setData";
@@ -245,7 +237,7 @@ export default function Dashboard() {
                   },
                 },
               }}
-              className="flex m-auto"
+              className="flex mt-auto mb-auto"
             />
           </div>
         </div>
@@ -265,7 +257,7 @@ export default function Dashboard() {
       </div>
       <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
         <div className="container">
-          <p className="text-xl">Assets:</p>
+          <p className="text-xl">Assets</p>
           <ul className="pl-5 list-disc" id="assetsList">
             {user.assets.map((asset, index) => (
               <li key={index}>
@@ -309,7 +301,7 @@ export default function Dashboard() {
           </button>
         </div>
         <div className="container">
-          <p className="text-xl">Debts:</p>
+          <p className="text-xl">Debts</p>
           <ul className="pl-5 list-disc" id="debtsList">
             {user.debts.map((debt, index) => (
               <li key={index}>
