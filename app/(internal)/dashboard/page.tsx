@@ -264,7 +264,10 @@ export default function Dashboard() {
                 <input
                   type="text"
                   name="assetsVal"
-                  defaultValue={asset.value}
+                  defaultValue={asset.value.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 />
                 APY:
                 <input type="text" name="assetsAPY" defaultValue={asset.APY} />
