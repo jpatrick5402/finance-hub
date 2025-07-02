@@ -1,4 +1,5 @@
 "use client";
+import Form from "next/form";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
@@ -40,6 +41,7 @@ export default function Dashboard() {
       },
     ],
   };
+
   useEffect(() => {
     async function fetchUser() {
       if (session?.user?.email) {
@@ -54,58 +56,50 @@ export default function Dashboard() {
           return b.value - a.value;
         });
         setUser(resUser);
-      } else {
-        setUser(new User("", "", 0, [], [], []));
       }
     }
     fetchUser();
   }, [session]);
 
   return (
-    <form
-      onSubmit={async (e: React.FormEvent) => {
-        e.preventDefault();
-        const formData = new FormData(e.target as HTMLFormElement);
-
+    <Form
+      action={async (input: FormData) => {
         const formValues: User = {
           email: user.email,
-          full_name: formData.get("name") as string,
+          full_name: input.get("name") as string,
           salary: Number(
-            (formData.get("salary") as string)?.replace(/,/g, "") || 0
+            (input.get("salary") as string)?.replace(/,/g, "") || 0
           ),
-          assets: formData.getAll("assets").map((name, i) => ({
+          assets: input.getAll("assets").map((name, i) => ({
             name: name as string,
             value:
               Number(
-                (formData.getAll("assetsVal")[i] as string)?.replace(/,/g, "")
+                (input.getAll("assetsVal")[i] as string)?.replace(/,/g, "")
               ) || 0,
             APY:
               Number(
-                (formData.getAll("assetsAPY")[i] as string)?.replace(
+                (input.getAll("assetsAPY")[i] as string)?.replace(
                   /[^\d.-]/g,
                   ""
                 )
               ) || 0,
           })),
-          debts: formData.getAll("debts").map((name, i) => ({
+          debts: input.getAll("debts").map((name, i) => ({
             name: name as string,
             value:
               Number(
-                (formData.getAll("debtsVal")[i] as string)?.replace(/,/g, "")
+                (input.getAll("debtsVal")[i] as string)?.replace(/,/g, "")
               ) || 0,
             APR:
               Number(
-                (formData.getAll("debtsAPR")[i] as string)?.replace(
-                  /[^\d.-]/g,
-                  ""
-                )
+                (input.getAll("debtsAPR")[i] as string)?.replace(/[^\d.-]/g, "")
               ) || 0,
           })),
-          expenses: formData.getAll("expenses").map((name, i) => ({
+          expenses: input.getAll("expenses").map((name, i) => ({
             name: name as string,
             value:
               Number(
-                (formData.getAll("expensesVal")[i] as string)?.replace(/,/g, "")
+                (input.getAll("expensesVal")[i] as string)?.replace(/,/g, "")
               ) || 0,
           })),
         };
@@ -350,6 +344,6 @@ export default function Dashboard() {
           Save Info
         </button>
       ) : null}
-    </form>
+    </Form>
   );
 }
