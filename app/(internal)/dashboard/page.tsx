@@ -145,7 +145,7 @@ export default function Dashboard() {
           <p>Monthly Expenses:</p>
           <ul className="pl-5 list-disc" id="expenseList">
             {user.expenses.map((expense, index) => (
-              <li key={index} className="">
+              <li key={expense.name + expense.value} className="">
                 <input
                   type="text"
                   name="expenses"
@@ -183,10 +183,13 @@ export default function Dashboard() {
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
-                  onClick={() => {
+                  onClick={(e) => {
                     setUser((prev) => ({
                       ...prev,
-                      expenses: prev.expenses.filter((_, i) => i !== index),
+                      expenses: prev.expenses.filter(
+                        (cur) =>
+                          cur.name + cur.value !== expense.name + expense.value
+                      ),
                     }));
                   }}
                 >
@@ -255,8 +258,8 @@ export default function Dashboard() {
         <div className="container">
           <p className="text-xl">Assets</p>
           <ul className="pl-5 list-disc" id="assetsList">
-            {user.assets.map((asset, index) => (
-              <li key={index}>
+            {user.assets.map((asset) => (
+              <li key={asset.name + asset.value + asset.APY}>
                 <input type="text" name="assets" defaultValue={asset.name} />$
                 <input
                   type="text"
@@ -271,7 +274,11 @@ export default function Dashboard() {
                   onClick={() => {
                     setUser((prev) => ({
                       ...prev,
-                      assets: prev.assets.filter((_, i) => i !== index),
+                      assets: prev.assets.filter(
+                        (cur) =>
+                          cur.name + cur.value + cur.APY !==
+                          asset.name + asset.value + asset.APY
+                      ),
                     }));
                   }}
                 >
@@ -296,8 +303,8 @@ export default function Dashboard() {
         <div className="container">
           <p className="text-xl">Debts</p>
           <ul className="pl-5 list-disc" id="debtsList">
-            {user.debts.map((debt, index) => (
-              <li key={index}>
+            {user.debts.map((debt) => (
+              <li key={debt.name + debt.value + debt.APR}>
                 <input type="text" name="debts" defaultValue={debt.name} />$
                 <input
                   type="text"
@@ -315,7 +322,11 @@ export default function Dashboard() {
                   onClick={() => {
                     setUser((prev) => ({
                       ...prev,
-                      debts: prev.debts.filter((_, i) => i !== index),
+                      debts: prev.debts.filter(
+                        (cur) =>
+                          cur.name + cur.value + cur.APR !==
+                          debt.name + debt.value + debt.APR
+                      ),
                     }));
                   }}
                 >
