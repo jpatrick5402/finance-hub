@@ -64,50 +64,7 @@ export default function Dashboard() {
   return (
     <Form
       action={async (input: FormData) => {
-        // I want this section to be
-        // await setData(user);
-        // location.reload();
-        const formValues: User = {
-          email: user.email,
-          full_name: input.get("name") as string,
-          salary: Number(
-            (input.get("salary") as string)?.replace(/,/g, "") || 0
-          ),
-          assets: input.getAll("assets").map((name, i) => ({
-            name: name as string,
-            value:
-              Number(
-                (input.getAll("assetsVal")[i] as string)?.replace(/,/g, "")
-              ) || 0,
-            APY:
-              Number(
-                (input.getAll("assetsAPY")[i] as string)?.replace(
-                  /[^\d.-]/g,
-                  ""
-                )
-              ) || 0,
-          })),
-          debts: input.getAll("debts").map((name, i) => ({
-            name: name as string,
-            value:
-              Number(
-                (input.getAll("debtsVal")[i] as string)?.replace(/,/g, "")
-              ) || 0,
-            APR:
-              Number(
-                (input.getAll("debtsAPR")[i] as string)?.replace(/[^\d.-]/g, "")
-              ) || 0,
-          })),
-          expenses: input.getAll("expenses").map((name, i) => ({
-            name: name as string,
-            value:
-              Number(
-                (input.getAll("expensesVal")[i] as string)?.replace(/,/g, "")
-              ) || 0,
-          })),
-        };
-
-        await setData(formValues, user);
+        await setData(user);
         location.reload();
       }}
       className="flex flex-col items-center"
@@ -150,6 +107,10 @@ export default function Dashboard() {
                   ...prev,
                   salary: newValue,
                 }));
+              else {
+                // TODO: show dummy lights
+                console.log("Nope");
+              }
             }}
           />
           /year
@@ -199,6 +160,10 @@ export default function Dashboard() {
                           i === index ? { ...exp, value: newValue } : exp
                         ),
                       }));
+                    else {
+                      // TODO: show dummy lights
+                      console.log("Nope");
+                    }
                   }}
                 />
                 <button
@@ -283,19 +248,66 @@ export default function Dashboard() {
         <div className="container">
           <p className="text-xl">Assets</p>
           <ul className="pl-5 list-disc" id="assetsList">
-            {user.assets.map((asset) => (
+            {user.assets.map((asset, index) => (
               <li key={asset.name + asset.value + asset.APY}>
-                <input type="text" name="assets" defaultValue={asset.name} />$
+                <input
+                  type="text"
+                  name="assets"
+                  defaultValue={asset.name}
+                  onChange={(e) => {
+                    const newName = e.target.value;
+                    setUser((prev) => ({
+                      ...prev,
+                      assets: prev.assets.map((asset, i) =>
+                        i === index ? { ...asset, name: newName } : asset
+                      ),
+                    }));
+                  }}
+                />
+                $
                 <input
                   type="text"
                   name="assetsVal"
-                  defaultValue={asset.value.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  defaultValue={asset.value}
+                  onChange={(e) => {
+                    const newValue = Number(
+                      e.target.value.replace(/,/g, "") || 0
+                    );
+                    if (Number.isInteger(newValue))
+                      setUser((prev) => ({
+                        ...prev,
+                        assets: prev.assets.map((asset, i) =>
+                          i === index ? { ...asset, value: newValue } : asset
+                        ),
+                      }));
+                    else {
+                      // TODO: show dummy lights
+                      console.log("Nope");
+                    }
+                  }}
                 />
                 APY:
-                <input type="text" name="assetsAPY" defaultValue={asset.APY} />
+                <input
+                  type="text"
+                  name="assetsAPY"
+                  defaultValue={asset.APY}
+                  onChange={(e) => {
+                    const newValue = Number(
+                      e.target.value.replace(/,/g, "") || 0
+                    );
+                    if (Number.isInteger(newValue))
+                      setUser((prev) => ({
+                        ...prev,
+                        assets: prev.assets.map((asset, i) =>
+                          i === index ? { ...asset, APY: newValue } : asset
+                        ),
+                      }));
+                    else {
+                      // TODO: show dummy lights
+                      console.log("Nope");
+                    }
+                  }}
+                />
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
@@ -319,10 +331,17 @@ export default function Dashboard() {
             className="bg-(--color-green) p-2 m-2 rounded "
             type="button"
             onClick={() => {
-              setUser((prev) => ({
-                ...prev,
-                assets: [...prev.assets, { name: "", value: 0, APY: 0 }],
-              }));
+              if (
+                !user.assets.some(
+                  (asset) =>
+                    asset.name === "" && asset.value === 0 && asset.APY === 0
+                )
+              ) {
+                setUser((prev) => ({
+                  ...prev,
+                  assets: [...prev.assets, { name: "", value: 0, APY: 0 }],
+                }));
+              }
             }}
           >
             Add Asset
@@ -331,19 +350,66 @@ export default function Dashboard() {
         <div className="container">
           <p className="text-xl">Debts</p>
           <ul className="pl-5 list-disc" id="debtsList">
-            {user.debts.map((debt) => (
+            {user.debts.map((debt, index) => (
               <li key={debt.name + debt.value + debt.APR}>
-                <input type="text" name="debts" defaultValue={debt.name} />$
+                <input
+                  type="text"
+                  name="debts"
+                  defaultValue={debt.name}
+                  onChange={(e) => {
+                    const newName = e.target.value;
+                    setUser((prev) => ({
+                      ...prev,
+                      debts: prev.debts.map((debt, i) =>
+                        i === index ? { ...debt, name: newName } : debt
+                      ),
+                    }));
+                  }}
+                />
+                $
                 <input
                   type="text"
                   name="debtsVal"
-                  defaultValue={debt.value.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  defaultValue={debt.value}
+                  onChange={(e) => {
+                    const newValue = Number(
+                      e.target.value.replace(/,/g, "") || 0
+                    );
+                    if (Number.isInteger(newValue))
+                      setUser((prev) => ({
+                        ...prev,
+                        debts: prev.debts.map((debt, i) =>
+                          i === index ? { ...debt, value: newValue } : debt
+                        ),
+                      }));
+                    else {
+                      // TODO: show dummy lights
+                      console.log("Nope");
+                    }
+                  }}
                 />
                 APR:
-                <input type="text" name="debtsAPR" defaultValue={debt.APR} />
+                <input
+                  type="text"
+                  name="debtsAPR"
+                  defaultValue={debt.APR}
+                  onChange={(e) => {
+                    const newValue = Number(
+                      e.target.value.replace(/,/g, "") || 0
+                    );
+                    if (Number.isInteger(newValue))
+                      setUser((prev) => ({
+                        ...prev,
+                        debts: prev.debts.map((debt, i) =>
+                          i === index ? { ...debt, APR: newValue } : debt
+                        ),
+                      }));
+                    else {
+                      // TODO: show dummy lights
+                      console.log("Nope");
+                    }
+                  }}
+                />
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
@@ -367,10 +433,17 @@ export default function Dashboard() {
             className="bg-(--color-green) p-2 m-2 rounded "
             type="button"
             onClick={() => {
-              setUser((prev) => ({
-                ...prev,
-                debts: [...prev.debts, { name: "", value: 0, APR: 0 }],
-              }));
+              if (
+                !user.debts.some(
+                  (debt) =>
+                    debt.name === "" && debt.value === 0 && debt.APR === 0
+                )
+              ) {
+                setUser((prev) => ({
+                  ...prev,
+                  debts: [...prev.debts, { name: "", value: 0, APR: 0 }],
+                }));
+              }
             }}
           >
             Add Debt
