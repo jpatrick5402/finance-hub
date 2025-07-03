@@ -59,7 +59,7 @@ export default function Dashboard() {
       }
     }
     fetchUser();
-  }, [session]);
+  }, []);
 
   return (
     <Form
