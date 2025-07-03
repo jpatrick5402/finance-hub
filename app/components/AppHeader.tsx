@@ -21,7 +21,7 @@ export default function Header() {
     setIsLoggedIn(session == null);
   });
   return (
-    <nav className="flex mt-3 mb-3 sm:mb-10 bg-(--color-header) p-1 rounded-lg items-center shadow-xl/20">
+    <nav className="flex mt-3 mb-3 bg-(--color-header) p-1 rounded-lg items-center shadow-xl/20">
       <a href="/">
         <Image
           priority={true}

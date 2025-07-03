@@ -13,51 +13,6 @@ Chart.register(ArcElement, Tooltip, Title);
 export default function Dashboard() {
   const [user, setUser] = useContext(UserContext);
 
-  // --- onChange handlers ---
-  type FieldType = "expenses" | "assets" | "debts";
-  type FieldKey = "name" | "value" | "APY" | "APR";
-
-  const debounce = (func: (...args: any[]) => void, delay: number) => {
-    let timer: NodeJS.Timeout;
-    return (...args: any[]) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => func(...args), delay);
-    };
-  };
-
-  const debouncedSetUserRef = useRef<{
-    [key: string]: ReturnType<typeof debounce>;
-  }>({});
-
-  const handleArrayFieldChange =
-    (type: FieldType, key: FieldKey, index: number) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      let newValue: string | number = e.target.value;
-      if (key === "value" || key === "APY" || key === "APR") {
-        newValue = Number(newValue.replace(/,/g, "") || 0);
-        if (!Number.isInteger(newValue)) {
-          // TODO: show dummy lights
-          console.log("Nope");
-          return;
-        }
-      }
-      const debounceKey = `${type}-${key}-${index}`;
-      if (!debouncedSetUserRef.current[debounceKey]) {
-        debouncedSetUserRef.current[debounceKey] = debounce(
-          (value: string | number) => {
-            setUser((prev) => ({
-              ...prev,
-              [type]: prev[type].map((item: any, i: number) =>
-                i === index ? { ...item, [key]: value } : item
-              ),
-            }));
-          },
-          400
-        );
-      }
-      debouncedSetUserRef.current[debounceKey](newValue);
-    };
-
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value.replace(/,/g, "") || 0);
     if (Number.isInteger(newValue))
@@ -306,7 +261,7 @@ export default function Dashboard() {
                       asset.value ===
                         Number(valInput.value.replace(/,/g, "") || 0) &&
                       asset.APY ===
-                        Number(APYInput.value.replace(/[,\.]/g, ""))) ||
+                        Number(APYInput.value.replace(/[,]/g, ""))) ||
                     0
                 )
               ) {
@@ -317,7 +272,7 @@ export default function Dashboard() {
                     {
                       name: nameInput.value,
                       value: Number(valInput.value.replace(/,/g, "") || 0),
-                      APY: Number(APYInput.value.replace(/[,\.]/g, "") || 0),
+                      APY: Number(APYInput.value.replace(/[,]/g, "") || 0),
                     },
                   ],
                 }));
