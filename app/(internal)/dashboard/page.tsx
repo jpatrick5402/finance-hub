@@ -75,6 +75,27 @@ export default function Dashboard() {
       className="flex flex-col items-center"
       id="dashboardForm"
     >
+      <ul className="container">
+        <p className="text-xl">TEST</p>
+        {user.expenses.map((exp) => {
+          return (
+            <li key={exp.name}>
+              <input
+                type="text"
+                value={exp.name}
+                onChange={(e) => {
+                  setUser((prev) => ({
+                    ...user,
+                    expenses: {
+                      ...user.expenses,
+                    },
+                  }));
+                }}
+              />
+            </li>
+          );
+        })}
+      </ul>
       <div className="container text-xl flex flex-col sm:flex-row">
         <label className="m-auto">Email: {user.email}</label>
         <label className="m-auto">
