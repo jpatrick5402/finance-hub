@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 
 export default function Header() {
   let links = [
-    { href: "/", name: "About" },
     { href: "/dashboard", name: "Dashboard" },
     { href: "/net-worth", name: "Net Worth" },
     { href: "/budget", name: "Budget" },

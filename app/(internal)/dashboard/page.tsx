@@ -1,19 +1,16 @@
 "use client";
 import Form from "next/form";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 
-import User from "@models/User";
-import { setData } from "@lib/setData";
-import { getData } from "@lib/getData";
+import { setData } from "@lib/data";
+import UserContext from "@contexts/UserContext";
 
 Chart.register(ArcElement, Tooltip, Title);
 
 export default function Dashboard() {
-  const { data: session } = useSession();
-  const [user, setUser] = useState<User>(new User("", "", 0, [], [], []));
+  const [user, setUser] = useContext(UserContext);
 
   const budgetData = {
     labels: user.expenses.map((expense) => expense.name),
@@ -41,25 +38,6 @@ export default function Dashboard() {
       },
     ],
   };
-
-  useEffect(() => {
-    async function fetchUser() {
-      if (session?.user?.email) {
-        const resUser = await getData(session?.user?.email);
-        resUser.assets = resUser.assets.sort((a, b) => {
-          return b.value - a.value;
-        });
-        resUser.debts = resUser.debts.sort((a, b) => {
-          return b.value - a.value;
-        });
-        resUser.expenses = resUser.expenses.sort((a, b) => {
-          return b.value - a.value;
-        });
-        setUser(resUser);
-      }
-    }
-    fetchUser();
-  }, []);
 
   return (
     <Form
@@ -450,7 +428,7 @@ export default function Dashboard() {
           </button>
         </div>
       </div>
-      {session?.user?.email ? (
+      {user.email ? (
         <button className="btn" type="submit">
           Save Info
         </button>
