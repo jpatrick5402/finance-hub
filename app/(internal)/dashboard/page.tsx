@@ -260,7 +260,7 @@ export default function Dashboard() {
               >
                 <p className="w-40">{asset.name}</p>
                 <p className="w-30">${asset.value}</p>
-                <p>APY:{asset.APY}</p>
+                <p className="w-20">APY:{asset.APY}</p>
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
@@ -340,7 +340,7 @@ export default function Dashboard() {
               >
                 <p className="w-40">{debt.name}</p>
                 <p className="w-30">${debt.value}</p>
-                <p>APR:{debt.APR}</p>
+                <p className="w-20">APR:{debt.APR}</p>
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
