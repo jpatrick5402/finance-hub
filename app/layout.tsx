@@ -40,7 +40,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
       >
-        <SessionProvider>
+        <SessionProvider session={session} refetchOnWindowFocus={false}>
           {!session?.user ? <Auth /> : null}
           <Header />
           <div className="grow-1">{children}</div>
