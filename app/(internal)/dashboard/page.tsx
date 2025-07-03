@@ -58,13 +58,6 @@ export default function Dashboard() {
       debouncedSetUserRef.current[debounceKey](newValue);
     };
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser((prev) => ({
-      ...prev,
-      full_name: e.target.value,
-    }));
-  };
-
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value.replace(/,/g, "") || 0);
     if (Number.isInteger(newValue))
@@ -127,32 +120,8 @@ export default function Dashboard() {
       className="flex flex-col items-center"
       id="dashboardForm"
     >
-      <div>
-        <button
-          className="btn"
-          type="button"
-          onClick={() => {
-            console.log(user, budgetGraphData);
-          }}
-        >
-          Check User
-        </button>
-        {user.email ? (
-          <button className="btn" type="submit">
-            Save Info
-          </button>
-        ) : null}
-      </div>
       <div className="container text-xl flex flex-col sm:flex-row">
         <label className="m-auto">Email: {user.email}</label>
-        <label className="m-auto">
-          Name:{" "}
-          <input
-            defaultValue={user.full_name}
-            name="name"
-            onChange={handleNameChange}
-          />
-        </label>
         <label className="m-auto">
           Salary: $
           <input
@@ -176,20 +145,9 @@ export default function Dashboard() {
           <p>Monthly Expenses:</p>
           <ul className="pl-5 list-disc" id="expenseList">
             {user.expenses.map((expense, index) => (
-              <li key={expense.name + expense.value} className="">
-                <input
-                  type="text"
-                  name="expenses"
-                  defaultValue={expense.name}
-                  onChange={handleArrayFieldChange("expenses", "name", index)}
-                />
-                $
-                <input
-                  type="text"
-                  name="expensesVal"
-                  defaultValue={expense.value.toLocaleString()}
-                  onChange={handleArrayFieldChange("expenses", "value", index)}
-                />
+              <li key={expense.name + expense.value} className="flex gap-5 m-2">
+                <p className="w-40">{expense.name}</p>
+                <p className="w-30">${expense.value.toLocaleString()}</p>
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
@@ -208,17 +166,40 @@ export default function Dashboard() {
               </li>
             ))}
           </ul>
+          <input type="text" id="newExpenseName" placeholder="Name" />
+          <input type="text" id="newExpenseVal" placeholder="Value" />
           <button
-            className="bg-(--color-green) p-2 m-2 rounded "
+            className="bg-(--color-green) p-2 m-2 rounded"
             type="button"
-            onClick={(e) => {
+            onClick={async (e) => {
+              const nameInput = document.getElementById(
+                "newExpenseName"
+              ) as HTMLInputElement | null;
+              const valInput = document.getElementById(
+                "newExpenseVal"
+              ) as HTMLInputElement | null;
               if (
-                !user.expenses.some((exp) => exp.name === "" && exp.value === 0)
+                nameInput?.value &&
+                valInput?.value &&
+                !user.expenses.some(
+                  (expense) =>
+                    expense.name === nameInput.value &&
+                    expense.value ===
+                      Number(valInput.value.replace(/,/g, "") || 0)
+                )
               ) {
-                setUser((prev) => ({
+                await setUser((prev) => ({
                   ...prev,
-                  expenses: [...prev.expenses, { name: "", value: 0 }],
+                  expenses: [
+                    ...prev.expenses,
+                    {
+                      name: nameInput.value,
+                      value: Number(valInput.value.replace(/,/g, "") || 0),
+                    },
+                  ],
                 }));
+                nameInput.value = "";
+                valInput.value = "";
               }
             }}
           >
@@ -273,27 +254,13 @@ export default function Dashboard() {
           <p className="text-xl">Assets</p>
           <ul className="pl-5 list-disc" id="assetsList">
             {user.assets.map((asset, index) => (
-              <li key={asset.name + asset.value + asset.APY}>
-                <input
-                  type="text"
-                  name="assets"
-                  defaultValue={asset.name}
-                  onChange={handleArrayFieldChange("assets", "name", index)}
-                />
-                $
-                <input
-                  type="text"
-                  name="assetsVal"
-                  defaultValue={asset.value}
-                  onChange={handleArrayFieldChange("assets", "value", index)}
-                />
-                APY:
-                <input
-                  type="text"
-                  name="assetsAPY"
-                  defaultValue={asset.APY}
-                  onChange={handleArrayFieldChange("assets", "APY", index)}
-                />
+              <li
+                key={asset.name + asset.value + asset.APY}
+                className="flex gap-5 m-2"
+              >
+                <p className="w-40">{asset.name}</p>
+                <p className="w-30">${asset.value}</p>
+                <p>APY:{asset.APY}</p>
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
@@ -313,20 +280,50 @@ export default function Dashboard() {
               </li>
             ))}
           </ul>
+          <input type="text" id="newAssetName" placeholder="Name" />
+          <input type="text" id="newAssetVal" placeholder="Value" />
+          <input type="text" id="newAssetAPY" placeholder="APY" />
           <button
-            className="bg-(--color-green) p-2 m-2 rounded "
+            className="bg-(--color-green) p-2 m-2 rounded"
             type="button"
-            onClick={() => {
+            onClick={async (e) => {
+              const nameInput = document.getElementById(
+                "newAssetName"
+              ) as HTMLInputElement | null;
+              const valInput = document.getElementById(
+                "newAssetVal"
+              ) as HTMLInputElement | null;
+              const APYInput = document.getElementById(
+                "newAssetAPY"
+              ) as HTMLInputElement | null;
               if (
+                nameInput?.value &&
+                valInput?.value &&
+                APYInput?.value &&
                 !user.assets.some(
                   (asset) =>
-                    asset.name === "" && asset.value === 0 && asset.APY === 0
+                    (asset.name === nameInput.value &&
+                      asset.value ===
+                        Number(valInput.value.replace(/,/g, "") || 0) &&
+                      asset.APY ===
+                        Number(APYInput.value.replace(/[,\.]/g, ""))) ||
+                    0
                 )
               ) {
-                setUser((prev) => ({
+                await setUser((prev) => ({
                   ...prev,
-                  assets: [...prev.assets, { name: "", value: 0, APY: 0 }],
+                  assets: [
+                    ...prev.assets,
+                    {
+                      name: nameInput.value,
+                      value: Number(valInput.value.replace(/,/g, "") || 0),
+                      APY: Number(APYInput.value.replace(/[,\.]/g, "") || 0),
+                    },
+                  ],
                 }));
+                nameInput.value = "";
+                valInput.value = "";
+                APYInput.value = "";
               }
             }}
           >
@@ -337,27 +334,13 @@ export default function Dashboard() {
           <p className="text-xl">Debts</p>
           <ul className="pl-5 list-disc" id="debtsList">
             {user.debts.map((debt, index) => (
-              <li key={debt.name + debt.value + debt.APR}>
-                <input
-                  type="text"
-                  name="debts"
-                  defaultValue={debt.name}
-                  onChange={handleArrayFieldChange("debts", "name", index)}
-                />
-                $
-                <input
-                  type="text"
-                  name="debtsVal"
-                  defaultValue={debt.value}
-                  onChange={handleArrayFieldChange("debts", "value", index)}
-                />
-                APR:
-                <input
-                  type="text"
-                  name="debtsAPR"
-                  defaultValue={debt.APR}
-                  onChange={handleArrayFieldChange("debts", "APR", index)}
-                />
+              <li
+                key={debt.name + debt.value + debt.APR}
+                className="flex gap-5 m-2"
+              >
+                <p className="w-40">{debt.name}</p>
+                <p className="w-30">${debt.value}</p>
+                <p>APR:{debt.APR}</p>
                 <button
                   type="button"
                   className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
@@ -377,26 +360,72 @@ export default function Dashboard() {
               </li>
             ))}
           </ul>
+          <input type="text" id="newDebtName" placeholder="Name" />
+          <input type="text" id="newDebtVal" placeholder="Value" />
+          <input type="text" id="newDebtAPR" placeholder="APR" />
           <button
-            className="bg-(--color-green) p-2 m-2 rounded "
+            className="bg-(--color-green) p-2 m-2 rounded"
             type="button"
-            onClick={() => {
+            onClick={async (e) => {
+              const nameInput = document.getElementById(
+                "newDebtName"
+              ) as HTMLInputElement | null;
+              const valInput = document.getElementById(
+                "newDebtVal"
+              ) as HTMLInputElement | null;
+              const APRInput = document.getElementById(
+                "newDebtAPR"
+              ) as HTMLInputElement | null;
               if (
+                nameInput?.value &&
+                valInput?.value &&
+                APRInput?.value &&
                 !user.debts.some(
                   (debt) =>
-                    debt.name === "" && debt.value === 0 && debt.APR === 0
+                    (debt.name === nameInput.value &&
+                      debt.value ===
+                        Number(valInput.value.replace(/,/g, "") || 0) &&
+                      debt.APR ===
+                        Number(APRInput.value.replace(/[,]/g, ""))) ||
+                    0
                 )
               ) {
-                setUser((prev) => ({
+                await setUser((prev) => ({
                   ...prev,
-                  debts: [...prev.debts, { name: "", value: 0, APR: 0 }],
+                  debts: [
+                    ...prev.debts,
+                    {
+                      name: nameInput.value,
+                      value: Number(valInput.value.replace(/,/g, "") || 0),
+                      APR: Number(APRInput.value.replace(/[,]/g, "") || 0),
+                    },
+                  ],
                 }));
+                nameInput.value = "";
+                valInput.value = "";
+                APRInput.value = "";
               }
             }}
           >
             Add Debt
           </button>
         </div>
+      </div>
+      <div>
+        <button
+          className="btn"
+          type="button"
+          onClick={() => {
+            console.log(user);
+          }}
+        >
+          Check User
+        </button>
+        {user.email ? (
+          <button className="btn" type="submit">
+            Save Info
+          </button>
+        ) : null}
       </div>
     </Form>
   );
