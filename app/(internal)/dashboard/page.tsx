@@ -64,6 +64,9 @@ export default function Dashboard() {
   return (
     <Form
       action={async (input: FormData) => {
+        // I want this section to be
+        // await setData(user);
+        // location.reload();
         const formValues: User = {
           email: user.email,
           full_name: input.get("name") as string,
@@ -110,10 +113,29 @@ export default function Dashboard() {
       className="flex flex-col items-center"
       id="dashboardForm"
     >
+      <button
+        className="btn"
+        type="button"
+        onClick={() => {
+          console.log(user);
+        }}
+      >
+        Check User
+      </button>
       <div className="container text-xl">
         <p>Email: {user.email}</p>
         <p>
-          Name: <input defaultValue={user.full_name} name="name" />
+          Name:{" "}
+          <input
+            defaultValue={user.full_name}
+            name="name"
+            onChange={(e) => {
+              setUser((prev) => ({
+                ...prev,
+                full_name: e.target.value,
+              }));
+            }}
+          />
         </p>
         <p>
           Salary: $
@@ -123,10 +145,11 @@ export default function Dashboard() {
             value={user.salary.toLocaleString()}
             onChange={(e) => {
               const newValue = Number(e.target.value.replace(/,/g, "") || 0);
-              setUser((prev) => ({
-                ...prev,
-                salary: newValue,
-              }));
+              if (Number.isInteger(newValue))
+                setUser((prev) => ({
+                  ...prev,
+                  salary: newValue,
+                }));
             }}
           />
           /year
@@ -164,20 +187,18 @@ export default function Dashboard() {
                 <input
                   type="text"
                   name="expensesVal"
-                  defaultValue={expense.value.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  defaultValue={expense.value.toLocaleString()}
                   onChange={(e) => {
                     const newValue = Number(
                       e.target.value.replace(/,/g, "") || 0
                     );
-                    setUser((prev) => ({
-                      ...prev,
-                      expenses: prev.expenses.map((exp, i) =>
-                        i === index ? { ...exp, value: newValue } : exp
-                      ),
-                    }));
+                    if (Number.isInteger(newValue))
+                      setUser((prev) => ({
+                        ...prev,
+                        expenses: prev.expenses.map((exp, i) =>
+                          i === index ? { ...exp, value: newValue } : exp
+                        ),
+                      }));
                   }}
                 />
                 <button
@@ -201,11 +222,15 @@ export default function Dashboard() {
           <button
             className="bg-(--color-green) p-2 m-2 rounded "
             type="button"
-            onClick={() => {
-              setUser((prev) => ({
-                ...prev,
-                expenses: [...prev.expenses, { name: "", value: 0 }],
-              }));
+            onClick={(e) => {
+              if (
+                !user.expenses.some((exp) => exp.name === "" && exp.value === 0)
+              ) {
+                setUser((prev) => ({
+                  ...prev,
+                  expenses: [...prev.expenses, { name: "", value: 0 }],
+                }));
+              }
             }}
           >
             Add Expense
