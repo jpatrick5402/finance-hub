@@ -1,30 +1,16 @@
 "use client";
 import Form from "next/form";
 import { useContext } from "react";
-import { Bar, Doughnut } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 
 import { setData } from "@lib/data";
 import UserContext from "@contexts/UserContext";
-import { useRef } from "react";
 
 Chart.register(ArcElement, Tooltip, Title);
 
 export default function Dashboard() {
   const [user, setUser] = useContext(UserContext);
-
-  const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value.replace(/,/g, "") || 0);
-    if (Number.isInteger(newValue))
-      setUser((prev) => ({
-        ...prev,
-        salary: newValue,
-      }));
-    else {
-      // TODO: show dummy lights
-      console.log("Nope");
-    }
-  };
 
   // --- chart data ---
   const totalExpenses = user.expenses.reduce(
@@ -33,7 +19,6 @@ export default function Dashboard() {
   );
   const monthlyIncome = Number(user.salary) / 12;
   const remaining = Math.floor(monthlyIncome - totalExpenses);
-
   const budgetGraphData = {
     labels: [...user.expenses.map((expense) => expense.name), "Remaining"],
     datasets: [
