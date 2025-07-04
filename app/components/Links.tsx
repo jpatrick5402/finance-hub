@@ -14,7 +14,7 @@ export default function Links({ links }: LinksParam) {
   let current = "/" + usePathname().split("/")[1];
 
   return (
-    <span className="flex ml-auto m-3 gap-5 items-center flex-col sm:flex-row">
+    <span className="flex m-3 gap-0 ml-auto sm:gap-5 items-center flex-row">
       {links.map((link) => {
         let isLoggedIn = current === link.href;
         return (

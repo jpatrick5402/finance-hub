@@ -32,7 +32,7 @@ export default function Dashboard() {
     0
   );
   const monthlyIncome = Number(user.salary) / 12;
-  const remaining = monthlyIncome - totalExpenses;
+  const remaining = Math.floor(monthlyIncome - totalExpenses);
 
   const budgetGraphData = {
     labels: [...user.expenses.map((expense) => expense.name), "Remaining"],
@@ -79,6 +79,7 @@ export default function Dashboard() {
         {/* Name */}
         <input
           type="text"
+          className="m-auto"
           value={user.full_name}
           onChange={(e) => {
             setUser((prev) => ({
@@ -88,10 +89,11 @@ export default function Dashboard() {
           }}
         />
         {/* Email */}
-        <p>{user.email}</p>
+        <p className="m-auto">{user.email}</p>
         {/* Salary */}
         <input
           type="text"
+          className="m-auto"
           value={user.salary}
           onChange={(e) => {
             setUser((prev) => ({
@@ -169,24 +171,22 @@ export default function Dashboard() {
             onClick={async (e) => {
               const nameInput = document.getElementById(
                 "newExpenseName"
-              ) as HTMLInputElement | null;
+              ) as HTMLInputElement;
               const valInput = document.getElementById(
                 "newExpenseVal"
-              ) as HTMLInputElement | null;
-              if (nameInput?.value && valInput?.value) {
-                await setUser((prev) => ({
-                  ...prev,
-                  expenses: [
-                    ...prev.expenses,
-                    {
-                      name: nameInput.value,
-                      value: Number(valInput.value.replace(/,/g, "") || 0),
-                    },
-                  ],
-                }));
-                nameInput.value = "";
-                valInput.value = "";
-              }
+              ) as HTMLInputElement;
+              await setUser((prev) => ({
+                ...prev,
+                expenses: [
+                  ...prev.expenses,
+                  {
+                    name: nameInput.value ?? "",
+                    value: Number(valInput.value.replace(/,/g, "") || 0),
+                  },
+                ],
+              }));
+              nameInput.value = "";
+              valInput.value = "";
             }}
           >
             Add Expense
@@ -308,29 +308,27 @@ export default function Dashboard() {
             onClick={async (e) => {
               const nameInput = document.getElementById(
                 "newAssetName"
-              ) as HTMLInputElement | null;
+              ) as HTMLInputElement;
               const valInput = document.getElementById(
                 "newAssetVal"
-              ) as HTMLInputElement | null;
+              ) as HTMLInputElement;
               const APYInput = document.getElementById(
                 "newAssetAPY"
-              ) as HTMLInputElement | null;
-              if (nameInput?.value && valInput?.value && APYInput?.value) {
-                await setUser((prev) => ({
-                  ...prev,
-                  assets: [
-                    ...prev.assets,
-                    {
-                      name: nameInput.value,
-                      value: Number(valInput.value.replace(/,/g, "") || 0),
-                      APY: Number(APYInput.value.replace(/[,]/g, "") || 0),
-                    },
-                  ],
-                }));
-                nameInput.value = "";
-                valInput.value = "";
-                APYInput.value = "";
-              }
+              ) as HTMLInputElement;
+              await setUser((prev) => ({
+                ...prev,
+                assets: [
+                  ...prev.assets,
+                  {
+                    name: nameInput.value,
+                    value: Number(valInput.value.replace(/,/g, "") || 0),
+                    APY: Number(APYInput.value.replace(/[,]/g, "") || 0),
+                  },
+                ],
+              }));
+              nameInput.value = "";
+              valInput.value = "";
+              APYInput.value = "";
             }}
           >
             Add Asset
@@ -408,45 +406,34 @@ export default function Dashboard() {
             onClick={async (e) => {
               const nameInput = document.getElementById(
                 "newDebtName"
-              ) as HTMLInputElement | null;
+              ) as HTMLInputElement;
               const valInput = document.getElementById(
                 "newDebtVal"
-              ) as HTMLInputElement | null;
+              ) as HTMLInputElement;
               const APRInput = document.getElementById(
                 "newDebtAPR"
-              ) as HTMLInputElement | null;
-              if (nameInput?.value && valInput?.value && APRInput?.value) {
-                await setUser((prev) => ({
-                  ...prev,
-                  debts: [
-                    ...prev.debts,
-                    {
-                      name: nameInput.value,
-                      value: Number(valInput.value.replace(/,/g, "") || 0),
-                      APR: Number(APRInput.value.replace(/[,]/g, "") || 0),
-                    },
-                  ],
-                }));
-                nameInput.value = "";
-                valInput.value = "";
-                APRInput.value = "";
-              }
+              ) as HTMLInputElement;
+              await setUser((prev) => ({
+                ...prev,
+                debts: [
+                  ...prev.debts,
+                  {
+                    name: nameInput.value,
+                    value: Number(valInput.value.replace(/,/g, "") || 0),
+                    APR: Number(APRInput.value.replace(/[,]/g, "") || 0),
+                  },
+                ],
+              }));
+              nameInput.value = "";
+              valInput.value = "";
+              APRInput.value = "";
             }}
           >
             Add Debt
           </button>
         </div>
       </div>
-      <div>
-        <button
-          className="btn"
-          type="button"
-          onClick={() => {
-            console.log(user);
-          }}
-        >
-          Check User
-        </button>
+      <div className="flex flex-row gap-0 m-auto">
         {user.email ? (
           <button className="btn" type="submit">
             Save Info
