@@ -5,6 +5,9 @@ export default function Footer() {
         &copy; {new Date().getFullYear()} Finance Hub. All rights reserved.
       </p>
       <p className="text-sm mr-4 ml-4">TY Mr. Carrier</p>
+      <p className="text-sm mr-4 ml-4">
+        Developed by <a href="https://github.com/jpatrick5402">JP</a>
+      </p>
     </footer>
   );
 }
