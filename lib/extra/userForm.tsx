@@ -1,4 +1,10 @@
-return (
+import UserContext from "@contexts/UserContext";
+import { useContext } from "react";
+
+export default function userForm() {
+  const [user, setUser] = useContext(UserContext);
+  return (
+    <>
       {/* This section is for data testing only */}
       <div className="container">
         <p className="text-xl">TEST</p>
@@ -333,4 +339,6 @@ return (
           Add Debt
         </button>
       </div>
-)
+    </>
+  );
+}
