@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import UserContext from "@contexts/UserContext";
 import { Item } from "@models/User";
@@ -50,6 +50,32 @@ export default function UserList({ attribute }: { attribute: Item[] }) {
 
   return (
     <>
+      <div className="flex flex-row gap-2">
+        <p>Sort:</p>
+        <select
+          onChange={(e) => {
+            let sorted = [...attribute];
+            if (e.target.value === "name") {
+              sorted.sort((a, b) => b.name.localeCompare(a.name));
+            } else if (e.target.value === "value") {
+              sorted.sort((a, b) => b.value - a.value);
+            } else if (e.target.value === "interest") {
+              sorted.sort((a, b) => b.interest - a.interest);
+            }
+            if (e.target.value !== "none") {
+              setUser((prev: any) => ({
+                ...prev,
+                [attributeName]: sorted,
+              }));
+            }
+          }}
+        >
+          <option value="none"></option>
+          <option value="name">Name</option>
+          <option value="value">Value</option>
+          <option value="interest">Interest</option>
+        </select>
+      </div>
       <ul>
         {attribute.map((item, index) => {
           return (

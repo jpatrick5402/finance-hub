@@ -50,11 +50,13 @@ export default function NetWorth() {
     >
       <div className="flex container">
         <p className="text-2xl m-auto">
-          Total Debts:{" $"}
-          {user.debts.reduce(
-            (total: number, debt: any) => total + debt.value,
-            0
-          )}
+          Total Debts: -$
+          {user.debts
+            .reduce((total: number, debt: any) => total + debt.value, 0)
+            .toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
         </p>
       </div>
       <div className="flex container flex-col sm:flex-row">
