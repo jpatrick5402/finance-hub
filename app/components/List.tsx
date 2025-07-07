@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import UserContext from "@contexts/UserContext";
 import { Item } from "@models/User";
 
-export default function UserList({ attribute }: { attribute: Item[] }) {
+export default function List({ attribute }: { attribute: Item[] }) {
   const [user, setUser] = useContext(UserContext);
 
   // Helper to update an item in the given attribute array
@@ -49,7 +49,7 @@ export default function UserList({ attribute }: { attribute: Item[] }) {
       | undefined) || "assets";
 
   return (
-    <>
+    <div className="flex flex-col m-auto">
       <div className="flex flex-row gap-2">
         <p>Sort:</p>
         <select
@@ -61,6 +61,8 @@ export default function UserList({ attribute }: { attribute: Item[] }) {
               sorted.sort((a, b) => b.value - a.value);
             } else if (e.target.value === "interest") {
               sorted.sort((a, b) => b.interest - a.interest);
+            } else if (e.target.value === "category") {
+              sorted.sort((a, b) => b.category.localeCompare(a.name));
             }
             if (e.target.value !== "none") {
               setUser((prev: any) => ({
@@ -74,6 +76,7 @@ export default function UserList({ attribute }: { attribute: Item[] }) {
           <option value="name">Name</option>
           <option value="value">Value</option>
           <option value="interest">Interest</option>
+          <option value="category">Category</option>
         </select>
       </div>
       <ul>
@@ -136,6 +139,6 @@ export default function UserList({ attribute }: { attribute: Item[] }) {
       >
         Add {attributeName.charAt(0).toUpperCase() + attributeName.slice(1, -1)}
       </button>
-    </>
+    </div>
   );
 }

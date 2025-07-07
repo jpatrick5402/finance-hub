@@ -13,15 +13,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const { data: session } = useSession();
-  const [userData, setUserData] = useState(new User("", "", 0, [], [], []));
+  const [userData, setUserData] = useState(
+    new User("", "", 0, [], [], [], [], [])
+  );
 
   useEffect(() => {
     async function fetchUser() {
       if (session?.user?.email) {
         const resUser = await getData(session?.user?.email);
-        resUser.assets.sort((a, b) => b.value - a.value);
-        resUser.debts.sort((a, b) => b.value - a.value);
-        resUser.expenses.sort((a, b) => b.value - a.value);
         setUserData(resUser);
       }
     }

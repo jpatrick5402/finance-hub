@@ -7,7 +7,6 @@ import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 import { setData } from "@lib/data";
 import UserContext from "@contexts/UserContext";
 import SaveButton from "@components/SaveButton";
-import UserList from "@components/List";
 
 Chart.register(ArcElement, Tooltip, Title);
 
@@ -94,7 +93,11 @@ export default function Dashboard() {
         <p className="m-auto">
           Net Worth: $
           {(
-            user.assets.reduce(
+            user.fixed_assets.reduce(
+              (total: number, asset: any) => total + asset.value,
+              0
+            ) +
+            user.invested_assets.reduce(
               (total: number, asset: any) => total + asset.value,
               0
             ) -
