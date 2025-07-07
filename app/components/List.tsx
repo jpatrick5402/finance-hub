@@ -70,14 +70,16 @@ export default function UserList({ attribute }: { attribute: Item[] }) {
                   updateItem(index, { value: Number(e.target.value) });
                 }}
               />
-              <input
-                type="text"
-                value={item.interest}
-                placeholder="Interest"
-                onChange={(e) => {
-                  updateItem(index, { interest: Number(e.target.value) });
-                }}
-              />
+              {attributeName != "expenses" ? (
+                <input
+                  type="text"
+                  value={item.interest}
+                  placeholder="Interest"
+                  onChange={(e) => {
+                    updateItem(index, { interest: Number(e.target.value) });
+                  }}
+                />
+              ) : null}
               <input
                 type="text"
                 value={item.category}

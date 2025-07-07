@@ -12,7 +12,7 @@ export default function Auth() {
           return (
             <button
               key={provider}
-              className="btn"
+              className="btn m-3"
               onClick={async () => {
                 await login(provider, "/dashboard");
               }}
