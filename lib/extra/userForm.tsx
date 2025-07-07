@@ -87,35 +87,17 @@ export default function userForm() {
           className="bg-(--color-green) p-2 m-2 rounded"
           type="button"
           onClick={async (e) => {
-            const nameInput = document.getElementById(
-              "newExpenseName"
-            ) as HTMLInputElement | null;
-            const valInput = document.getElementById(
-              "newExpenseVal"
-            ) as HTMLInputElement | null;
-            if (
-              nameInput?.value &&
-              valInput?.value &&
-              !user.expenses.some(
-                (expense) =>
-                  expense.name === nameInput.value &&
-                  expense.value ===
-                    Number(valInput.value.replace(/,/g, "") || 0)
-              )
-            ) {
-              await setUser((prev) => ({
-                ...prev,
-                expenses: [
-                  ...prev.expenses,
-                  {
-                    name: nameInput.value,
-                    value: Number(valInput.value.replace(/,/g, "") || 0),
-                  },
-                ],
-              }));
-              nameInput.value = "";
-              valInput.value = "";
-            }
+            await setUser((prev) => ({
+              ...prev,
+              expenses: [
+                ...prev.expenses,
+                {
+                  name: "",
+                  value: 0,
+                  category: "",
+                },
+              ],
+            }));
           }}
         >
           Add Expense
@@ -181,50 +163,22 @@ export default function userForm() {
             );
           })}
         </ul>
-        <input type="text" id="newAssetName" placeholder="Name" />
-        <input type="text" id="newAssetVal" placeholder="Value" />
-        <input type="text" id="newAssetAPY" placeholder="APY" />
         <button
           className="bg-(--color-green) p-2 m-2 rounded"
           type="button"
           onClick={async (e) => {
-            const nameInput = document.getElementById(
-              "newAssetName"
-            ) as HTMLInputElement | null;
-            const valInput = document.getElementById(
-              "newAssetVal"
-            ) as HTMLInputElement | null;
-            const APYInput = document.getElementById(
-              "newAssetAPY"
-            ) as HTMLInputElement | null;
-            if (
-              nameInput?.value &&
-              valInput?.value &&
-              APYInput?.value &&
-              !user.assets.some(
-                (asset) =>
-                  (asset.name === nameInput.value &&
-                    asset.value ===
-                      Number(valInput.value.replace(/,/g, "") || 0) &&
-                    asset.APY === Number(APYInput.value.replace(/[,]/g, ""))) ||
-                  0
-              )
-            ) {
-              await setUser((prev) => ({
-                ...prev,
-                assets: [
-                  ...prev.assets,
-                  {
-                    name: nameInput.value,
-                    value: Number(valInput.value.replace(/,/g, "") || 0),
-                    APY: Number(APYInput.value.replace(/[,]/g, "") || 0),
-                  },
-                ],
-              }));
-              nameInput.value = "";
-              valInput.value = "";
-              APYInput.value = "";
-            }
+            await setUser((prev) => ({
+              ...prev,
+              assets: [
+                ...prev.assets,
+                {
+                  name: "",
+                  value: 0,
+                  APY: 0,
+                  category: "",
+                },
+              ],
+            }));
           }}
         >
           Add Asset
@@ -290,50 +244,22 @@ export default function userForm() {
             );
           })}
         </ul>
-        <input type="text" id="newDebtName" placeholder="Name" />
-        <input type="text" id="newDebtVal" placeholder="Value" />
-        <input type="text" id="newDebtAPR" placeholder="APR" />
         <button
           className="bg-(--color-green) p-2 m-2 rounded"
           type="button"
           onClick={async (e) => {
-            const nameInput = document.getElementById(
-              "newDebtName"
-            ) as HTMLInputElement | null;
-            const valInput = document.getElementById(
-              "newDebtVal"
-            ) as HTMLInputElement | null;
-            const APRInput = document.getElementById(
-              "newDebtAPR"
-            ) as HTMLInputElement | null;
-            if (
-              nameInput?.value &&
-              valInput?.value &&
-              APRInput?.value &&
-              !user.debts.some(
-                (debt) =>
-                  (debt.name === nameInput.value &&
-                    debt.value ===
-                      Number(valInput.value.replace(/,/g, "") || 0) &&
-                    debt.APR === Number(APRInput.value.replace(/[,]/g, ""))) ||
-                  0
-              )
-            ) {
-              await setUser((prev) => ({
-                ...prev,
-                debts: [
-                  ...prev.debts,
-                  {
-                    name: nameInput.value,
-                    value: Number(valInput.value.replace(/,/g, "") || 0),
-                    APR: Number(APRInput.value.replace(/[,]/g, "") || 0),
-                  },
-                ],
-              }));
-              nameInput.value = "";
-              valInput.value = "";
-              APRInput.value = "";
-            }
+            await setUser((prev) => ({
+              ...prev,
+              debts: [
+                ...prev.debts,
+                {
+                  name: "",
+                  value: 0,
+                  APR: 0,
+                  category: "",
+                },
+              ],
+            }));
           }}
         >
           Add Debt

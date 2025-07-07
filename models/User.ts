@@ -1,33 +1,25 @@
-type Debt = {
+export type Item = {
   name: string;
   value: number;
-  APR: number;
-};
-type Asset = {
-  name: string;
-  value: number;
-  APY: number;
-};
-type Expense = {
-  name: string;
-  value: number;
+  interest: number;
+  category: string;
 };
 
 export default class User {
   email: string;
   full_name: string;
   salary: number;
-  assets: Asset[];
-  debts: Debt[];
-  expenses: Expense[];
+  assets: Item[];
+  debts: Item[];
+  expenses: Item[];
 
   constructor(
     email: string,
     full_name: string,
     salary: number,
-    assets: any[],
-    debts: any[],
-    expenses: any[]
+    assets: Item[],
+    debts: Item[],
+    expenses: Item[]
   ) {
     this.email = email;
     this.full_name = full_name;

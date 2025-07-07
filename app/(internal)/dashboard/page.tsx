@@ -6,6 +6,8 @@ import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 
 import { setData } from "@lib/data";
 import UserContext from "@contexts/UserContext";
+import SaveButton from "@components/SaveButton";
+import UserList from "@components/List";
 
 Chart.register(ArcElement, Tooltip, Title);
 
@@ -20,31 +22,31 @@ export default function Dashboard() {
   const monthlyIncome = Number(user.salary) / 12;
   const remaining = Math.floor(monthlyIncome - totalExpenses);
   const budgetGraphData = {
-    labels: [...user.expenses.map((expense) => expense.name), "Remaining"],
+    labels: ["Remaining", ...user.expenses.map((expense) => expense.name)],
     datasets: [
       {
         label: "Value $",
         data: [
-          ...user.expenses.map((expense) => expense.value),
           remaining > 0 ? remaining : 0,
+          ...user.expenses.map((expense) => expense.value),
         ],
         backgroundColor: [
+          "rgba(100, 255, 100, 0.2)",
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
           "rgba(255, 206, 86, 0.2)",
           "rgba(75, 192, 192, 0.2)",
           "rgba(153, 102, 255, 0.2)",
           "rgba(255, 159, 64, 0.2)",
-          "rgba(100, 255, 100, 0.2)",
         ],
         borderColor: [
+          "rgba(100, 255, 100, 1)",
           "rgba(255, 99, 132, 1)",
           "rgba(54, 162, 235, 1)",
           "rgba(255, 206, 86, 1)",
           "rgba(75, 192, 192, 1)",
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
-          "rgba(100, 255, 100, 1)",
         ],
         borderWidth: 1,
       },
@@ -53,7 +55,7 @@ export default function Dashboard() {
 
   return (
     <Form
-      action={async (input: FormData) => {
+      action={async () => {
         await setData(user);
         location.reload();
       }}
@@ -100,82 +102,7 @@ export default function Dashboard() {
           </p>
           <p>Monthly Expenses:</p>
           {/* Expenses */}
-          <ul>
-            {user.expenses.map((exp, index) => {
-              return (
-                <li key={index}>
-                  <input
-                    type="text"
-                    value={exp.name}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        expenses: prev.expenses.map((expense, i) =>
-                          i === index
-                            ? { ...expense, name: e.target.value }
-                            : expense
-                        ),
-                      }));
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={exp.value}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        expenses: prev.expenses.map((expense, i) =>
-                          i === index
-                            ? { ...expense, value: Number(e.target.value) }
-                            : expense
-                        ),
-                      }));
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
-                    onClick={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        expenses: prev.expenses.filter((_, i) => i !== index),
-                      }));
-                    }}
-                  >
-                    X
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-          <input type="text" id="newExpenseName" placeholder="Name" />
-          <input type="text" id="newExpenseVal" placeholder="Value" />
-          <button
-            className="bg-(--color-green) p-2 m-2 rounded"
-            type="button"
-            onClick={async (e) => {
-              const nameInput = document.getElementById(
-                "newExpenseName"
-              ) as HTMLInputElement;
-              const valInput = document.getElementById(
-                "newExpenseVal"
-              ) as HTMLInputElement;
-              await setUser((prev) => ({
-                ...prev,
-                expenses: [
-                  ...prev.expenses,
-                  {
-                    name: nameInput.value ?? "",
-                    value: Number(valInput.value.replace(/,/g, "") || 0),
-                  },
-                ],
-              }));
-              nameInput.value = "";
-              valInput.value = "";
-            }}
-          >
-            Add Expense
-          </button>
+          <UserList attribute={user.expenses} />
           <p>
             Remaining: $
             {(
@@ -224,207 +151,15 @@ export default function Dashboard() {
         <div className="container">
           <p className="text-xl">Assets</p>
           {/* Assets */}
-          <ul>
-            {user.assets.map((asset, index) => {
-              return (
-                <li key={index}>
-                  <input
-                    type="text"
-                    value={asset.name}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        assets: prev.assets.map((cur, i) =>
-                          i === index ? { ...cur, name: e.target.value } : cur
-                        ),
-                      }));
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={asset.value}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        assets: prev.assets.map((cur, i) =>
-                          i === index
-                            ? { ...cur, value: Number(e.target.value) }
-                            : cur
-                        ),
-                      }));
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={asset.APY}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        assets: prev.assets.map((cur, i) =>
-                          i === index
-                            ? { ...cur, APY: Number(e.target.value) }
-                            : cur
-                        ),
-                      }));
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
-                    onClick={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        assets: prev.assets.filter((_, i) => i !== index),
-                      }));
-                    }}
-                  >
-                    X
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-          <input type="text" id="newAssetName" placeholder="Name" />
-          <input type="text" id="newAssetVal" placeholder="Value" />
-          <input type="text" id="newAssetAPY" placeholder="APY" />
-          <button
-            className="bg-(--color-green) p-2 m-2 rounded"
-            type="button"
-            onClick={async (e) => {
-              const nameInput = document.getElementById(
-                "newAssetName"
-              ) as HTMLInputElement;
-              const valInput = document.getElementById(
-                "newAssetVal"
-              ) as HTMLInputElement;
-              const APYInput = document.getElementById(
-                "newAssetAPY"
-              ) as HTMLInputElement;
-              await setUser((prev) => ({
-                ...prev,
-                assets: [
-                  ...prev.assets,
-                  {
-                    name: nameInput.value,
-                    value: Number(valInput.value.replace(/,/g, "") || 0),
-                    APY: Number(APYInput.value.replace(/[,]/g, "") || 0),
-                  },
-                ],
-              }));
-              nameInput.value = "";
-              valInput.value = "";
-              APYInput.value = "";
-            }}
-          >
-            Add Asset
-          </button>
+          <UserList attribute={user.assets} />
         </div>
         <div className="container">
           <p className="text-xl">Debts</p>
           {/* Debts */}
-          <ul>
-            {user.debts.map((debt, index) => {
-              return (
-                <li key={index}>
-                  <input
-                    type="text"
-                    value={debt.name}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        debts: prev.debts.map((cur, i) =>
-                          i === index ? { ...cur, name: e.target.value } : cur
-                        ),
-                      }));
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={debt.value}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        debts: prev.debts.map((cur, i) =>
-                          i === index
-                            ? { ...cur, value: Number(e.target.value) }
-                            : cur
-                        ),
-                      }));
-                    }}
-                  />
-                  <input
-                    type="text"
-                    value={debt.APR}
-                    onChange={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        debts: prev.debts.map((cur, i) =>
-                          i === index
-                            ? { ...cur, APR: Number(e.target.value) }
-                            : cur
-                        ),
-                      }));
-                    }}
-                  />
-                  <button
-                    className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
-                    type="button"
-                    onClick={(e) => {
-                      setUser((prev) => ({
-                        ...prev,
-                        debts: prev.debts.filter((_, i) => i !== index),
-                      }));
-                    }}
-                  >
-                    X
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-          <input type="text" id="newDebtName" placeholder="Name" />
-          <input type="text" id="newDebtVal" placeholder="Value" />
-          <input type="text" id="newDebtAPR" placeholder="APR" />
-          <button
-            className="bg-(--color-green) p-2 m-2 rounded"
-            type="button"
-            onClick={async (e) => {
-              const nameInput = document.getElementById(
-                "newDebtName"
-              ) as HTMLInputElement;
-              const valInput = document.getElementById(
-                "newDebtVal"
-              ) as HTMLInputElement;
-              const APRInput = document.getElementById(
-                "newDebtAPR"
-              ) as HTMLInputElement;
-              await setUser((prev) => ({
-                ...prev,
-                debts: [
-                  ...prev.debts,
-                  {
-                    name: nameInput.value,
-                    value: Number(valInput.value.replace(/,/g, "") || 0),
-                    APR: Number(APRInput.value.replace(/[,]/g, "") || 0),
-                  },
-                ],
-              }));
-              nameInput.value = "";
-              valInput.value = "";
-              APRInput.value = "";
-            }}
-          >
-            Add Debt
-          </button>
+          <UserList attribute={user.debts} />
         </div>
       </div>
-      <div className="flex flex-row gap-0 m-auto">
-        {user.email ? (
-          <button className="btn" type="submit">
-            Save Info
-          </button>
-        ) : null}
-      </div>
+      <SaveButton />
     </Form>
   );
 }

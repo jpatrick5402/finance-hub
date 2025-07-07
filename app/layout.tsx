@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import React, { ReactNode } from "react";
 
-import Header from "@components/AppHeader";
-import Auth from "@components/Auth";
-import Footer from "@components/Footer";
+import Header from "./AppHeader";
+import Auth from "./Auth";
+import Footer from "./Footer";
 import { auth } from "@/auth";
 
 import "@styles/globals.css";

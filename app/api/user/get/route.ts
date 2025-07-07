@@ -9,7 +9,7 @@ export const POST = auth(async function POST(req) {
   let body = await req.json();
   if (req.auth.user?.email != body) {
     console.error(
-      "Attacker present on account: " + JSON.stringify(req.auth.user)
+      "Suspicious activity on account: " + JSON.stringify(req.auth.user)
     );
     return NextResponse.json(
       { message: "Incorrect usage, this will be reported" },

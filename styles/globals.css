@@ -64,7 +64,6 @@ input {
 }
 
 .btn {
-  margin: 12px;
   background-color: var(--color-primary);
   padding: 12px;
   border-radius: 10px;

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 
-import Links from "@components/Links";
+import Links from "./Links";
 import { logout } from "@lib/auth";
 import { useEffect, useState } from "react";
 
@@ -41,7 +41,7 @@ export default function Header() {
             setIsLoggedIn(false);
           }}
         >
-          <button className="btn" type="submit">
+          <button className="btn m-3" type="submit">
             Sign Out
           </button>
         </form>
