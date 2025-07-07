@@ -28,9 +28,6 @@
     --color-container: #79716bbb;
     --background-darkness: 0.5;
   }
-  canvas {
-    filter: invert(1) hue-rotate(180deg);
-  }
 }
 
 html {
@@ -55,7 +52,6 @@ body {
 input {
   border-bottom: 2px solid var(--color-primary);
   border-radius: 5px;
-  margin: 4px;
   padding: 4px;
   padding-left: 10px;
   padding-right: 10px;

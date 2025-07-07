@@ -90,8 +90,26 @@ export default function Dashboard() {
           }}
         />
       </div>
+      <div className="flex container text-xl">
+        <p className="m-auto">
+          Net Worth: $
+          {(
+            user.assets.reduce(
+              (total: number, asset: any) => total + asset.value,
+              0
+            ) -
+            user.debts.reduce(
+              (total: number, debt: any) => total + debt.value,
+              0
+            )
+          ).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </p>
+      </div>
       <div className="container flex flex-col sm:flex-row">
-        <div className="m-0">
+        <div className="m-auto">
           <p className="text-xl">
             Monthly Budget: $
             {(Number(user.salary) / 12).toLocaleString("en-US", {
@@ -100,9 +118,13 @@ export default function Dashboard() {
             })}
             /month
           </p>
-          <p>Monthly Expenses:</p>
-          {/* Expenses */}
-          <UserList attribute={user.expenses} />
+          <p>
+            Monthly Expenses: $
+            {totalExpenses.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
           <p>
             Remaining: $
             {(
@@ -118,45 +140,7 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex m-auto">
-          <Doughnut
-            data={budgetGraphData}
-            options={{
-              plugins: {
-                title: {
-                  color: "#000000",
-                  text: "Budget",
-                  display: true,
-                  font: { weight: "normal" },
-                },
-              },
-            }}
-            className="flex m-auto w-50%"
-          />
-        </div>
-      </div>
-      <div className="container text-xl">
-        Net Worth: $
-        {(
-          user.assets.reduce(
-            (total: number, asset: any) => total + asset.value,
-            0
-          ) -
-          user.debts.reduce((total: number, debt: any) => total + debt.value, 0)
-        ).toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-      </div>
-      <div className="flex flex-col columns-1 gap-0 sm:gap-3 sm:flex-row sm:columns-2 w-full">
-        <div className="container">
-          <p className="text-xl">Assets</p>
-          {/* Assets */}
-          <UserList attribute={user.assets} />
-        </div>
-        <div className="container">
-          <p className="text-xl">Debts</p>
-          {/* Debts */}
-          <UserList attribute={user.debts} />
+          <Doughnut data={budgetGraphData} className="flex m-auto w-50%" />
         </div>
       </div>
       <SaveButton />

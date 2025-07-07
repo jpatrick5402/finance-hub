@@ -21,7 +21,6 @@ export default function NetWorth() {
         label: "Value $",
         data: [...user.debts.map((debt) => debt.value)],
         backgroundColor: [
-          "rgba(100, 255, 100, 0.2)",
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
           "rgba(255, 206, 86, 0.2)",
@@ -30,7 +29,6 @@ export default function NetWorth() {
           "rgba(255, 159, 64, 0.2)",
         ],
         borderColor: [
-          "rgba(100, 255, 100, 1)",
           "rgba(255, 99, 132, 1)",
           "rgba(54, 162, 235, 1)",
           "rgba(255, 206, 86, 1)",
@@ -51,18 +49,18 @@ export default function NetWorth() {
       }}
     >
       <div className="flex container">
-        <p className="m-auto">
+        <p className="text-2xl m-auto">
           Total Debts:{" $"}
           {user.debts.reduce(
             (total: number, debt: any) => total + debt.value,
             0
           )}
         </p>
+      </div>
+      <div className="flex container flex-col sm:flex-row">
         <div className="m-auto">
           <Doughnut data={debtData} />
         </div>
-      </div>
-      <div className="flex container">
         <div className="m-auto">
           <List attribute={user.debts} />
         </div>
