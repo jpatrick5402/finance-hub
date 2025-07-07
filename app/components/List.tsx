@@ -49,20 +49,20 @@ export default function List({ attribute }: { attribute: Item[] }) {
       | undefined) || "assets";
 
   return (
-    <div className="flex flex-col m-auto">
+    <div className="flex-col m-auto">
       <div className="flex flex-row gap-2">
         <p>Sort:</p>
         <select
           onChange={(e) => {
             let sorted = [...attribute];
             if (e.target.value === "name") {
-              sorted.sort((a, b) => b.name.localeCompare(a.name));
+              sorted.sort((a, b) => a.name.localeCompare(b.name));
             } else if (e.target.value === "value") {
               sorted.sort((a, b) => b.value - a.value);
             } else if (e.target.value === "interest") {
               sorted.sort((a, b) => b.interest - a.interest);
             } else if (e.target.value === "category") {
-              sorted.sort((a, b) => b.category.localeCompare(a.name));
+              sorted.sort((a, b) => b.category.localeCompare(a.category));
             }
             if (e.target.value !== "none") {
               setUser((prev: any) => ({
