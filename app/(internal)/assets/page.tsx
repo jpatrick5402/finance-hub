@@ -192,14 +192,6 @@ export default function Assets() {
           <List attribute={user.invested_assets} />
         </div>
       </div>
-      <button
-        type="button"
-        onClick={() => {
-          console.log(user);
-        }}
-      >
-        Check user
-      </button>
       <SaveButton />
     </Form>
   );
