@@ -121,7 +121,7 @@ export default function NetWorth() {
                   text:
                     "Fixed: $" +
                     user.fixed_assets
-                      .reduce((total, asset) => total + asset.value, 1)
+                      .reduce((total, asset) => total + asset.value, 0)
                       .toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -142,7 +142,7 @@ export default function NetWorth() {
                   text:
                     "Invested: $" +
                     user.invested_assets
-                      .reduce((total, asset) => total + asset.value, 1)
+                      .reduce((total, asset) => total + asset.value, 0)
                       .toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
