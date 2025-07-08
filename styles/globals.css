@@ -55,11 +55,11 @@ body {
 
 input {
   border-bottom: 2px solid var(--color-primary);
-  border-radius: 5px;
   padding: 4px;
   padding-left: 10px;
   padding-right: 10px;
   field-sizing: content;
+  margin: 2px;
 }
 
 .btn {
