@@ -84,6 +84,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
           return (
             <li key={index}>
               <input
+                title="Name"
                 type="text"
                 value={item.name}
                 placeholder="Name"
@@ -92,6 +93,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
                 }}
               />
               <input
+                title="Value"
                 type="text"
                 value={item.value}
                 placeholder="Value"
@@ -101,15 +103,17 @@ export default function List({ attribute }: { attribute: Item[] }) {
               />
               {attributeName != "expenses" ? (
                 <input
+                  title="Interest (%)"
                   type="text"
                   value={item.interest}
-                  placeholder="Interest"
+                  placeholder="Interest (%)"
                   onChange={(e) => {
                     updateItem(index, { interest: Number(e.target.value) });
                   }}
                 />
               ) : null}
               <input
+                title="Category"
                 type="text"
                 value={item.category}
                 placeholder="Category"

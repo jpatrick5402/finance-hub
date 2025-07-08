@@ -68,8 +68,14 @@ export default function NetWorth() {
         location.reload();
       }}
     >
-      <div className="flex container text-xl">
-        <p className="m-auto">Net Worth: ${net_worth}</p>
+      <div className="flex container text-2xl">
+        <p className="m-auto">
+          Net Worth: $
+          {net_worth.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </p>
       </div>
       <div className="flex flex-col sm:flex-row container">
         <div className="m-auto">
@@ -158,16 +164,55 @@ export default function NetWorth() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-row container">
           <div className="flex-col">
-            <p className="text-2xl">Assets</p>
-            <p className="text-xl">Fixed Assets</p>
+            <p className="text-2xl">
+              Assets $
+              {(
+                user.fixed_assets.reduce(
+                  (total: number, asset: any) => total + asset.value,
+                  0
+                ) +
+                user.invested_assets.reduce(
+                  (total: number, asset: any) => total + asset.value,
+                  0
+                )
+              ).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
+            <p className="text-xl">
+              Fixed Assets $
+              {user.fixed_assets
+                .reduce((total: number, asset: any) => total + asset.value, 0)
+                .toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+            </p>
             <List attribute={user.fixed_assets} />
-            <p className="text-xl">Invested Assets</p>
+            <p className="text-xl">
+              Invested Assets $
+              {user.invested_assets
+                .reduce((total: number, asset: any) => total + asset.value, 0)
+                .toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+            </p>
             <List attribute={user.invested_assets} />
           </div>
         </div>
         <div className="container">
           <div className="flex-col">
-            <p className="text-2xl">Debts</p>
+            <p className="text-2xl">
+              Debts $
+              {user.debts
+                .reduce((total: number, debt: any) => total + debt.value, 0)
+                .toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+            </p>
             <List attribute={user.debts} />
           </div>
         </div>
