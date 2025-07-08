@@ -10,7 +10,7 @@ import { Doughnut } from "react-chartjs-2";
 
 Chart.register(ArcElement, Tooltip, Title);
 
-export default function NetWorth() {
+export default function Assets() {
   const [user, setUser] = useContext(UserContext);
 
   // --- Chart Data ---

@@ -53,6 +53,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
       <div className="flex flex-row gap-2">
         <p>Sort:</p>
         <select
+          className="bg-(--color-primary)"
           onChange={(e) => {
             let sorted = [...attribute];
             if (e.target.value === "name") {
@@ -75,7 +76,9 @@ export default function List({ attribute }: { attribute: Item[] }) {
           <option value="none"></option>
           <option value="name">Name</option>
           <option value="value">Value</option>
-          <option value="interest">Interest</option>
+          {attributeName != "expenses" && (
+            <option value="interest">Interest</option>
+          )}
           <option value="category">Category</option>
         </select>
       </div>
@@ -101,7 +104,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
                   updateItem(index, { value: Number(e.target.value) });
                 }}
               />
-              {attributeName != "expenses" ? (
+              {attributeName != "expenses" && (
                 <input
                   title="Interest (%)"
                   type="text"
@@ -111,7 +114,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
                     updateItem(index, { interest: Number(e.target.value) });
                   }}
                 />
-              ) : null}
+              )}
               <input
                 title="Category"
                 type="text"

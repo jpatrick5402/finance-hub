@@ -15,20 +15,21 @@ export default function Links({ links }: LinksParam) {
 
   return (
     <span className="flex m-3 gap-0 ml-auto sm:gap-5 items-center flex-row">
-      {links.map((link) => {
+      {links.map((link, index) => {
         let isLoggedIn = current === link.href;
         return (
-          <Link
-            key={link.href}
-            href={link.href}
+          <div
+            key={index}
             className={
               isLoggedIn
                 ? "rounded-lg p-2 bg-(--color-primary) shadow-lg cursor-default"
-                : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
+                : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 hover:animate-pulse transition-all duration-300 "
             }
           >
-            {link.name}
-          </Link>
+            <Link key={index} href={link.href}>
+              {link.name}
+            </Link>
+          </div>
         );
       })}
     </span>

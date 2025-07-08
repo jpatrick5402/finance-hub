@@ -150,7 +150,7 @@ export default function NetWorth() {
                   ...prev.net_worth_history,
                   {
                     date: Date.now().toString(),
-                    value: 0,
+                    value: net_worth,
                   },
                 ],
               }));

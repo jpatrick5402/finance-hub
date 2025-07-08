@@ -10,7 +10,7 @@ import { Doughnut } from "react-chartjs-2";
 
 Chart.register(ArcElement, Tooltip);
 
-export default function NetWorth() {
+export default function Budget() {
   const [user, setUser] = useContext(UserContext);
 
   // --- chart data ---
@@ -66,10 +66,9 @@ export default function NetWorth() {
       <div className="container flex flex-col sm:flex-row">
         <div className="m-auto">
           <div className="flex flex-row mb-4">
-            <p>Salary</p>
+            <p className="mt-auto mb-auto">Salary</p>
             <input
               type="text"
-              className="m-auto"
               value={user.salary}
               onChange={(e) => {
                 setUser((prev) => ({

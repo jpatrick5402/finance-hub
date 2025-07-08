@@ -10,7 +10,7 @@ import { ArcElement, Chart, Tooltip } from "chart.js";
 
 Chart.register(ArcElement, Tooltip);
 
-export default function NetWorth() {
+export default function Debts() {
   const [user, setUser] = useContext(UserContext);
 
   // -- chart data --
