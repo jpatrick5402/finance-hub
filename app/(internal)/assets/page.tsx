@@ -59,15 +59,15 @@ export default function NetWorth() {
   };
   const totalAssetsData = {
     labels: [
-      user.fixed_assets.map((asset) => asset.name),
-      user.invested_assets.map((asset) => asset.name),
+      ...user.fixed_assets.map((asset) => asset.name),
+      ...user.invested_assets.map((asset) => asset.name),
     ],
     datasets: [
       {
         label: "$",
         data: [
-          user.fixed_assets.map((asset) => asset.value),
-          user.invested_assets.map((asset) => asset.value),
+          ...user.fixed_assets.map((asset) => asset.value),
+          ...user.invested_assets.map((asset) => asset.value),
         ],
         backgroundColor: [
           "rgba(50, 255, 56, 0.2)",
