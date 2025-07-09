@@ -96,7 +96,7 @@ export default function List({
                 return (
                   <input
                     key={i2}
-                    className="w-full"
+                    className="w-full border-b-2 border-b-(--color-primary) pl-2 m-1"
                     title={column.charAt(0).toUpperCase() + column.slice(1)}
                     type="text"
                     value={item[column]}
@@ -132,7 +132,7 @@ export default function List({
         })}
       </ul>
       <button
-        className="add-btn"
+        className="bg-(--color-green) p-2 m-2 rounded hover:bg-(--color-secondary) hover:text-black hover:cursor-pointer"
         type="button"
         onClick={async (e) => {
           addItem();

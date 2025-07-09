@@ -53,12 +53,6 @@ body {
   max-width: 1300px;
 }
 
-input {
-  border-bottom: 2px solid var(--color-primary);
-  padding-left: 4px;
-  margin: 2px;
-}
-
 .btn {
   background-color: var(--color-primary);
   padding: 12px;
@@ -67,18 +61,6 @@ input {
   transition-duration: 300ms;
 }
 .btn:hover {
-  background-color: var(--color-secondary);
-  color: black;
-  cursor: pointer;
-}
-
-.add-btn {
-  background-color: var(--color-green);
-  padding: 8px;
-  margin: 8px;
-  border-radius: 8px;
-}
-.add-btn:hover {
   background-color: var(--color-secondary);
   color: black;
   cursor: pointer;
