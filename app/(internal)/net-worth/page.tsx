@@ -3,11 +3,9 @@ import List from "@components/List";
 import SaveButton from "@components/SaveButton";
 import UserContext from "@contexts/UserContext";
 import { setData } from "@lib/data";
-import { net_worth_history } from "@models/User";
 import {
   CategoryScale,
   Chart,
-  Legend,
   LinearScale,
   LineElement,
   PointElement,
@@ -99,7 +97,7 @@ export default function NetWorth() {
                         setUser((prev: any) => ({
                           ...prev,
                           net_worth_history: prev.net_worth_history.map(
-                            (cur: net_worth_history, i: number) =>
+                            (cur: any, i: number) =>
                               i === index
                                 ? { ...cur, date: e.target.value }
                                 : cur
@@ -115,7 +113,7 @@ export default function NetWorth() {
                         setUser((prev: any) => ({
                           ...prev,
                           net_worth_history: prev.net_worth_history.map(
-                            (cur: net_worth_history, i: number) =>
+                            (cur: any, i: number) =>
                               i === index
                                 ? { ...cur, value: e.target.value }
                                 : cur
@@ -131,7 +129,7 @@ export default function NetWorth() {
                       setUser((prev: any) => ({
                         ...prev,
                         net_worth_history: prev.net_worth_history.filter(
-                          (_: net_worth_history, i: number) => i !== index
+                          (_: any, i: number) => i !== index
                         ),
                       }));
                     }}

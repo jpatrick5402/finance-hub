@@ -1,16 +1,15 @@
 import { useContext, useState } from "react";
 
 import UserContext from "@contexts/UserContext";
-import { Item } from "@models/User";
 
-export default function List({ attribute }: { attribute: Item[] }) {
+export default function List({ attribute }: { attribute: any[] }) {
   const [user, setUser] = useContext(UserContext);
 
   // Helper to update an item in the given attribute array
-  const updateItem = (index: number, updatedFields: Partial<Item>) => {
+  const updateItem = (index: number, updatedFields: Partial<any>) => {
     setUser((prev: any) => ({
       ...prev,
-      [attributeName]: prev[attributeName].map((cur: Item, i: number) =>
+      [attributeName]: prev[attributeName].map((cur: any, i: number) =>
         i === index ? { ...cur, ...updatedFields } : cur
       ),
     }));
@@ -21,7 +20,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
     setUser((prev: any) => ({
       ...prev,
       [attributeName]: prev[attributeName].filter(
-        (_: Item, i: number) => i !== index
+        (_: any, i: number) => i !== index
       ),
     }));
   };

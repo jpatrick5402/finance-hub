@@ -1,34 +1,55 @@
-export type Item = {
-  name: string;
-  value: number;
-  interest: number;
-  category: string;
-};
-
-export type net_worth_history = {
-  date: string;
-  value: number;
-};
-
 export default class User {
   email: string;
   full_name: string;
   salary: number;
-  fixed_assets: Item[];
-  invested_assets: Item[];
-  debts: Item[];
-  expenses: Item[];
-  net_worth_history: net_worth_history[];
+  fixed_assets: {
+    name: string;
+    value: number;
+    interest: number;
+    category: string;
+  }[];
+  invested_assets: {
+    name: string;
+    value: number;
+    interest: number;
+    category: string;
+  }[];
+  debts: { name: string; value: number; interest: number; category: string }[];
+  expenses: {
+    name: string;
+    value: number;
+    category: string;
+  }[];
+  net_worth_history: { date: string; value: number }[];
 
   constructor(
     email: string,
     full_name: string,
     salary: number,
-    fixed_assets: Item[],
-    invested_assets: Item[],
-    debts: Item[],
-    expenses: Item[],
-    net_worth_history: net_worth_history[]
+    fixed_assets: {
+      name: string;
+      value: number;
+      interest: number;
+      category: string;
+    }[],
+    invested_assets: {
+      name: string;
+      value: number;
+      interest: number;
+      category: string;
+    }[],
+    debts: {
+      name: string;
+      value: number;
+      interest: number;
+      category: string;
+    }[],
+    expenses: {
+      name: string;
+      value: number;
+      category: string;
+    }[],
+    net_worth_history: { date: string; value: number }[]
   ) {
     this.email = email;
     this.full_name = full_name;
