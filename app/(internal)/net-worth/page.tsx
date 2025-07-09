@@ -89,11 +89,11 @@ export default function NetWorth() {
           <ul>
             {user.net_worth_history.map((item, index) => {
               return (
-                <div className="flex">
+                <div key={index} className="flex mb-1">
                   <li className="flex">
                     <input
                       className="w-full"
-                      type="text"
+                      type="date"
                       value={item.date}
                       onChange={(e) => {
                         setUser((prev: any) => ({
@@ -151,7 +151,7 @@ export default function NetWorth() {
                 net_worth_history: [
                   ...prev.net_worth_history,
                   {
-                    date: Date.now().toString(),
+                    date: new Date().toISOString().slice(0, 10),
                     value: net_worth,
                   },
                 ],
