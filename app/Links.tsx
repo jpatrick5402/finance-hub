@@ -24,7 +24,7 @@ export default function Links({ links }: LinksParam) {
             className={
               isLoggedIn
                 ? "p-2 cursor-default border-b-3 border-b-(--color-primary)"
-                : "p-2 hover:border-b-3 hover:border-b-(--foreground)"
+                : "p-2 border-b-transparent border-b-3 hover:border-b-3 hover:border-b-(--color-secondary)"
             }
           >
             {link.name}

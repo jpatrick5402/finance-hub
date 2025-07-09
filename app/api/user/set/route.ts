@@ -17,8 +17,6 @@ export const POST = auth(async function POST(req) {
     );
   }
 
-  console.log(content);
-
   let sql = neon(`${process.env.DATABASE_URL}`);
   let response =
     await sql`INSERT INTO Users (email, full_name, salary, fixed_assets, invested_assets, debts, expenses, net_worth_history)

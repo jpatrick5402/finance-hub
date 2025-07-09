@@ -55,10 +55,7 @@ body {
 
 input {
   border-bottom: 2px solid var(--color-primary);
-  padding: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
-  field-sizing: content;
+  padding-left: 4px;
   margin: 2px;
 }
 
@@ -70,6 +67,17 @@ input {
   transition-duration: 300ms;
 }
 .btn:hover {
+  background-color: var(--color-secondary);
+  color: black;
+}
+
+.add-btn {
+  background-color: var(--color-green);
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+}
+.add-btn:hover {
   background-color: var(--color-secondary);
   color: black;
 }

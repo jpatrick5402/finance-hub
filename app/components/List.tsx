@@ -53,7 +53,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
       <div className="flex flex-row gap-2">
         <p>Sort:</p>
         <select
-          className="bg-(--color-primary)"
+          className="bg-(--color-primary) rounded p-1"
           onChange={(e) => {
             let sorted = [...attribute];
             if (e.target.value === "name") {
@@ -85,8 +85,9 @@ export default function List({ attribute }: { attribute: Item[] }) {
       <ul>
         {attribute.map((item, index) => {
           return (
-            <li key={index}>
+            <li key={index} className="flex mb-1">
               <input
+                className="w-full"
                 title="Name"
                 type="text"
                 value={item.name}
@@ -96,6 +97,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
                 }}
               />
               <input
+                className="w-full"
                 title="Value"
                 type="text"
                 value={item.value}
@@ -106,6 +108,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
               />
               {attributeName != "expenses" && (
                 <input
+                  className="w-full"
                   title="Interest (%)"
                   type="text"
                   value={item.interest}
@@ -116,6 +119,7 @@ export default function List({ attribute }: { attribute: Item[] }) {
                 />
               )}
               <input
+                className="w-full"
                 title="Category"
                 type="text"
                 value={item.category}
@@ -138,13 +142,16 @@ export default function List({ attribute }: { attribute: Item[] }) {
         })}
       </ul>
       <button
-        className="bg-(--color-green) p-2 m-2 rounded"
+        className="add-btn"
         type="button"
         onClick={async (e) => {
           addItem();
         }}
       >
-        Add {attributeName.charAt(0).toUpperCase() + attributeName.slice(1, -1)}
+        Add
+        {" " +
+          attributeName.charAt(0).toUpperCase() +
+          attributeName.slice(1, -1).replaceAll("_", " ")}
       </button>
     </div>
   );

@@ -89,9 +89,10 @@ export default function NetWorth() {
           <ul>
             {user.net_worth_history.map((item, index) => {
               return (
-                <div key={index} className="flex items-center">
-                  <li className="list-none">
+                <div className="flex">
+                  <li className="flex">
                     <input
+                      className="w-full"
                       type="text"
                       value={item.date}
                       onChange={(e) => {
@@ -107,6 +108,7 @@ export default function NetWorth() {
                       }}
                     />
                     <input
+                      className="w-full"
                       type="text"
                       value={item.value}
                       onChange={(e) => {
@@ -141,7 +143,7 @@ export default function NetWorth() {
             })}
           </ul>
           <button
-            className="bg-(--color-green) p-2 m-2 rounded"
+            className="add-btn"
             type="button"
             onClick={(e) => {
               setUser((prev: any) => ({
