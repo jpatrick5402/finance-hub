@@ -97,12 +97,23 @@ export default function List({
                   <input
                     key={i2}
                     className="w-full"
-                    title="Name"
+                    title={column.charAt(0).toUpperCase() + column.slice(1)}
                     type="text"
                     value={item[column]}
-                    placeholder={column}
+                    placeholder={
+                      column.charAt(0).toUpperCase() + column.slice(1)
+                    }
                     onChange={(e) => {
-                      updateItem(index, { [column]: e.target.value });
+                      if (
+                        (column === "value" || column === "interest") &&
+                        Number.isNaN(Number(e.target.value))
+                      ) {
+                        alert("Not a correct value");
+                      } else {
+                        updateItem(index, {
+                          [column]: Number(e.target.value) || e.target.value,
+                        });
+                      }
                     }}
                   />
                 );
