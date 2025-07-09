@@ -69,6 +69,7 @@ input {
 .btn:hover {
   background-color: var(--color-secondary);
   color: black;
+  cursor: pointer;
 }
 
 .add-btn {
@@ -80,6 +81,7 @@ input {
 .add-btn:hover {
   background-color: var(--color-secondary);
   color: black;
+  cursor: pointer;
 }
 
 .container {
