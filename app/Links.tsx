@@ -23,8 +23,8 @@ export default function Links({ links }: LinksParam) {
             href={link.href}
             className={
               isLoggedIn
-                ? "rounded-lg p-2 bg-(--color-primary) shadow-lg cursor-default"
-                : "rounded-lg p-2 hover:bg-(--color-secondary) hover:text-black hover:shadow-lg/20 transition-all duration-300 "
+                ? "p-2 cursor-default border-b-3 border-b-(--color-primary)"
+                : "p-2 hover:border-b-3 hover:border-b-(--foreground)"
             }
           >
             {link.name}
