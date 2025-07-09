@@ -23,32 +23,39 @@ export default function Dashboard() {
       id="dashboardForm"
     >
       <div className="container text-xl flex flex-col sm:flex-row">
-        {/* Name */}
-        <input
-          type="text"
-          className="m-auto"
-          value={user.full_name}
-          onChange={(e) => {
-            setUser((prev) => ({
-              ...prev,
-              full_name: e.target.value,
-            }));
-          }}
-        />
         {/* Email */}
         <p className="m-auto">{user.email}</p>
+        {/* Name */}
+        <div className="m-auto">
+          <label>Name:</label>
+          <input
+            type="text"
+            className="m-auto text-center"
+            value={user.full_name}
+            onChange={(e) => {
+              setUser((prev) => ({
+                ...prev,
+                full_name: e.target.value,
+              }));
+            }}
+          />
+        </div>
         {/* Salary */}
-        <input
-          type="text"
-          className="m-auto"
-          value={user.salary}
-          onChange={(e) => {
-            setUser((prev) => ({
-              ...prev,
-              salary: Number(e.target.value),
-            }));
-          }}
-        />
+        <div className="m-auto">
+          <label>Salary:</label>
+          <input
+            title="Salary"
+            type="text"
+            className="m-auto text-center"
+            value={user.salary}
+            onChange={(e) => {
+              setUser((prev) => ({
+                ...prev,
+                salary: Number(e.target.value),
+              }));
+            }}
+          />
+        </div>
       </div>
       <SaveButton />
     </Form>

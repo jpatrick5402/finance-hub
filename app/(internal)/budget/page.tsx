@@ -65,9 +65,10 @@ export default function Budget() {
     >
       <div className="container flex flex-col sm:flex-row">
         <div className="m-auto">
-          <div className="flex flex-row mb-4">
-            <p className="mt-auto mb-auto">Salary</p>
+          <div className="m-auto mb-4">
+            <label className="mt-auto mb-auto">Salary:</label>
             <input
+              className="text-center"
               type="text"
               value={user.salary}
               onChange={(e) => {
