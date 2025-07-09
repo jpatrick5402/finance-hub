@@ -59,7 +59,10 @@ export default function Debts() {
           <Doughnut data={debtData} />
         </div>
         <div className="m-auto">
-          <List attribute={user.debts} />
+          <List
+            attributeList={user.debts}
+            columnList={["name", "value", "interest", "category"]}
+          />
         </div>
       </div>
       <SaveButton />

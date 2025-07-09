@@ -185,11 +185,17 @@ export default function Assets() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-col container">
           <p className="text-2xl m-auto mt-0">Fixed Assets</p>
-          <List attribute={user.fixed_assets} />
+          <List
+            attributeList={user.fixed_assets}
+            columnList={["name", "value", "interest", "category"]}
+          />
         </div>
         <div className="flex flex-col container">
           <p className="text-2xl m-auto mt-0">Invested Assets</p>
-          <List attribute={user.invested_assets} />
+          <List
+            attributeList={user.invested_assets}
+            columnList={["name", "value", "interest", "category"]}
+          />
         </div>
       </div>
       <SaveButton />

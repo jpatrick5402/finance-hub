@@ -94,7 +94,10 @@ export default function Budget() {
               maximumFractionDigits: 2,
             })}
           </p>
-          <List attribute={user.expenses} />
+          <List
+            attributeList={user.expenses}
+            columnList={["name", "value", "category"]}
+          />
           <p>
             Remaining: $
             {(

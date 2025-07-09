@@ -2,7 +2,14 @@ import { useContext, useState } from "react";
 
 import UserContext from "@contexts/UserContext";
 
-export default function List({ attribute }: { attribute: any[] }) {
+// List generates a modifiable list of the specified columns
+export default function List({
+  attributeList,
+  columnList,
+}: {
+  attributeList: any[];
+  columnList: any[];
+}) {
   const [user, setUser] = useContext(UserContext);
 
   // Helper to update an item in the given attribute array
@@ -43,7 +50,7 @@ export default function List({ attribute }: { attribute: any[] }) {
 
   // Determine the attribute name from the prop
   const attributeName =
-    (Object.keys(user).find((key) => (user as any)[key] === attribute) as
+    (Object.keys(user).find((key) => (user as any)[key] === attributeList) as
       | keyof typeof user
       | undefined) || "assets";
 
@@ -54,7 +61,7 @@ export default function List({ attribute }: { attribute: any[] }) {
         <select
           className="bg-(--color-primary) rounded p-1"
           onChange={(e) => {
-            let sorted = [...attribute];
+            let sorted = [...attributeList];
             if (e.target.value === "name") {
               sorted.sort((a, b) => a.name.localeCompare(b.name));
             } else if (e.target.value === "value") {
@@ -82,51 +89,24 @@ export default function List({ attribute }: { attribute: any[] }) {
         </select>
       </div>
       <ul>
-        {attribute.map((item, index) => {
+        {attributeList.map((item, index) => {
           return (
             <li key={index} className="flex mb-1">
-              <input
-                className="w-full"
-                title="Name"
-                type="text"
-                value={item.name}
-                placeholder="Name"
-                onChange={(e) => {
-                  updateItem(index, { name: e.target.value });
-                }}
-              />
-              <input
-                className="w-full"
-                title="Value"
-                type="text"
-                value={item.value}
-                placeholder="Value"
-                onChange={(e) => {
-                  updateItem(index, { value: Number(e.target.value) });
-                }}
-              />
-              {attributeName != "expenses" && (
-                <input
-                  className="w-full"
-                  title="Interest (%)"
-                  type="text"
-                  value={item.interest}
-                  placeholder="Interest (%)"
-                  onChange={(e) => {
-                    updateItem(index, { interest: Number(e.target.value) });
-                  }}
-                />
-              )}
-              <input
-                className="w-full"
-                title="Category"
-                type="text"
-                value={item.category}
-                placeholder="Category"
-                onChange={(e) => {
-                  updateItem(index, { category: e.target.value });
-                }}
-              />
+              {columnList.map((column, i2) => {
+                return (
+                  <input
+                    key={i2}
+                    className="w-full"
+                    title="Name"
+                    type="text"
+                    value={item[column]}
+                    placeholder={column}
+                    onChange={(e) => {
+                      updateItem(index, { [column]: e.target.value });
+                    }}
+                  />
+                );
+              })}
               <button
                 type="button"
                 className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"

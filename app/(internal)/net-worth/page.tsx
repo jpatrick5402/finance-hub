@@ -189,7 +189,10 @@ export default function NetWorth() {
                   maximumFractionDigits: 2,
                 })}
             </p>
-            <List attribute={user.fixed_assets} />
+            <List
+              attributeList={user.fixed_assets}
+              columnList={["name", "value", "interest", "category"]}
+            />
             <p className="text-xl">
               Invested Assets $
               {user.invested_assets
@@ -199,7 +202,10 @@ export default function NetWorth() {
                   maximumFractionDigits: 2,
                 })}
             </p>
-            <List attribute={user.invested_assets} />
+            <List
+              attributeList={user.invested_assets}
+              columnList={["name", "value", "interest", "category"]}
+            />
           </div>
         </div>
         <div className="container">
@@ -213,7 +219,10 @@ export default function NetWorth() {
                   maximumFractionDigits: 2,
                 })}
             </p>
-            <List attribute={user.debts} />
+            <List
+              attributeList={user.debts}
+              columnList={["name", "value", "interest", "category"]}
+            />
           </div>
         </div>
       </div>
