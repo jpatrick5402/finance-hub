@@ -26,6 +26,14 @@ export default function List({
 
   return (
     <div className="flex-col m-auto">
+      <button
+        type="button"
+        onClick={() => {
+          console.log(user);
+        }}
+      >
+        Click Me
+      </button>
       <div className="flex flex-row gap-2">
         <p>Sort:</p>
         <select
@@ -127,12 +135,29 @@ export default function List({
             ...prev,
             [attributeName]: [
               ...prev[attributeName],
-              {
-                name: "",
-                value: 0,
-                interest: 0,
-                category: "",
-              },
+              attributeName === "net_worth_history"
+                ? {
+                    date: new Date().toISOString().slice(0, 10),
+                    value:
+                      user.fixed_assets.reduce(
+                        (total: number, asset: any) => total + asset.value,
+                        0
+                      ) +
+                      user.invested_assets.reduce(
+                        (total: number, asset: any) => total + asset.value,
+                        0
+                      ) -
+                      user.debts.reduce(
+                        (total: number, debt: any) => total + debt.value,
+                        0
+                      ),
+                  }
+                : {
+                    name: "",
+                    value: 0,
+                    interest: 0,
+                    category: "",
+                  },
             ],
           }));
         }}
