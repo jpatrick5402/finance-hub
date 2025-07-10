@@ -84,80 +84,10 @@ export default function NetWorth() {
           />
         </div>
         <div className="flex-col m-auto">
-          <ul>
-            {user.net_worth_history.map((item, index) => {
-              return (
-                <div key={index} className="flex mb-1">
-                  <li className="flex">
-                    <input
-                      className="w-full"
-                      type="date"
-                      value={item.date}
-                      onChange={(e) => {
-                        setUser((prev: any) => ({
-                          ...prev,
-                          net_worth_history: prev.net_worth_history.map(
-                            (cur: any, i: number) =>
-                              i === index
-                                ? { ...cur, date: e.target.value }
-                                : cur
-                          ),
-                        }));
-                      }}
-                    />
-                    <input
-                      className="w-full"
-                      type="text"
-                      value={item.value}
-                      onChange={(e) => {
-                        setUser((prev: any) => ({
-                          ...prev,
-                          net_worth_history: prev.net_worth_history.map(
-                            (cur: any, i: number) =>
-                              i === index
-                                ? { ...cur, value: e.target.value }
-                                : cur
-                          ),
-                        }));
-                      }}
-                    />
-                  </li>
-                  <button
-                    type="button"
-                    className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
-                    onClick={(e) => {
-                      setUser((prev: any) => ({
-                        ...prev,
-                        net_worth_history: prev.net_worth_history.filter(
-                          (_: any, i: number) => i !== index
-                        ),
-                      }));
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
-              );
-            })}
-          </ul>
-          <button
-            className="add-btn"
-            type="button"
-            onClick={(e) => {
-              setUser((prev: any) => ({
-                ...prev,
-                net_worth_history: [
-                  ...prev.net_worth_history,
-                  {
-                    date: new Date().toISOString().slice(0, 10),
-                    value: net_worth,
-                  },
-                ],
-              }));
-            }}
-          >
-            Add Data Point
-          </button>
+          <List
+            attributeList={user.net_worth_history}
+            columnList={["date", "value"]}
+          />
         </div>
       </div>
 

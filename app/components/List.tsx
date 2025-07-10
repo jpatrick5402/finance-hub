@@ -13,40 +13,10 @@ export default function List({
   const [user, setUser] = useContext(UserContext);
 
   // Helper to update an item in the given attribute array
-  const updateItem = (index: number, updatedFields: Partial<any>) => {
-    setUser((prev: any) => ({
-      ...prev,
-      [attributeName]: prev[attributeName].map((cur: any, i: number) =>
-        i === index ? { ...cur, ...updatedFields } : cur
-      ),
-    }));
-  };
+  const updateItem = (index: number, updatedFields: Partial<any>) => {};
 
   // Helper to remove an item from the given attribute array
-  const removeItem = (index: number) => {
-    setUser((prev: any) => ({
-      ...prev,
-      [attributeName]: prev[attributeName].filter(
-        (_: any, i: number) => i !== index
-      ),
-    }));
-  };
-
-  // Helper to add a new item to the given attribute array
-  const addItem = () => {
-    setUser((prev: any) => ({
-      ...prev,
-      [attributeName]: [
-        ...prev[attributeName],
-        {
-          name: "",
-          value: 0,
-          interest: 0,
-          category: "",
-        },
-      ],
-    }));
-  };
+  const removeItem = (index: number) => {};
 
   // Determine the attribute name from the prop
   const attributeName =
@@ -98,7 +68,7 @@ export default function List({
                     key={i2}
                     className="w-full border-b-2 border-b-(--color-primary) pl-2 m-1"
                     title={column.charAt(0).toUpperCase() + column.slice(1)}
-                    type="text"
+                    type={column === "date" ? "date" : "text"}
                     value={item[column]}
                     placeholder={
                       column.charAt(0).toUpperCase() + column.slice(1)
@@ -110,9 +80,22 @@ export default function List({
                       ) {
                         alert("Not a correct value");
                       } else {
-                        updateItem(index, {
-                          [column]: Number(e.target.value) || e.target.value,
-                        });
+                        setUser((prev: any) => ({
+                          ...prev,
+                          [attributeName]: prev[attributeName].map(
+                            (cur: any, i: number) =>
+                              i === index
+                                ? {
+                                    ...cur,
+                                    ...{
+                                      [column]:
+                                        Number(e.target.value) ||
+                                        e.target.value,
+                                    },
+                                  }
+                                : cur
+                          ),
+                        }));
                       }
                     }}
                   />
@@ -122,7 +105,12 @@ export default function List({
                 type="button"
                 className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
                 onClick={(e) => {
-                  removeItem(index);
+                  setUser((prev: any) => ({
+                    ...prev,
+                    [attributeName]: prev[attributeName].filter(
+                      (_: any, i: number) => i !== index
+                    ),
+                  }));
                 }}
               >
                 X
@@ -135,13 +123,24 @@ export default function List({
         className="bg-(--color-green) p-2 m-2 rounded hover:bg-(--color-secondary) hover:text-black hover:cursor-pointer"
         type="button"
         onClick={async (e) => {
-          addItem();
+          setUser((prev: any) => ({
+            ...prev,
+            [attributeName]: [
+              ...prev[attributeName],
+              {
+                name: "",
+                value: 0,
+                interest: 0,
+                category: "",
+              },
+            ],
+          }));
         }}
       >
         Add
         {" " +
           attributeName.charAt(0).toUpperCase() +
-          attributeName.slice(1, -1).replaceAll("_", " ")}
+          attributeName.replaceAll("_", " ").slice(1)}
       </button>
     </div>
   );

@@ -68,7 +68,7 @@ export default function Budget() {
           <div className="m-auto mb-4">
             <label className="mt-auto mb-auto">Salary:</label>
             <input
-              className="text-center"
+              className="pl-2"
               type="text"
               value={user.salary}
               onChange={(e) => {
