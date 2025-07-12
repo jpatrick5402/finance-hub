@@ -70,11 +70,28 @@ export default function Budget() {
             <input
               className="pl-2"
               type="text"
+              step="any"
               value={user.salary}
               onChange={(e) => {
-                setUser((prev) => ({
+                let val: any = e.target.value;
+                // Allow empty string for controlled input, otherwise parse as float
+                if (val === "") {
+                  setUser((prev: any) => ({
+                    ...prev,
+                    salary: val,
+                  }));
+                  return;
+                }
+                // Only allow valid decimal numbers
+                if (!/^\d*\.?\d*$/.test(val)) {
+                  return;
+                }
+                val = parseFloat(val);
+                if (isNaN(val)) val = "";
+
+                setUser((prev: any) => ({
                   ...prev,
-                  salary: Number(e.target.value),
+                  salary: val,
                 }));
               }}
             />
