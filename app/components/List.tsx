@@ -26,14 +26,6 @@ export default function List({
 
   return (
     <div className="flex-col m-auto">
-      <button
-        type="button"
-        onClick={() => {
-          console.log(user);
-        }}
-      >
-        Click Me
-      </button>
       <div className="flex flex-row gap-2">
         <p>Sort:</p>
         <select
@@ -76,35 +68,50 @@ export default function List({
                     key={i2}
                     className="w-full border-b-2 border-b-(--color-primary) pl-2 m-1"
                     title={column.charAt(0).toUpperCase() + column.slice(1)}
-                    type={column === "date" ? "date" : "text"}
+                    type={
+                      column === "date"
+                        ? "date"
+                        : column === "value" || column === "interest"
+                        ? "number"
+                        : "text"
+                    }
+                    step={
+                      column === "value" || column === "interest"
+                        ? "any"
+                        : undefined
+                    }
                     value={item[column]}
                     placeholder={
                       column.charAt(0).toUpperCase() + column.slice(1)
                     }
                     onChange={(e) => {
-                      if (
-                        (column === "value" || column === "interest") &&
-                        Number.isNaN(Number(e.target.value))
-                      ) {
-                        alert("Not a correct value");
-                      } else {
-                        setUser((prev: any) => ({
-                          ...prev,
-                          [attributeName]: prev[attributeName].map(
-                            (cur: any, i: number) =>
-                              i === index
-                                ? {
-                                    ...cur,
-                                    ...{
-                                      [column]:
-                                        Number(e.target.value) ||
-                                        e.target.value,
-                                    },
-                                  }
-                                : cur
-                          ),
-                        }));
+                      let val: any = e.target.value;
+                      if (column === "value" || column === "interest") {
+                        // Allow empty string for controlled input, otherwise parse as float
+                        if (val === "") {
+                          setUser((prev: any) => ({
+                            ...prev,
+                            [attributeName]: prev[attributeName].map(
+                              (cur: any, i: number) =>
+                                i === index ? { ...cur, [column]: "" } : cur
+                            ),
+                          }));
+                          return;
+                        }
+                        // Only allow valid decimal numbers
+                        if (!/^\d*\.?\d*$/.test(val)) {
+                          return;
+                        }
+                        val = parseFloat(val);
+                        if (isNaN(val)) val = "";
                       }
+                      setUser((prev: any) => ({
+                        ...prev,
+                        [attributeName]: prev[attributeName].map(
+                          (cur: any, i: number) =>
+                            i === index ? { ...cur, [column]: val } : cur
+                        ),
+                      }));
                     }}
                   />
                 );
