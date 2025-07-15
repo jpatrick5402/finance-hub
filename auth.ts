@@ -21,4 +21,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.APPLE_SECRET || "",
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
+  trustHost: true,
 });
