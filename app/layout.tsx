@@ -63,6 +63,7 @@ export default async function RootLayout({
                       key={provider}
                       className="btn m-3"
                       onClick={async () => {
+                        "use server";
                         await login(provider, "/dashboard");
                       }}
                     >
