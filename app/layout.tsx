@@ -110,6 +110,16 @@ export default async function RootLayout({
             <p className="text-sm mr-4 ml-4">
               Developed by <a href="https://github.com/jpatrick5402">JP</a>
             </p>
+            <Link href={"https://coff.ee/jpatrick5402"} className="btn">
+              <span className="flex flex-row gap-2">
+                <img
+                  width={20}
+                  src="/bmc-logo-no-background.png"
+                  alt="Coffee Cup"
+                />
+                <p className="m-auto">Buy me a Coffee?</p>
+              </span>
+            </Link>
           </footer>
         </SessionProvider>
       </body>
