@@ -40,6 +40,7 @@ html {
       rgba(0, 0, 0, var(--background-darkness))
     ),
     url(/water.jpg);
+  background-color: var(--background);
   background-size: cover;
   backdrop-filter: brightness(50%);
 }
