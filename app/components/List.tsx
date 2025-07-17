@@ -27,36 +27,40 @@ export default function List({
   return (
     <div className="flex-col m-auto">
       <div className="flex flex-row gap-2">
-        <p>Sort:</p>
-        <select
-          className="bg-(--color-primary) rounded p-1"
-          onChange={(e) => {
-            let sorted = [...attributeList];
-            if (e.target.value === "name") {
-              sorted.sort((a, b) => a.name.localeCompare(b.name));
-            } else if (e.target.value === "value") {
-              sorted.sort((a, b) => b.value - a.value);
-            } else if (e.target.value === "interest") {
-              sorted.sort((a, b) => b.interest - a.interest);
-            } else if (e.target.value === "category") {
-              sorted.sort((a, b) => b.category.localeCompare(a.category));
-            }
-            if (e.target.value !== "none") {
-              setUser((prev: any) => ({
-                ...prev,
-                [attributeName]: sorted,
-              }));
-            }
-          }}
-        >
-          <option value="none"></option>
-          <option value="name">Name</option>
-          <option value="value">Value</option>
-          {attributeName != "expenses" && (
-            <option value="interest">Interest</option>
-          )}
-          <option value="category">Category</option>
-        </select>
+        {attributeName !== "net_worth_history" && (
+          <>
+            <p>Sort:</p>
+            <select
+              className="bg-(--background-accent) rounded p-1"
+              onChange={(e) => {
+                let sorted = [...attributeList];
+                if (e.target.value === "name") {
+                  sorted.sort((a, b) => a.name.localeCompare(b.name));
+                } else if (e.target.value === "value") {
+                  sorted.sort((a, b) => b.value - a.value);
+                } else if (e.target.value === "interest") {
+                  sorted.sort((a, b) => b.interest - a.interest);
+                } else if (e.target.value === "category") {
+                  sorted.sort((a, b) => b.category.localeCompare(a.category));
+                }
+                if (e.target.value !== "none") {
+                  setUser((prev: any) => ({
+                    ...prev,
+                    [attributeName]: sorted,
+                  }));
+                }
+              }}
+            >
+              <option value="none"></option>
+              <option value="name">Name</option>
+              <option value="value">Value</option>
+              {attributeName != "expenses" && (
+                <option value="interest">Interest</option>
+              )}
+              <option value="category">Category</option>
+            </select>
+          </>
+        )}
       </div>
       <ul>
         {attributeList.map((item, index) => {
