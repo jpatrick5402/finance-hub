@@ -22,11 +22,11 @@ export default function Dashboard() {
       className="flex flex-col items-center"
       id="dashboardForm"
     >
-      <div className="container text-xl flex flex-col sm:flex-row">
+      <div className="container text-xl flex flex-col lg:flex-row">
         {/* Email */}
-        <p className="m-auto">{user.email}</p>
+        <p className="m-auto text-center">{user.email}</p>
         {/* Name */}
-        <div className="m-auto">
+        <div className="m-auto text-center">
           <label>Name:</label>
           <input
             type="text"
@@ -41,7 +41,7 @@ export default function Dashboard() {
           />
         </div>
         {/* Salary */}
-        <div className="m-auto">
+        <div className="m-auto text-center">
           <label>Salary:</label>
           <input
             title="Salary"

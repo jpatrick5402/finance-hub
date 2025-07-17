@@ -113,11 +113,13 @@ export default async function RootLayout({
             <Link href={"https://coff.ee/jpatrick5402"} className="btn">
               <span className="flex flex-row gap-2">
                 <img
-                  width={20}
+                  className="w-10"
                   src="/bmc-logo-no-background.png"
                   alt="Coffee Cup"
                 />
-                <p className="m-auto">Buy me a Coffee?</p>
+                <p className="m-auto text-center hidden sm:block">
+                  Buy me a Coffee?
+                </p>
               </span>
             </Link>
           </footer>
