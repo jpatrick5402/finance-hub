@@ -89,21 +89,14 @@ export default function List({
                       column.charAt(0).toUpperCase() + column.slice(1)
                     }
                     onChange={(e) => {
+                      e.target.style.borderColor = "";
                       let val: any = e.target.value;
                       if (column === "value" || column === "interest") {
                         // Allow empty string for controlled input, otherwise parse as float
+                        // number input will turn invalid numbers into empty strings
+                        // 100a.00 => ""
                         if (val === "") {
-                          setUser((prev: any) => ({
-                            ...prev,
-                            [attributeName]: prev[attributeName].map(
-                              (cur: any, i: number) =>
-                                i === index ? { ...cur, [column]: "" } : cur
-                            ),
-                          }));
-                          return;
-                        }
-                        // Only allow valid decimal numbers
-                        if (!/^\d*\.?\d*$/.test(val)) {
+                          e.target.style.borderColor = "red";
                           return;
                         }
                         val = parseFloat(val);
