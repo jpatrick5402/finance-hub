@@ -115,7 +115,7 @@ export default function List({
               })}
               <button
                 type="button"
-                className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2"
+                className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-300"
                 onClick={(e) => {
                   setUser((prev: any) => ({
                     ...prev,
