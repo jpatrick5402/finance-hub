@@ -19,7 +19,7 @@ export const POST = auth(async function POST(req) {
 
   let email = body;
   let sql = neon(`${process.env.DATABASE_URL}`);
-  let data = await sql`SELECT * FROM Users WHERE email=(${email})`;
+  let data = await sql`SELECT * FROM data WHERE email=(${email})`;
 
   if (!data[0])
     return NextResponse.json({ message: "User not found" }, { status: 404 });
