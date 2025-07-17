@@ -14,7 +14,7 @@ export default function Links({ links }: LinksParam) {
   let current = "/" + usePathname().split("/")[1];
 
   return (
-    <span className="flex m-3 gap-0 ml-auto sm:gap-5 items-center flex-row">
+    <span className="flex m-3 gap-2 ml-auto sm:gap-5 items-center flex-row">
       {links.map((link) => {
         let isLoggedIn = current === link.href;
         return (
@@ -24,7 +24,7 @@ export default function Links({ links }: LinksParam) {
             className={
               isLoggedIn
                 ? "p-2 cursor-default border-b-3 border-b-(--color-primary)"
-                : "p-2 border-b-transparent border-b-3 hover:border-b-3 hover:border-b-(--color-secondary)"
+                : "p-2 border-b-transparent border-b-3 hover:border-b-3 hover:border-b-(--color-secondary) transition-all duration-300 ease-in-out"
             }
           >
             {link.name}

@@ -53,6 +53,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
       >
         <SessionProvider session={session} refetchOnWindowFocus={false}>
+          {/* Auth */}
           {!session?.user ? (
             <div className="container grid">
               <p>Please sign in to use the app :)</p>
@@ -85,8 +86,8 @@ export default async function RootLayout({
                 className="m-2 w-auto h-auto hover:transform-[rotate(1440deg)] transition-all duration-300"
               />
             </a>
-            <h1 className="text-3xl m-5">Finance Hub</h1>
-            <Links links={links} />
+            <h1 className="text-3xl">Finance Hub</h1>
+            {/* Sign Out Button */}
             {session && (
               <form
                 action={async () => {
@@ -99,6 +100,7 @@ export default async function RootLayout({
                 </button>
               </form>
             )}
+            <Links links={links} />
           </nav>
           <div className="grow-1">{children}</div>
           <footer className="flex justify-center items-center p-4 bg-(--color-footer) mt-8 rounded-t-lg">
