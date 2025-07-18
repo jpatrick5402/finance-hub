@@ -97,7 +97,6 @@ export default function List({
                         // 100a.00 => ""
                         if (val === "") {
                           e.target.style.borderColor = "red";
-                          return;
                         }
                         val = parseFloat(val);
                         if (isNaN(val)) val = "";
