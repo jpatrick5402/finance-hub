@@ -28,6 +28,7 @@ export default function Budget() {
         data: [
           remaining > 0 ? remaining : 0,
           ...user.expenses.map((expense) => expense.value),
+          user.expenses.length == 0 && 1,
         ],
         backgroundColor: [
           "rgba(100, 255, 100, 0.2)",

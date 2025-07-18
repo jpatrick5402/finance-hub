@@ -15,11 +15,17 @@ export default function Debts() {
 
   // -- chart data --
   const debtData = {
-    labels: [...user.debts.map((debt) => debt.name)],
+    labels: [
+      ...user.debts.map((debt) => debt.name),
+      user.debts.length == 0 && 1,
+    ],
     datasets: [
       {
         label: "-$",
-        data: [...user.debts.map((debt) => debt.value)],
+        data: [
+          ...user.debts.map((debt) => debt.value),
+          user.debts.length == 0 && 1,
+        ],
         backgroundColor: [
           "rgba(255, 50, 56, 0.2)",
           "rgba(255, 81, 86, 0.2)",

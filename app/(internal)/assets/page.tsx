@@ -20,7 +20,11 @@ export default function Assets() {
     datasets: [
       {
         label: "$",
-        data: user.fixed_assets.map((asset) => asset.value),
+        data: [
+          ...user.fixed_assets.map((asset) => asset.value),
+          user.fixed_assets.length == 0 && 1,
+        ],
+
         backgroundColor: [
           "rgba(50, 255, 56, 0.2)",
           "rgba(81, 255, 86, 0.2)",
@@ -41,7 +45,10 @@ export default function Assets() {
     datasets: [
       {
         label: "$",
-        data: user.invested_assets.map((asset) => asset.value),
+        data: [
+          ...user.invested_assets.map((asset) => asset.value),
+          user.invested_assets.length == 0 && 1,
+        ],
         backgroundColor: [
           "rgba(50, 255, 56, 0.2)",
           "rgba(81, 255, 86, 0.2)",
@@ -68,6 +75,8 @@ export default function Assets() {
         data: [
           ...user.fixed_assets.map((asset) => asset.value),
           ...user.invested_assets.map((asset) => asset.value),
+          user.fixed_assets.length == 0 && 1,
+          user.invested_assets.length == 0 && 1,
         ],
         backgroundColor: [
           "rgba(50, 255, 56, 0.2)",
