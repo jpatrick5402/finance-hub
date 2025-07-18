@@ -57,17 +57,13 @@ export default async function RootLayout({
           {/* Auth */}
           {!session?.user ? (
             <div className="container grid gap-3">
-              <p>Please sign in to use the app :)</p>
+              <p>Please sign in to save your data :)</p>
               <form
                 className="m-auto"
                 action={async (formData) => {
                   "use server";
                   const email = formData.get("email")?.toString();
-                  if (!email) {
-                    return;
-                  }
-
-                  if (emailSchema.safeParse(email).success) {
+                  if (email && emailSchema.safeParse(email).success) {
                     await signIn("resend", formData);
                   }
                 }}
