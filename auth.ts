@@ -13,7 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Resend({
       apiKey: process.env.AUTH_RESEND_KEY,
-      from: "finance-hub.dev",
+      from: "no-reply@finance-hub.dev",
     }),
     GitHub({
       // https://github.com/settings/developers
