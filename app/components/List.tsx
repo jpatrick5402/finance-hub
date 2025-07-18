@@ -156,10 +156,10 @@ export default function List({
                       ),
                   }
                 : {
-                    name: "",
-                    value: 0,
-                    interest: 0,
-                    category: "",
+                    name: null,
+                    value: null,
+                    interest: null,
+                    category: null,
                   },
             ],
           }));
