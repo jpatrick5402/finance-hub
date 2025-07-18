@@ -38,7 +38,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
-  let links = [
+  const links = [
     { href: "/dashboard", name: "Dashboard" },
     { href: "/net-worth", name: "Net Worth" },
     { href: "/budget", name: "Budget" },
@@ -46,7 +46,7 @@ export default async function RootLayout({
     { href: "/debts", name: "Debts" },
   ];
 
-  let authProviders = ["google", "github"];
+  const authProviders = ["google", "github"];
 
   return (
     <html lang="en">
@@ -62,11 +62,14 @@ export default async function RootLayout({
                 className="m-auto"
                 action={async (formData) => {
                   "use server";
-                  if (!formData.get("email")) {
+                  const email = formData.get("email")?.toString();
+                  if (!email) {
                     return;
                   }
 
-                  await signIn("resend", formData);
+                  if (emailSchema.safeParse(email).success) {
+                    await signIn("resend", formData);
+                  }
                 }}
               >
                 <input
