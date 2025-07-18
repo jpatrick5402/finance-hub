@@ -1,4 +1,5 @@
 import { z } from "zod";
+import z4 from "zod/v4";
 
 export const SignupFormSchema = z.object({
   name: z
@@ -26,3 +27,7 @@ export type FormState =
       message?: string;
     }
   | undefined;
+
+export const emailSchema = z4.email({
+  message: "Invalid email address",
+});

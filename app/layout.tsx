@@ -10,6 +10,7 @@ import "@styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import Links from "./Links";
+import { emailSchema } from "@lib/definitions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,19 +56,36 @@ export default async function RootLayout({
         <SessionProvider session={session} refetchOnWindowFocus={false}>
           {/* Auth */}
           {!session?.user ? (
-            <div className="container grid">
+            <div className="container grid gap-3">
               <p>Please sign in to use the app :)</p>
-              <div className="flex flex-col sm:flex-row m-auto self-center">
-                <form
-                  action={async (formData) => {
-                    "use server";
-                    await signIn("resend", formData);
-                  }}
-                >
-                  <input type="text" name="email" placeholder="Email" />
-                  <button type="submit">Signin with Resend</button>
-                </form>
+              <form
+                className="m-auto"
+                action={async (formData) => {
+                  "use server";
+                  if (!formData.get("email")) {
+                    return;
+                  }
 
+                  try {
+                    emailSchema.parse(formData.get("email"));
+                    await signIn("resend", formData);
+                  } catch {
+                    console.error("invalid email");
+                    return;
+                  }
+                }}
+              >
+                <input
+                  className="border-b-2 border-b-(--color-primary) m-2"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                />
+                <button className="btn" type="submit">
+                  Sign in with your email
+                </button>
+              </form>
+              <div className="flex flex-col sm:flex-row m-auto self-center">
                 {authProviders.map((provider) => {
                   return (
                     <button
