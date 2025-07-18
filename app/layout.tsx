@@ -66,13 +66,7 @@ export default async function RootLayout({
                     return;
                   }
 
-                  try {
-                    emailSchema.parse(formData.get("email"));
-                    await signIn("resend", formData);
-                  } catch {
-                    console.error("invalid email");
-                    return;
-                  }
+                  await signIn("resend", formData);
                 }}
               >
                 <input
