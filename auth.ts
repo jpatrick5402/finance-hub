@@ -11,7 +11,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     new Pool({ connectionString: process.env.DATABASE_URL })
   ),
   providers: [
-    Resend,
+    Resend({
+      apiKey: process.env.AUTH_RESEND_KEY,
+      from: "finance-hub.dev",
+    }),
     GitHub({
       // https://github.com/settings/developers
       clientId: process.env.GITHUB_ID || "",
