@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import React from "react";
 import Image from "next/image";
 
-import { auth } from "@/auth";
-import { login, logout } from "@lib/auth";
+import { auth, signIn } from "@/auth";
+import { login, logout } from "@utils/auth";
 
 import "@styles/globals.css";
 import { SessionProvider } from "next-auth/react";
@@ -58,6 +58,16 @@ export default async function RootLayout({
             <div className="container grid">
               <p>Please sign in to use the app :)</p>
               <div className="flex flex-col sm:flex-row m-auto self-center">
+                <form
+                  action={async (formData) => {
+                    "use server";
+                    await signIn("resend", formData);
+                  }}
+                >
+                  <input type="text" name="email" placeholder="Email" />
+                  <button type="submit">Signin with Resend</button>
+                </form>
+
                 {authProviders.map((provider) => {
                   return (
                     <button

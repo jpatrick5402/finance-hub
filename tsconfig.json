@@ -23,6 +23,7 @@
       "@styles/*": ["./styles/*"],
       "@components/*": ["./app/components/*"],
       "@models/*": ["./models/*"],
+      "@utils/*": ["./utils/*"],
       "@lib/*": ["./lib/*"],
       "@actions/*": ["./app/actions/*"],
       "@app/*": ["./app/*"],
