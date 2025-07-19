@@ -21,8 +21,12 @@ export const POST = auth(async function POST(req) {
   let sql = neon(`${process.env.DATABASE_URL}`);
   let data = await sql`SELECT * FROM data WHERE email=(${email})`;
 
-  if (!data[0])
-    return NextResponse.json({ message: "User not found" }, { status: 404 });
+  if (!data[0]) {
+    // if there's no data for this email, insert blank data
+    data = await sql`INSERT INTO data (email) VALUES (${email})`;
+    data = await sql`SELECT * FROM data WHERE email=(${email})`;
+    return NextResponse.json(JSON.stringify(data[0]));
+  }
 
   return NextResponse.json(JSON.stringify(data[0]));
 });
