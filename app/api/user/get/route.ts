@@ -23,7 +23,8 @@ export const POST = auth(async function POST(req) {
 
   if (!data[0]) {
     // if there's no data for this email, insert blank data
-    data = await sql`INSERT INTO data (email) VALUES (${email})`;
+    data =
+      await sql`INSERT INTO data (email, full_name, salary, fixed_assets, invested_assets, debts, expenses, net_worth_history) VALUES (${email}, '', 0, '[]', '[]', '[]', '[]', '[]')`;
     data = await sql`SELECT * FROM data WHERE email=(${email})`;
     return NextResponse.json(JSON.stringify(data[0]));
   }
