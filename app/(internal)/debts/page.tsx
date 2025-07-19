@@ -21,7 +21,7 @@ export default function Debts() {
     ],
     datasets: [
       {
-        label: "-$",
+        label: "$",
         data: [
           ...user.debts.map((debt) => debt.value),
           user.debts.length == 0 && 1,
@@ -51,7 +51,7 @@ export default function Debts() {
     >
       <div className="flex container">
         <p className="text-2xl m-auto">
-          Total Debts: -$
+          Total Debts: $
           {user.debts
             .reduce((total: number, debt: any) => total + debt.value, 0)
             .toLocaleString("en-US", {
