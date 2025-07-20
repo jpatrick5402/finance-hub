@@ -127,6 +127,9 @@ export default function Assets() {
               plugins: {
                 title: {
                   display: true,
+                  font: {
+                    size: 14,
+                  },
                   text:
                     "Fixed: $" +
                     user.fixed_assets
