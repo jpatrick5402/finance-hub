@@ -151,6 +151,9 @@ export default function Assets() {
               plugins: {
                 title: {
                   display: true,
+                  font: {
+                    size: 14,
+                  },
                   text:
                     "Invested: $" +
                     user.invested_assets
@@ -172,6 +175,9 @@ export default function Assets() {
               plugins: {
                 title: {
                   display: true,
+                  font: {
+                    size: 14,
+                  },
                   text:
                     "Total: $" +
                     (
