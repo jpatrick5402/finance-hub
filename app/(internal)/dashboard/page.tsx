@@ -42,7 +42,7 @@ export default function Dashboard() {
         </div>
         {/* Salary */}
         <div className="m-auto text-center">
-          <label>Salary:</label>
+          <label>Annual Income:</label>
           <input
             title="Salary"
             type="text"
