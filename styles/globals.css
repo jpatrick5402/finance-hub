@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-sm: 55rem;
+}
+
 :root {
   --background: #fafafa;
   --background-accent: #ada39b;
@@ -84,7 +88,6 @@ body {
   }
 
   nav {
-    flex-direction: column;
     align-items: center;
     padding: 5px;
   }

@@ -54,31 +54,42 @@ export default async function RootLayout({
       >
         <SessionProvider session={session} refetchOnWindowFocus={false}>
           <nav className="flex mt-3 mb-3 bg-(--color-header) p-1 rounded-lg items-center shadow-xl/20">
-            <a href="/">
-              <Image
-                priority={true}
-                src="/octopus.png"
-                alt="Octopus Logo"
-                width={60}
-                height={60}
-                className="m-2 w-auto h-auto hover:transform-[rotate(1440deg)] transition-all duration-300"
-              />
-            </a>
-            <h1 className="text-3xl">Finance Hub</h1>
-            {/* Sign Out Button */}
-            {session && (
-              <form
-                action={async () => {
-                  "use server";
-                  await logout("/");
-                }}
+            <div className="m-auto sm:ml-0 flex flex-col sm:flex-row">
+              <a
+                href="/"
+                className="
+              m-auto min-w-20"
               >
-                <button className="btn m-3" type="submit">
-                  Sign Out
-                </button>
-              </form>
-            )}
-            <Links links={links} />
+                <Image
+                  priority={true}
+                  src="/octopus.png"
+                  alt="Octopus Logo"
+                  width={60}
+                  height={60}
+                  className="m-auto sm:m-2 w-auto h-auto hover:transform-[rotate(1440deg)] transition-all duration-300"
+                />
+              </a>
+              <p className="text-3xl m-auto mt-auto sm:mt-auto sm:mb-auto sm:ml-2 sm:mr-2">
+                Finance Hub
+              </p>
+              {/* Sign Out Button */}
+              {session && (
+                <form
+                  className="m-auto"
+                  action={async () => {
+                    "use server";
+                    await logout("/");
+                  }}
+                >
+                  <button className="btn m-auto" type="submit">
+                    Sign Out
+                  </button>
+                </form>
+              )}
+            </div>
+            <div className="m-auto sm:m-2">
+              <Links links={links} />
+            </div>
           </nav>
           {/* Auth */}
           {!session?.user ? (
@@ -136,7 +147,7 @@ export default async function RootLayout({
             </div>
           ) : null}
           <div className="grow-1">{children}</div>
-          <footer className="flex justify-center items-center p-4 bg-(--color-footer) mt-8 rounded-t-lg">
+          <footer className="flex justify-center items-center p-4 bg-(--color-footer) mt-8 rounded-t-lg flex-col sm:flex-row gap-2">
             <p className="text-sm mr-4 ml-4">
               &copy; {new Date().getFullYear()} Finance Hub. All rights
               reserved.
