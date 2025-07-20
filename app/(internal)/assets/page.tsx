@@ -135,7 +135,7 @@ export default function Assets() {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       }),
-                  color: "#FFFFFF",
+                  color: "#000000",
                 },
               },
             }}
@@ -156,7 +156,7 @@ export default function Assets() {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       }),
-                  color: "#FFFFFF",
+                  color: "#000000",
                 },
               },
             }}
@@ -191,7 +191,7 @@ export default function Assets() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     }),
-                  color: "#FFFFFF",
+                  color: "#000000",
                 },
               },
             }}
