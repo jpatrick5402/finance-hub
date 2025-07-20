@@ -53,7 +53,10 @@ export default function Debts() {
         <p className="text-2xl m-auto">
           Total Debts: $
           {user.debts
-            .reduce((total: number, debt: any) => total + debt.value, 0)
+            .reduce((total: number, item: any) => {
+              let data = parseFloat(item.value);
+              return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
+            }, 0)
             .toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,

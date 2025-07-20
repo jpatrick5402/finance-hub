@@ -105,14 +105,14 @@ export default function Assets() {
         <p className="text-2xl m-auto">
           Total Assets: $
           {(
-            user.fixed_assets.reduce(
-              (total: number, asset: any) => total + asset.value,
-              0
-            ) +
-            user.invested_assets.reduce(
-              (total: number, asset: any) => total + asset.value,
-              0
-            )
+            user.fixed_assets.reduce((total: number, item: any) => {
+              let data = parseFloat(item.value);
+              return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
+            }, 0) +
+            user.invested_assets.reduce((total: number, item: any) => {
+              let data = parseFloat(item.value);
+              return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
+            }, 0)
           ).toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -172,12 +172,19 @@ export default function Assets() {
                   text:
                     "Total: $" +
                     (
-                      user.fixed_assets.reduce(
-                        (total: number, asset: any) => total + asset.value,
-                        0
-                      ) +
+                      user.fixed_assets.reduce((total: number, item: any) => {
+                        let data = parseFloat(item.value);
+                        return !isNaN(data)
+                          ? total + parseFloat(item.value)
+                          : total + 0;
+                      }, 0) +
                       user.invested_assets.reduce(
-                        (total: number, asset: any) => total + asset.value,
+                        (total: number, item: any) => {
+                          let data = parseFloat(item.value);
+                          return !isNaN(data)
+                            ? total + parseFloat(item.value)
+                            : total + 0;
+                        },
                         0
                       )
                     ).toLocaleString("en-US", {

@@ -10,7 +10,6 @@ import "@styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import Links from "./Links";
-import { emailSchema } from "@lib/definitions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -93,7 +92,7 @@ export default async function RootLayout({
                   action={async (formData) => {
                     "use server";
                     const email = formData.get("email")?.toString();
-                    if (email && emailSchema.safeParse(email).success) {
+                    if (email && /^.+\@.+\..+/.test(email)) {
                       await signIn("resend", formData);
                     }
                   }}
