@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 
 import UserContext from "@contexts/UserContext";
+import test from "node:test";
 
 // List generates a modifiable list of the specified columns
 export default function List({
@@ -72,13 +73,7 @@ export default function List({
                     key={i2}
                     className="w-full border-b-2 border-b-(--color-primary) pl-2 m-1"
                     title={column.charAt(0).toUpperCase() + column.slice(1)}
-                    type={
-                      column === "date"
-                        ? "date"
-                        : column === "value" || column === "interest"
-                        ? "number"
-                        : "text"
-                    }
+                    type={column === "date" ? "date" : "text"}
                     step={
                       column === "value" || column === "interest"
                         ? "any"
@@ -91,16 +86,19 @@ export default function List({
                     onChange={(e) => {
                       e.target.style.borderColor = "";
                       let val: any = e.target.value;
+
                       if (column === "value" || column === "interest") {
-                        // Allow empty string for controlled input, otherwise parse as float
-                        // number input will turn invalid numbers into empty strings
-                        // 100a.00 => ""
                         if (val === "") {
+                          val = null;
+                        } else if (
+                          !/^\d*\.?\d{0,2}$/.test(val) ||
+                          isNaN(parseFloat(val))
+                        ) {
                           e.target.style.borderColor = "red";
+                          return;
                         }
-                        val = parseFloat(val);
-                        if (isNaN(val)) val = "";
                       }
+
                       setUser((prev: any) => ({
                         ...prev,
                         [attributeName]: prev[attributeName].map(
@@ -142,18 +140,27 @@ export default function List({
                 ? {
                     date: new Date().toISOString().slice(0, 10),
                     value:
-                      user.fixed_assets.reduce(
-                        (total: number, asset: any) => total + asset.value,
-                        0
-                      ) +
+                      user.fixed_assets.reduce((total: number, item: any) => {
+                        let data = parseFloat(item.value);
+                        return !isNaN(data)
+                          ? total + parseFloat(item.value)
+                          : total + 0;
+                      }, 0) +
                       user.invested_assets.reduce(
-                        (total: number, asset: any) => total + asset.value,
+                        (total: number, item: any) => {
+                          let data = parseFloat(item.value);
+                          return !isNaN(data)
+                            ? total + parseFloat(item.value)
+                            : total + 0;
+                        },
                         0
                       ) -
-                      user.debts.reduce(
-                        (total: number, debt: any) => total + debt.value,
-                        0
-                      ),
+                      user.debts.reduce((total: number, item: any) => {
+                        let data = parseFloat(item.value);
+                        return !isNaN(data)
+                          ? total + parseFloat(item.value)
+                          : total + 0;
+                      }, 0),
                   }
                 : {
                     name: null,

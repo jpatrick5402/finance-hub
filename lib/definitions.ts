@@ -27,7 +27,3 @@ export type FormState =
       message?: string;
     }
   | undefined;
-
-export const emailSchema = z4.email({
-  message: "Invalid email address",
-});

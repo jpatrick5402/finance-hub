@@ -49,15 +49,18 @@ export default function NetWorth() {
   };
 
   const net_worth =
-    user.fixed_assets.reduce(
-      (total: number, asset: any) => total + asset.value,
-      0
-    ) +
-    user.invested_assets.reduce(
-      (total: number, asset: any) => total + asset.value,
-      0
-    ) -
-    user.debts.reduce((total: number, debt: any) => total + debt.value, 0);
+    user.fixed_assets.reduce((total: number, item: any) => {
+      let data = parseFloat(item.value);
+      return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
+    }, 0) +
+    user.invested_assets.reduce((total: number, item: any) => {
+      let data = parseFloat(item.value);
+      return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
+    }, 0) -
+    user.debts.reduce((total: number, item: any) => {
+      let data = parseFloat(item.value);
+      return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
+    }, 0);
 
   return (
     <Form
@@ -97,14 +100,18 @@ export default function NetWorth() {
             <p className="text-2xl">
               Assets $
               {(
-                user.fixed_assets.reduce(
-                  (total: number, asset: any) => total + asset.value,
-                  0
-                ) +
-                user.invested_assets.reduce(
-                  (total: number, asset: any) => total + asset.value,
-                  0
-                )
+                user.fixed_assets.reduce((total: number, item: any) => {
+                  let data = parseFloat(item.value);
+                  return !isNaN(data)
+                    ? total + parseFloat(item.value)
+                    : total + 0;
+                }, 0) +
+                user.invested_assets.reduce((total: number, item: any) => {
+                  let data = parseFloat(item.value);
+                  return !isNaN(data)
+                    ? total + parseFloat(item.value)
+                    : total + 0;
+                }, 0)
               ).toLocaleString("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -113,7 +120,12 @@ export default function NetWorth() {
             <p className="text-xl">
               Fixed Assets $
               {user.fixed_assets
-                .reduce((total: number, asset: any) => total + asset.value, 0)
+                .reduce((total: number, item: any) => {
+                  let data = parseFloat(item.value);
+                  return !isNaN(data)
+                    ? total + parseFloat(item.value)
+                    : total + 0;
+                }, 0)
                 .toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -126,7 +138,12 @@ export default function NetWorth() {
             <p className="text-xl">
               Invested Assets $
               {user.invested_assets
-                .reduce((total: number, asset: any) => total + asset.value, 0)
+                .reduce((total: number, item: any) => {
+                  let data = parseFloat(item.value);
+                  return !isNaN(data)
+                    ? total + parseFloat(item.value)
+                    : total + 0;
+                }, 0)
                 .toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -143,7 +160,12 @@ export default function NetWorth() {
             <p className="text-2xl">
               Debts $
               {user.debts
-                .reduce((total: number, debt: any) => total + debt.value, 0)
+                .reduce((total: number, item: any) => {
+                  let data = parseFloat(item.value);
+                  return !isNaN(data)
+                    ? total + parseFloat(item.value)
+                    : total + 0;
+                }, 0)
                 .toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
