@@ -67,7 +67,7 @@ export default function Budget() {
       <div className="container flex flex-col sm:flex-row">
         <div className="m-auto">
           <div className="m-auto mb-4">
-            <label className="mt-auto mb-auto">Salary:</label>
+            <label className="mt-auto mb-auto">Annual Income:</label>
             <input
               className="pl-2"
               type="text"
