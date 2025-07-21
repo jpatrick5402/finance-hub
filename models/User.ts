@@ -4,23 +4,23 @@ export default class User {
   salary: number;
   fixed_assets: {
     name: string;
-    value: number;
-    interest: number;
+    value: string;
+    interest: string;
     category: string;
   }[];
   invested_assets: {
     name: string;
-    value: number;
-    interest: number;
+    value: string;
+    interest: string;
     category: string;
   }[];
-  debts: { name: string; value: number; interest: number; category: string }[];
+  debts: { name: string; value: string; interest: string; category: string }[];
   expenses: {
     name: string;
-    value: number;
+    value: string;
     category: string;
   }[];
-  net_worth_history: { date: string; value: number }[];
+  net_worth_history: { date: string; value: string }[];
 
   constructor(
     email: string,
@@ -28,28 +28,28 @@ export default class User {
     salary: number,
     fixed_assets: {
       name: string;
-      value: number;
-      interest: number;
+      value: string;
+      interest: string;
       category: string;
     }[],
     invested_assets: {
       name: string;
-      value: number;
-      interest: number;
+      value: string;
+      interest: string;
       category: string;
     }[],
     debts: {
       name: string;
-      value: number;
-      interest: number;
+      value: string;
+      interest: string;
       category: string;
     }[],
     expenses: {
       name: string;
-      value: number;
+      value: string;
       category: string;
     }[],
-    net_worth_history: { date: string; value: number }[]
+    net_worth_history: { date: string; value: string }[]
   ) {
     this.email = email;
     this.full_name = full_name;

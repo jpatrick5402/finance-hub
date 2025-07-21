@@ -140,7 +140,7 @@ export default function List({
               attributeName === "net_worth_history"
                 ? {
                     date: new Date().toISOString().slice(0, 10),
-                    value:
+                    value: (
                       user.fixed_assets.reduce((total: number, item: any) => {
                         let data = parseFloat(item.value);
                         return !isNaN(data)
@@ -161,7 +161,11 @@ export default function List({
                         return !isNaN(data)
                           ? total + parseFloat(item.value)
                           : total + 0;
-                      }, 0),
+                      }, 0)
+                    ).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }),
                   }
                 : {
                     name: null,
