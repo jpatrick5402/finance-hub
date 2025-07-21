@@ -1,4 +1,5 @@
 "use client";
+import InfoIcon from "@components/InfoIcon";
 import List from "@components/List";
 import SaveButton from "@components/SaveButton";
 import UserContext from "@contexts/UserContext";
@@ -70,7 +71,8 @@ export default function NetWorth() {
       }}
     >
       <div className="flex container text-2xl">
-        <p className="m-auto">
+        <p className="m-auto flex flex-row">
+          <InfoIcon infoText="Net worth is the difference betweens all assets and all debts" />
           Net Worth: $
           {net_worth.toLocaleString("en-US", {
             minimumFractionDigits: 2,
@@ -97,7 +99,8 @@ export default function NetWorth() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-row container">
           <div className="flex-col">
-            <p className="text-2xl">
+            <p className="text-2xl flex flex-row">
+              <InfoIcon infoText="A combined total of all assets" />
               Assets $
               {(
                 user.fixed_assets.reduce((total: number, item: any) => {
@@ -117,7 +120,8 @@ export default function NetWorth() {
                 maximumFractionDigits: 2,
               })}
             </p>
-            <p className="text-xl">
+            <p className="text-xl flex flex-row">
+              <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
               Fixed Assets $
               {user.fixed_assets
                 .reduce((total: number, item: any) => {
@@ -135,7 +139,8 @@ export default function NetWorth() {
               attributeList={user.fixed_assets}
               columnList={["name", "value", "category"]}
             />
-            <p className="text-xl">
+            <p className="text-xl flex flex-row">
+              <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
               Invested Assets $
               {user.invested_assets
                 .reduce((total: number, item: any) => {
@@ -157,7 +162,8 @@ export default function NetWorth() {
         </div>
         <div className="container">
           <div className="flex-col">
-            <p className="text-2xl">
+            <p className="text-2xl flex flex-row">
+              <InfoIcon infoText="A combined total of all debts" />
               Debts $
               {user.debts
                 .reduce((total: number, item: any) => {

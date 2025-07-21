@@ -7,6 +7,7 @@ import { setData } from "@lib/data";
 import SaveButton from "@components/SaveButton";
 import { Doughnut } from "react-chartjs-2";
 import { ArcElement, Chart, Tooltip } from "chart.js";
+import InfoIcon from "@components/InfoIcon";
 
 Chart.register(ArcElement, Tooltip);
 
@@ -50,7 +51,8 @@ export default function Debts() {
       }}
     >
       <div className="flex container">
-        <p className="text-2xl m-auto">
+        <p className="text-2xl m-auto flex flex-row">
+          <InfoIcon infoText="A combined total of all debts" />
           Total Debts: $
           {user.debts
             .reduce((total: number, item: any) => {
