@@ -133,7 +133,12 @@ export default function Assets() {
                   text:
                     "Fixed: $" +
                     user.fixed_assets
-                      .reduce((total, asset) => total + asset.value, 0)
+                      .reduce((total, item: any) => {
+                        let data = parseFloat(item.value);
+                        return !isNaN(data)
+                          ? total + parseFloat(item.value)
+                          : total + 0;
+                      }, 0)
                       .toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -157,7 +162,12 @@ export default function Assets() {
                   text:
                     "Invested: $" +
                     user.invested_assets
-                      .reduce((total, asset) => total + asset.value, 0)
+                      .reduce((total, item: any) => {
+                        let data = parseFloat(item.value);
+                        return !isNaN(data)
+                          ? total + parseFloat(item.value)
+                          : total + 0;
+                      }, 0)
                       .toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,

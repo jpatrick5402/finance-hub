@@ -14,10 +14,10 @@ export default function Budget() {
   const [user, setUser] = useContext(UserContext);
 
   // --- chart data ---
-  const totalExpenses = user.expenses.reduce(
-    (total: number, expense: any) => total + expense.value,
-    0
-  );
+  const totalExpenses = user.expenses.reduce((total: number, item: any) => {
+    let data = parseFloat(item.value);
+    return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
+  }, 0);
   const monthlyIncome = Number(user.salary) / 12;
   const remaining = Math.floor(monthlyIncome - totalExpenses);
   const budgetGraphData = {
@@ -120,10 +120,12 @@ export default function Budget() {
             Remaining: $
             {(
               Number(user.salary) / 12 -
-              user.expenses.reduce(
-                (total: number, expense: any) => total + expense.value,
-                0
-              )
+              user.expenses.reduce((total: number, item: any) => {
+                let data = parseFloat(item.value);
+                return !isNaN(data)
+                  ? total + parseFloat(item.value)
+                  : total + 0;
+              }, 0)
             ).toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
