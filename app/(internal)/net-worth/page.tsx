@@ -133,7 +133,7 @@ export default function NetWorth() {
             </p>
             <List
               attributeList={user.fixed_assets}
-              columnList={["name", "value", "interest", "category"]}
+              columnList={["name", "value", "category"]}
             />
             <p className="text-xl">
               Invested Assets $

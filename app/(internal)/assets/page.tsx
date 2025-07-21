@@ -212,7 +212,7 @@ export default function Assets() {
           <p className="text-2xl m-auto mt-0">Fixed Assets</p>
           <List
             attributeList={user.fixed_assets}
-            columnList={["name", "value", "interest", "category"]}
+            columnList={["name", "value", "category"]}
           />
         </div>
         <div className="flex flex-col container">
