@@ -1,4 +1,5 @@
 "use client";
+import InfoIcon from "@components/InfoIcon";
 import List from "@components/List";
 import SaveButton from "@components/SaveButton";
 import UserContext from "@contexts/UserContext";
@@ -102,7 +103,8 @@ export default function Assets() {
       }}
     >
       <div className="flex container">
-        <p className="text-2xl m-auto">
+        <p className="text-2xl m-auto flex flex-row">
+          <InfoIcon infoText="A combined total of all assets" />
           Total Assets: $
           {(
             user.fixed_assets.reduce((total: number, item: any) => {
@@ -219,14 +221,20 @@ export default function Assets() {
       </div>
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-col container">
-          <p className="text-2xl m-auto mt-0">Fixed Assets</p>
+          <p className="text-2xl m-auto mt-0 flex flex-row">
+            <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
+            Fixed Assets
+          </p>
           <List
             attributeList={user.fixed_assets}
             columnList={["name", "value", "category"]}
           />
         </div>
         <div className="flex flex-col container">
-          <p className="text-2xl m-auto mt-0">Invested Assets</p>
+          <p className="text-2xl m-auto mt-0 flex flex-row">
+            <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
+            Invested Assets
+          </p>
           <List
             attributeList={user.invested_assets}
             columnList={["name", "value", "interest", "category"]}
