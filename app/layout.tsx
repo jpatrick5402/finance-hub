@@ -98,29 +98,6 @@ export default async function RootLayout({
                 Please sign in to save your data :)
               </p>
               <div className="flex flex-col sm:flex-row m-auto self-center">
-                <form
-                  className="flex flex-col sm:flex-row"
-                  action={async (formData) => {
-                    "use server";
-                    const email = formData.get("email")?.toString();
-                    if (email && /^.+\@.+\..+/.test(email)) {
-                      await signIn("resend", formData);
-                    }
-                  }}
-                >
-                  <input
-                    className="border-b-2 border-b-(--color-primary) m-2"
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                  />
-                  <button className="btn" type="submit">
-                    Sign in with your email
-                  </button>
-                </form>
-              </div>
-              <p className="m-auto">- or -</p>
-              <div className="flex flex-col sm:flex-row m-auto self-center">
                 {authProviders.map((provider) => {
                   return (
                     <button
@@ -143,6 +120,29 @@ export default async function RootLayout({
                     </button>
                   );
                 })}
+              </div>
+              <p className="m-auto">- or -</p>
+              <div className="flex flex-col sm:flex-row m-auto self-center">
+                <form
+                  className="flex flex-col sm:flex-row"
+                  action={async (formData) => {
+                    "use server";
+                    const email = formData.get("email")?.toString();
+                    if (email && /^.+\@.+\..+/.test(email)) {
+                      await signIn("resend", formData);
+                    }
+                  }}
+                >
+                  <input
+                    className="border-b-2 border-b-(--color-primary) m-2"
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                  />
+                  <button className="btn" type="submit">
+                    Sign in with your email
+                  </button>
+                </form>
               </div>
             </div>
           ) : null}
