@@ -24,6 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // https://console.cloud.google.com/auth/clients
       clientId: process.env.GOOGLE_ID || "",
       clientSecret: process.env.GOOGLE_SECRET || "",
+      allowDangerousEmailAccountLinking: true,
     }),
     Apple({
       //
