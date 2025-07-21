@@ -89,7 +89,7 @@ export default async function RootLayout({
               )}
             </div>
             <div className="m-auto sm:m-2">
-              <Links links={links} />
+              <Links links={links} session={session} />
             </div>
           </nav>
           {/* Auth */}
