@@ -68,6 +68,7 @@ export default async function RootLayout({
                   width={60}
                   height={60}
                   className="m-auto sm:m-2 w-auto h-auto hover:transform-[rotate(1440deg)] transition-all duration-300"
+                  title="About"
                 />
               </a>
               <p className="text-3xl m-auto mt-auto sm:mt-auto sm:mb-auto sm:ml-2 sm:mr-2">
