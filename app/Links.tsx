@@ -1,9 +1,7 @@
 "use client";
-import UserContext from "@contexts/UserContext";
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext } from "react";
 
 interface LinksType {
   href: string;
@@ -11,11 +9,10 @@ interface LinksType {
 }
 interface LinksParam {
   links: LinksType[];
+  session: Session | null;
 }
 
-export default function Links({ links }: LinksParam) {
-  const { data: session } = useSession();
-
+export default function Links({ links, session }: LinksParam) {
   let current = "/" + usePathname().split("/")[1];
 
   return (
@@ -39,7 +36,7 @@ export default function Links({ links }: LinksParam) {
       <Link
         href={"/profile"}
         className={
-          session?.user?.image
+          session?.user?.email
             ? ""
             : current === "/profile"
             ? "p-2 cursor-default border-b-3 border-b-(--color-primary)"
@@ -48,7 +45,7 @@ export default function Links({ links }: LinksParam) {
       >
         {session?.user?.image ? (
           <img
-            src={session?.user?.image ?? undefined}
+            src={session.user.image}
             alt=""
             className="w-12 h-12 rounded-3xl hover:border-1 hover:border-white"
             title="Profile"
