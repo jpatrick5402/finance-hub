@@ -75,14 +75,16 @@ export default function NetWorth() {
       }}
     >
       <div className="flex container text-2xl">
-        <p className="m-auto flex flex-row">
+        <div className="m-auto flex flex-row">
           <InfoIcon infoText="Net worth is the difference betweens all assets and all debts" />
-          Net Worth: $
-          {net_worth.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </p>
+          <p>
+            Net Worth: $
+            {net_worth.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
+        </div>
       </div>
       <div className="flex flex-col sm:flex-row container">
         <div className="m-auto">
@@ -103,53 +105,67 @@ export default function NetWorth() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-row container">
           <div className="flex-col">
-            <p className="text-2xl flex flex-row">
+            <div className="flex flex-row">
               <InfoIcon infoText="A combined total of all assets" />
-              Assets $
-              {(
-                user.fixed_assets.reduce(
-                  (total: number, item: any) => reductionParse(total, item),
-                  0
-                ) +
-                user.invested_assets.reduce(
-                  (total: number, item: any) => reductionParse(total, item),
-                  0
-                )
-              ).toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </p>
-            <p className="text-xl flex flex-row">
-              <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
-              Fixed Assets $
-              {user.fixed_assets
-                .reduce(
-                  (total: number, item: any) => reductionParse(total, item),
-                  0
-                )
-                .toLocaleString("en-US", {
+              <p className="text-2xl">
+                Assets $
+                {(
+                  user.fixed_assets.reduce((total: number, item: any) => {
+                    let data = parseFloat(item.value);
+                    return !isNaN(data)
+                      ? total + parseFloat(item.value)
+                      : total + 0;
+                  }, 0) +
+                  user.invested_assets.reduce((total: number, item: any) => {
+                    let data = parseFloat(item.value);
+                    return !isNaN(data)
+                      ? total + parseFloat(item.value)
+                      : total + 0;
+                  }, 0)
+                ).toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
-            </p>
+              </p>
+            </div>
+            <div className="flex flex-row">
+              <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
+              <p className="text-xl">
+                Fixed Assets $
+                {user.fixed_assets
+                  .reduce((total: number, item: any) => {
+                    let data = parseFloat(item.value);
+                    return !isNaN(data)
+                      ? total + parseFloat(item.value)
+                      : total + 0;
+                  }, 0)
+                  .toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+              </p>
+            </div>
             <List
               attributeList={user.fixed_assets}
               columnList={["name", "value", "category"]}
             />
-            <p className="text-xl flex flex-row">
+            <div className="flex flex-row">
               <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
-              Invested Assets $
-              {user.invested_assets
-                .reduce(
-                  (total: number, item: any) => reductionParse(total, item),
-                  0
-                )
-                .toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-            </p>
+              <p className="text-xl">
+                Invested Assets $
+                {user.invested_assets
+                  .reduce((total: number, item: any) => {
+                    let data = parseFloat(item.value);
+                    return !isNaN(data)
+                      ? total + parseFloat(item.value)
+                      : total + 0;
+                  }, 0)
+                  .toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+              </p>
+            </div>
             <List
               attributeList={user.invested_assets}
               columnList={["name", "value", "interest", "category"]}
@@ -158,19 +174,23 @@ export default function NetWorth() {
         </div>
         <div className="container">
           <div className="flex-col">
-            <p className="text-2xl flex flex-row">
+            <div className="flex flex-row">
               <InfoIcon infoText="A combined total of all debts" />
-              Debts $
-              {user.debts
-                .reduce(
-                  (total: number, item: any) => reductionParse(total, item),
-                  0
-                )
-                .toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-            </p>
+              <p className="text-2xl">
+                Debts $
+                {user.debts
+                  .reduce((total: number, item: any) => {
+                    let data = parseFloat(item.value);
+                    return !isNaN(data)
+                      ? total + parseFloat(item.value)
+                      : total + 0;
+                  }, 0)
+                  .toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+              </p>
+            </div>
             <List
               attributeList={user.debts}
               columnList={["name", "value", "interest", "category"]}

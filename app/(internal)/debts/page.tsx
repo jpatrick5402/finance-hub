@@ -39,19 +39,23 @@ export default function Debts() {
       }}
     >
       <div className="flex container">
-        <p className="text-2xl m-auto flex flex-row">
+        <div className="m-auto flex flex-row">
           <InfoIcon infoText="A combined total of all debts" />
-          Total Debts: $
-          {user.debts
-            .reduce(
-              (total: number, item: any) => reductionParse(total, item),
-              0
-            )
-            .toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-        </p>
+          <p className="text-2xl">
+            Total Debts: $
+            {user.debts
+              .reduce((total: number, item: any) => {
+                let data = parseFloat(item.value);
+                return !isNaN(data)
+                  ? total + parseFloat(item.value)
+                  : total + 0;
+              }, 0)
+              .toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+          </p>
+        </div>
       </div>
       <div className="flex container flex-col sm:flex-row">
         <div className="m-auto">

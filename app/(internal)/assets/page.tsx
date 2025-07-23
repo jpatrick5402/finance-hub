@@ -75,23 +75,29 @@ export default function Assets() {
       }}
     >
       <div className="flex container">
-        <p className="text-2xl m-auto flex flex-row">
+        <div className="m-auto flex flex-row">
           <InfoIcon infoText="A combined total of all assets" />
-          Total Assets: $
-          {(
-            user.fixed_assets.reduce(
-              (total: number, item: any) => reductionParse(total, item),
-              0
-            ) +
-            user.invested_assets.reduce(
-              (total: number, item: any) => reductionParse(total, item),
-              0
-            )
-          ).toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </p>
+          <p className="text-2xl">
+            Total Assets: $
+            {(
+              user.fixed_assets.reduce((total: number, item: any) => {
+                let data = parseFloat(item.value);
+                return !isNaN(data)
+                  ? total + parseFloat(item.value)
+                  : total + 0;
+              }, 0) +
+              user.invested_assets.reduce((total: number, item: any) => {
+                let data = parseFloat(item.value);
+                return !isNaN(data)
+                  ? total + parseFloat(item.value)
+                  : total + 0;
+              }, 0)
+            ).toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
+        </div>
       </div>
       <div className="flex container flex-col sm:flex-row">
         <div className="m-auto">
@@ -184,20 +190,20 @@ export default function Assets() {
       </div>
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-col container">
-          <p className="text-2xl m-auto mt-0 flex flex-row">
+          <div className="m-auto mt-0 flex flex-row">
             <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
-            Fixed Assets
-          </p>
+            <p className="text-2xl">Fixed Assets</p>
+          </div>
           <List
             attributeList={user.fixed_assets}
             columnList={["name", "value", "category"]}
           />
         </div>
         <div className="flex flex-col container">
-          <p className="text-2xl m-auto mt-0 flex flex-row">
+          <div className="m-auto mt-0 flex flex-row">
             <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
-            Invested Assets
-          </p>
+            <p className="text-2xl">Invested Assets</p>
+          </div>
           <List
             attributeList={user.invested_assets}
             columnList={["name", "value", "interest", "category"]}
