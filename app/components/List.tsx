@@ -26,7 +26,7 @@ export default function List({
       | undefined) || "assets";
 
   return (
-    <div className="flex-col m-auto p-2">
+    <div className="flex flex-col m-auto mt-0 p-2">
       <div className="flex flex-row gap-2">
         {attributeName !== "net_worth_history" && (
           <>
@@ -70,6 +70,7 @@ export default function List({
               <input
                 type="checkbox"
                 checked={item.active}
+                value={item.active}
                 onChange={(e) => {
                   setUser((prev: any) => ({
                     ...prev,
@@ -126,7 +127,7 @@ export default function List({
               })}
               <button
                 type="button"
-                className="mb-1 ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-300"
+                className="flex mb-2 ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-300"
                 onClick={(e) => {
                   setUser((prev: any) => ({
                     ...prev,
@@ -136,14 +137,14 @@ export default function List({
                   }));
                 }}
               >
-                X
+                <p className="m-auto">X</p>
               </button>
             </li>
           );
         })}
       </ul>
       <button
-        className="bg-(--color-green) p-2 m-2 rounded hover:bg-(--color-secondary) hover:text-black hover:cursor-pointer"
+        className="bg-(--color-green) p-2 m-2 ml-auto mr-auto rounded hover:bg-(--color-secondary) hover:text-black hover:cursor-pointer"
         type="button"
         onClick={async (e) => {
           setUser((prev: any) => ({
@@ -177,10 +178,10 @@ export default function List({
                   }
                 : {
                     active: true,
-                    name: null,
-                    value: null,
-                    interest: null,
-                    category: null,
+                    name: "",
+                    value: "",
+                    interest: "",
+                    category: "",
                   },
             ],
           }));

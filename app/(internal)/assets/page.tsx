@@ -186,7 +186,7 @@ export default function Assets() {
       </div>
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-col container">
-          <div className="m-auto mt-0 flex flex-row">
+          <div className="m-auto mt-0 mb-0 flex flex-row">
             <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
             <p className="text-2xl">Fixed Assets</p>
           </div>
@@ -196,7 +196,7 @@ export default function Assets() {
           />
         </div>
         <div className="flex flex-col container">
-          <div className="m-auto mt-0 flex flex-row">
+          <div className="m-auto mt-0 mb-0 flex flex-row">
             <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
             <p className="text-2xl">Invested Assets</p>
           </div>
