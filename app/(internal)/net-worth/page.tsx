@@ -16,6 +16,7 @@ import {
 import Form from "next/form";
 import { useContext } from "react";
 import { Line } from "react-chartjs-2";
+import { reductionParse } from "@lib/reductionParse";
 
 Chart.register(
   CategoryScale,
@@ -29,12 +30,15 @@ Chart.register(
 export default function NetWorth() {
   const [user, setUser] = useContext(UserContext);
 
+  const activeHistory = user.net_worth_history.filter(
+    (data: any) => data.active
+  );
   const netWorthGraphData = {
-    labels: user.net_worth_history.map((item) => item.date),
+    labels: activeHistory.map((item) => item.date),
     datasets: [
       {
         label: "Net Worth $",
-        data: user.net_worth_history.map((item) => item.value),
+        data: activeHistory.map((item) => item.value),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
@@ -50,18 +54,18 @@ export default function NetWorth() {
   };
 
   const net_worth =
-    user.fixed_assets.reduce((total: number, item: any) => {
-      let data = parseFloat(item.value);
-      return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
-    }, 0) +
-    user.invested_assets.reduce((total: number, item: any) => {
-      let data = parseFloat(item.value);
-      return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
-    }, 0) -
-    user.debts.reduce((total: number, item: any) => {
-      let data = parseFloat(item.value);
-      return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
-    }, 0);
+    user.fixed_assets.reduce(
+      (total: number, item: any) => reductionParse(total, item),
+      0
+    ) +
+    user.invested_assets.reduce(
+      (total: number, item: any) => reductionParse(total, item),
+      0
+    ) -
+    user.debts.reduce(
+      (total: number, item: any) => reductionParse(total, item),
+      0
+    );
 
   return (
     <Form
@@ -103,18 +107,14 @@ export default function NetWorth() {
               <InfoIcon infoText="A combined total of all assets" />
               Assets $
               {(
-                user.fixed_assets.reduce((total: number, item: any) => {
-                  let data = parseFloat(item.value);
-                  return !isNaN(data)
-                    ? total + parseFloat(item.value)
-                    : total + 0;
-                }, 0) +
-                user.invested_assets.reduce((total: number, item: any) => {
-                  let data = parseFloat(item.value);
-                  return !isNaN(data)
-                    ? total + parseFloat(item.value)
-                    : total + 0;
-                }, 0)
+                user.fixed_assets.reduce(
+                  (total: number, item: any) => reductionParse(total, item),
+                  0
+                ) +
+                user.invested_assets.reduce(
+                  (total: number, item: any) => reductionParse(total, item),
+                  0
+                )
               ).toLocaleString("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -124,12 +124,10 @@ export default function NetWorth() {
               <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
               Fixed Assets $
               {user.fixed_assets
-                .reduce((total: number, item: any) => {
-                  let data = parseFloat(item.value);
-                  return !isNaN(data)
-                    ? total + parseFloat(item.value)
-                    : total + 0;
-                }, 0)
+                .reduce(
+                  (total: number, item: any) => reductionParse(total, item),
+                  0
+                )
                 .toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -143,12 +141,10 @@ export default function NetWorth() {
               <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
               Invested Assets $
               {user.invested_assets
-                .reduce((total: number, item: any) => {
-                  let data = parseFloat(item.value);
-                  return !isNaN(data)
-                    ? total + parseFloat(item.value)
-                    : total + 0;
-                }, 0)
+                .reduce(
+                  (total: number, item: any) => reductionParse(total, item),
+                  0
+                )
                 .toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -166,12 +162,10 @@ export default function NetWorth() {
               <InfoIcon infoText="A combined total of all debts" />
               Debts $
               {user.debts
-                .reduce((total: number, item: any) => {
-                  let data = parseFloat(item.value);
-                  return !isNaN(data)
-                    ? total + parseFloat(item.value)
-                    : total + 0;
-                }, 0)
+                .reduce(
+                  (total: number, item: any) => reductionParse(total, item),
+                  0
+                )
                 .toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,

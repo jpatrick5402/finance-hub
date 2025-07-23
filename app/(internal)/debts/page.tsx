@@ -8,37 +8,25 @@ import SaveButton from "@components/SaveButton";
 import { Doughnut } from "react-chartjs-2";
 import { ArcElement, Chart, Tooltip } from "chart.js";
 import InfoIcon from "@components/InfoIcon";
+import { reductionParse } from "@lib/reductionParse";
 
 Chart.register(ArcElement, Tooltip);
 
 export default function Debts() {
   const [user, setUser] = useContext(UserContext);
 
+  const activeDebt = user.debts.filter((debt: any) => debt.active);
   // -- chart data --
   const debtData = {
-    labels: [
-      ...user.debts.map((debt) => debt.name),
-      user.debts.length == 0 && 1,
-    ],
+    labels: [...activeDebt.map((debt) => debt.name)],
     datasets: [
       {
         label: "$",
         data: [
-          ...user.debts.map((debt) => debt.value),
+          ...activeDebt.map((debt) => debt.value),
           user.debts.length == 0 && 1,
         ],
-        backgroundColor: [
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 81, 86, 0.2)",
-          "rgba(255, 125, 129, 0.2)",
-          "rgba(255, 0, 0, 0.2)",
-          "rgba(139, 0, 0, 0.2)",
-          "rgba(128, 0, 0, 0.2)",
-          "rgba(255, 99, 71, 0.2)",
-          "rgba(220, 20, 60, 0.2)",
-          "rgba(178, 34, 34, 0.2)",
-          "rgba(255, 69, 0, 0.2)",
-        ],
+        backgroundColor: ["rgba(255, 50, 56, 0.2)"],
       },
     ],
   };
@@ -55,10 +43,10 @@ export default function Debts() {
           <InfoIcon infoText="A combined total of all debts" />
           Total Debts: $
           {user.debts
-            .reduce((total: number, item: any) => {
-              let data = parseFloat(item.value);
-              return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
-            }, 0)
+            .reduce(
+              (total: number, item: any) => reductionParse(total, item),
+              0
+            )
             .toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,

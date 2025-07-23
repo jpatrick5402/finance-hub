@@ -1,55 +1,30 @@
+interface Item {
+  name: string;
+  value: string;
+  interest: string;
+  category: string;
+  active: boolean;
+}
+
 export default class User {
   email: string;
   full_name: string;
   salary: number;
-  fixed_assets: {
-    name: string;
-    value: string;
-    interest: string;
-    category: string;
-  }[];
-  invested_assets: {
-    name: string;
-    value: string;
-    interest: string;
-    category: string;
-  }[];
-  debts: { name: string; value: string; interest: string; category: string }[];
-  expenses: {
-    name: string;
-    value: string;
-    category: string;
-  }[];
+  fixed_assets: Item[];
+  invested_assets: Item[];
+  debts: Item[];
+  expenses: Item[];
   net_worth_history: { date: string; value: string }[];
 
   constructor(
     email: string,
     full_name: string,
     salary: number,
-    fixed_assets: {
-      name: string;
-      value: string;
-      interest: string;
-      category: string;
-    }[],
-    invested_assets: {
-      name: string;
-      value: string;
-      interest: string;
-      category: string;
-    }[],
-    debts: {
-      name: string;
-      value: string;
-      interest: string;
-      category: string;
-    }[],
-    expenses: {
-      name: string;
-      value: string;
-      category: string;
-    }[],
-    net_worth_history: { date: string; value: string }[]
+    fixed_assets: Item[],
+    invested_assets: Item[],
+    debts: Item[],
+    expenses: Item[],
+    net_worth_history: { date: string; value: string; active: boolean }[]
   ) {
     this.email = email;
     this.full_name = full_name;

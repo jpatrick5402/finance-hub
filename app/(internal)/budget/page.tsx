@@ -7,6 +7,7 @@ import { ArcElement, Chart, Tooltip } from "chart.js";
 import Form from "next/form";
 import { useContext } from "react";
 import { Doughnut } from "react-chartjs-2";
+import { reductionParse } from "@lib/reductionParse";
 
 Chart.register(ArcElement, Tooltip);
 
@@ -14,44 +15,62 @@ export default function Budget() {
   const [user, setUser] = useContext(UserContext);
 
   // --- chart data ---
-  const totalExpenses = user.expenses.reduce((total: number, item: any) => {
-    let data = parseFloat(item.value);
-    return !isNaN(data) ? total + parseFloat(item.value) : total + 0;
-  }, 0);
+  const totalExpenses = user.expenses.reduce(
+    (total: number, item: any) => reductionParse(total, item),
+    0
+  );
   const monthlyIncome = Number(user.salary) / 12;
   const remaining = Math.floor(monthlyIncome - totalExpenses);
+  // Filter only active expenses
+  const activeExpenses = user.expenses.filter((expense: any) => expense.active);
+
   const budgetGraphData = {
-    labels: ["Remaining", ...user.expenses.map((expense) => expense.name)],
+    labels: ["Remaining", ...activeExpenses.map((expense) => expense.name)],
     datasets: [
       {
         label: "Value $",
         data: [
           remaining > 0 ? remaining : 0,
-          ...user.expenses.map((expense) => expense.value),
-          user.expenses.length == 0 && 1,
+          ...activeExpenses.map((expense) => expense.value),
+          activeExpenses.length == 0 && 1,
         ],
         backgroundColor: [
           "rgba(100, 255, 100, 0.2)",
           "rgba(255, 50, 56, 0.2)",
           "rgba(255, 81, 86, 0.2)",
-          "rgba(255, 125, 129, 0.2)",
-          "rgba(255, 0, 0, 0.2)",
-          "rgba(139, 0, 0, 0.2)",
-          "rgba(128, 0, 0, 0.2)",
-          "rgba(255, 99, 71, 0.2)",
-          "rgba(220, 20, 60, 0.2)",
-          "rgba(178, 34, 34, 0.2)",
-          "rgba(255, 69, 0, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
           "rgba(255, 50, 56, 0.2)",
           "rgba(255, 81, 86, 0.2)",
-          "rgba(255, 125, 129, 0.2)",
-          "rgba(255, 0, 0, 0.2)",
-          "rgba(139, 0, 0, 0.2)",
-          "rgba(128, 0, 0, 0.2)",
-          "rgba(255, 99, 71, 0.2)",
-          "rgba(220, 20, 60, 0.2)",
-          "rgba(178, 34, 34, 0.2)",
-          "rgba(255, 69, 0, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 81, 86, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
+          "rgba(255, 50, 56, 0.2)",
         ],
       },
     ],
@@ -120,12 +139,10 @@ export default function Budget() {
             Remaining: $
             {(
               Number(user.salary) / 12 -
-              user.expenses.reduce((total: number, item: any) => {
-                let data = parseFloat(item.value);
-                return !isNaN(data)
-                  ? total + parseFloat(item.value)
-                  : total + 0;
-              }, 0)
+              user.expenses.reduce(
+                (total: number, item: any) => reductionParse(total, item),
+                0
+              )
             ).toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 
 import UserContext from "@contexts/UserContext";
-import test from "node:test";
+import { reductionParse } from "@lib/reductionParse";
 
 // List generates a modifiable list of the specified columns
 export default function List({
@@ -26,7 +26,7 @@ export default function List({
       | undefined) || "assets";
 
   return (
-    <div className="flex-col m-auto">
+    <div className="flex-col m-auto p-2">
       <div className="flex flex-row gap-2">
         {attributeName !== "net_worth_history" && (
           <>
@@ -67,6 +67,19 @@ export default function List({
         {attributeList.map((item, index) => {
           return (
             <li key={index} className="flex mb-1">
+              <input
+                type="checkbox"
+                checked={item.active}
+                onChange={(e) => {
+                  setUser((prev: any) => ({
+                    ...prev,
+                    [attributeName]: prev[attributeName].map(
+                      (cur: any, i: number) =>
+                        i === index ? { ...cur, active: !item.active } : cur
+                    ),
+                  }));
+                }}
+              />
               {columnList.map((column, i2) => {
                 return (
                   <input
@@ -113,7 +126,7 @@ export default function List({
               })}
               <button
                 type="button"
-                className="ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-300"
+                className="mb-1 ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-300"
                 onClick={(e) => {
                   setUser((prev: any) => ({
                     ...prev,
@@ -139,35 +152,31 @@ export default function List({
               ...prev[attributeName],
               attributeName === "net_worth_history"
                 ? {
+                    active: true,
                     date: new Date().toISOString().slice(0, 10),
                     value: (
-                      user.fixed_assets.reduce((total: number, item: any) => {
-                        let data = parseFloat(item.value);
-                        return !isNaN(data)
-                          ? total + parseFloat(item.value)
-                          : total + 0;
-                      }, 0) +
+                      user.fixed_assets.reduce(
+                        (total: number, item: any) =>
+                          reductionParse(total, item),
+                        0
+                      ) +
                       user.invested_assets.reduce(
-                        (total: number, item: any) => {
-                          let data = parseFloat(item.value);
-                          return !isNaN(data)
-                            ? total + parseFloat(item.value)
-                            : total + 0;
-                        },
+                        (total: number, item: any) =>
+                          reductionParse(total, item),
                         0
                       ) -
-                      user.debts.reduce((total: number, item: any) => {
-                        let data = parseFloat(item.value);
-                        return !isNaN(data)
-                          ? total + parseFloat(item.value)
-                          : total + 0;
-                      }, 0)
+                      user.debts.reduce(
+                        (total: number, item: any) =>
+                          reductionParse(total, item),
+                        0
+                      )
                     ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     }),
                   }
                 : {
+                    active: true,
                     name: null,
                     value: null,
                     interest: null,
@@ -178,9 +187,9 @@ export default function List({
         }}
       >
         Add
-        {" " +
-          attributeName.charAt(0).toUpperCase() +
-          attributeName.replaceAll("_", " ").slice(1)}
+        {attributeName[attributeName.length - 1] !== "s"
+          ? " " + attributeName.replaceAll("_", " ")
+          : " " + attributeName.replaceAll("_", " ").slice(0, -1)}
       </button>
     </div>
   );
