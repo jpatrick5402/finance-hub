@@ -8,6 +8,7 @@ import { ArcElement, Chart, Title, Tooltip } from "chart.js";
 import Form from "next/form";
 import { useContext } from "react";
 import { Doughnut } from "react-chartjs-2";
+import { reductionParse } from "@lib/reductionParse";
 
 Chart.register(ArcElement, Tooltip, Title);
 
@@ -15,82 +16,53 @@ export default function Assets() {
   const [user, setUser] = useContext(UserContext);
 
   // --- Chart Data ---
-
+  const activeFixedAssets = user.fixed_assets.filter(
+    (asset: any) => asset.active
+  );
   const fixedAssetsData = {
-    labels: user.fixed_assets.map((asset) => asset.name),
+    labels: activeFixedAssets.map((asset) => asset.name),
     datasets: [
       {
         label: "$",
         data: [
-          ...user.fixed_assets.map((asset) => asset.value),
+          ...activeFixedAssets.map((asset) => asset.value),
           user.fixed_assets.length == 0 && 1,
         ],
-
-        backgroundColor: [
-          "rgba(50, 255, 56, 0.2)",
-          "rgba(81, 255, 86, 0.2)",
-          "rgba(125, 255, 129, 0.2)",
-          "rgba(0, 255, 0, 0.2)",
-          "rgba(34, 139, 34, 0.2)",
-          "rgba(0, 128, 0, 0.2)",
-          "rgba(144, 238, 144, 0.2)",
-          "rgba(60, 179, 113, 0.2)",
-          "rgba(46, 139, 87, 0.2)",
-          "rgba(50, 205, 50, 0.2)",
-        ],
+        backgroundColor: ["rgba(50, 255, 56, 0.2)"],
       },
     ],
   };
+  const activeInvestedAssets = user.invested_assets.filter(
+    (asset: any) => asset.active
+  );
   const investedAssetsData = {
-    labels: user.invested_assets.map((asset) => asset.name),
+    labels: activeInvestedAssets.map((asset) => asset.name),
     datasets: [
       {
         label: "$",
         data: [
-          ...user.invested_assets.map((asset) => asset.value),
+          ...activeInvestedAssets.map((asset) => asset.value),
           user.invested_assets.length == 0 && 1,
         ],
-        backgroundColor: [
-          "rgba(50, 255, 56, 0.2)",
-          "rgba(81, 255, 86, 0.2)",
-          "rgba(125, 255, 129, 0.2)",
-          "rgba(0, 255, 0, 0.2)",
-          "rgba(34, 139, 34, 0.2)",
-          "rgba(0, 128, 0, 0.2)",
-          "rgba(144, 238, 144, 0.2)",
-          "rgba(60, 179, 113, 0.2)",
-          "rgba(46, 139, 87, 0.2)",
-          "rgba(50, 205, 50, 0.2)",
-        ],
+        backgroundColor: ["rgba(50, 255, 56, 0.2)"],
       },
     ],
   };
   const totalAssetsData = {
     labels: [
-      ...user.fixed_assets.map((asset) => asset.name),
-      ...user.invested_assets.map((asset) => asset.name),
+      ...activeFixedAssets.map((asset) => asset.name),
+      ...activeInvestedAssets.map((asset) => asset.name),
     ],
     datasets: [
       {
         label: "$",
         data: [
-          ...user.fixed_assets.map((asset) => asset.value),
-          ...user.invested_assets.map((asset) => asset.value),
+          ...activeFixedAssets.map((asset) => asset.value),
+          ...activeInvestedAssets.map((asset) => asset.value),
           user.fixed_assets.length == 0 && 1,
           user.invested_assets.length == 0 && 1,
         ],
-        backgroundColor: [
-          "rgba(50, 255, 56, 0.2)",
-          "rgba(81, 255, 86, 0.2)",
-          "rgba(125, 255, 129, 0.2)",
-          "rgba(0, 255, 0, 0.2)",
-          "rgba(34, 139, 34, 0.2)",
-          "rgba(0, 128, 0, 0.2)",
-          "rgba(144, 238, 144, 0.2)",
-          "rgba(60, 179, 113, 0.2)",
-          "rgba(46, 139, 87, 0.2)",
-          "rgba(50, 205, 50, 0.2)",
-        ],
+        backgroundColor: ["rgba(50, 255, 56, 0.2)"],
       },
     ],
   };
@@ -103,29 +75,23 @@ export default function Assets() {
       }}
     >
       <div className="flex container">
-        <div className="m-auto flex flex-row">
+        <p className="text-2xl m-auto flex flex-row">
           <InfoIcon infoText="A combined total of all assets" />
-          <p className="text-2xl">
-            Total Assets: $
-            {(
-              user.fixed_assets.reduce((total: number, item: any) => {
-                let data = parseFloat(item.value);
-                return !isNaN(data)
-                  ? total + parseFloat(item.value)
-                  : total + 0;
-              }, 0) +
-              user.invested_assets.reduce((total: number, item: any) => {
-                let data = parseFloat(item.value);
-                return !isNaN(data)
-                  ? total + parseFloat(item.value)
-                  : total + 0;
-              }, 0)
-            ).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </p>
-        </div>
+          Total Assets: $
+          {(
+            user.fixed_assets.reduce(
+              (total: number, item: any) => reductionParse(total, item),
+              0
+            ) +
+            user.invested_assets.reduce(
+              (total: number, item: any) => reductionParse(total, item),
+              0
+            )
+          ).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </p>
       </div>
       <div className="flex container flex-col sm:flex-row">
         <div className="m-auto">
@@ -141,12 +107,10 @@ export default function Assets() {
                   text:
                     "Fixed: $" +
                     user.fixed_assets
-                      .reduce((total, item: any) => {
-                        let data = parseFloat(item.value);
-                        return !isNaN(data)
-                          ? total + parseFloat(item.value)
-                          : total + 0;
-                      }, 0)
+                      .reduce(
+                        (total, item: any) => reductionParse(total, item),
+                        0
+                      )
                       .toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -170,12 +134,10 @@ export default function Assets() {
                   text:
                     "Invested: $" +
                     user.invested_assets
-                      .reduce((total, item: any) => {
-                        let data = parseFloat(item.value);
-                        return !isNaN(data)
-                          ? total + parseFloat(item.value)
-                          : total + 0;
-                      }, 0)
+                      .reduce(
+                        (total, item: any) => reductionParse(total, item),
+                        0
+                      )
                       .toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -199,19 +161,14 @@ export default function Assets() {
                   text:
                     "Total: $" +
                     (
-                      user.fixed_assets.reduce((total: number, item: any) => {
-                        let data = parseFloat(item.value);
-                        return !isNaN(data)
-                          ? total + parseFloat(item.value)
-                          : total + 0;
-                      }, 0) +
+                      user.fixed_assets.reduce(
+                        (total: number, item: any) =>
+                          reductionParse(total, item),
+                        0
+                      ) +
                       user.invested_assets.reduce(
-                        (total: number, item: any) => {
-                          let data = parseFloat(item.value);
-                          return !isNaN(data)
-                            ? total + parseFloat(item.value)
-                            : total + 0;
-                        },
+                        (total: number, item: any) =>
+                          reductionParse(total, item),
                         0
                       )
                     ).toLocaleString("en-US", {
@@ -227,20 +184,20 @@ export default function Assets() {
       </div>
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-col container">
-          <div className="m-auto mt-0 flex flex-row">
+          <p className="text-2xl m-auto mt-0 flex flex-row">
             <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
-            <p className="text-2xl">Fixed Assets</p>
-          </div>
+            Fixed Assets
+          </p>
           <List
             attributeList={user.fixed_assets}
             columnList={["name", "value", "category"]}
           />
         </div>
         <div className="flex flex-col container">
-          <div className="m-auto mt-0 flex flex-row">
+          <p className="text-2xl m-auto mt-0 flex flex-row">
             <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
-            <p className="text-2xl">Invested Assets</p>
-          </div>
+            Invested Assets
+          </p>
           <List
             attributeList={user.invested_assets}
             columnList={["name", "value", "interest", "category"]}
