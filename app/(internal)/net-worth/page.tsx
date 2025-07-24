@@ -104,8 +104,8 @@ export default function NetWorth() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-row container">
-          <div className="flex-col">
-            <div className="flex flex-row">
+          <div className="flex flex-col">
+            <div className="flex flex-row ml-auto mr-auto ">
               <InfoIcon infoText="A combined total of all assets" />
               <p className="text-2xl">
                 Assets $
@@ -165,8 +165,8 @@ export default function NetWorth() {
           </div>
         </div>
         <div className="container">
-          <div className="flex-col">
-            <div className="flex flex-row">
+          <div className="flex flex-col">
+            <div className="flex flex-row ml-auto mr-auto">
               <InfoIcon infoText="A combined total of all debts" />
               <p className="text-2xl">
                 Debts $

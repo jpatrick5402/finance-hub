@@ -31,9 +31,9 @@ export default function List({
       <div className="flex flex-row gap-2">
         {attributeName !== "net_worth_history" && (
           <>
-            <p>Sort:</p>
+            <p className="text-sm text-(--foreground)">Quick sort:</p>
             <select
-              className="bg-(--background-accent) rounded p-1"
+              className="bg-(--background-accent) rounded p-1 text-sm"
               onChange={(e) => {
                 let sorted = [...attributeList];
                 if (e.target.value === "name") {
@@ -44,8 +44,12 @@ export default function List({
                   sorted.sort((a, b) => b.interest - a.interest);
                 } else if (e.target.value === "category") {
                   sorted.sort((a, b) => {
-                    const aCategories = Array.isArray(a.category) ? a.category : [a.category || ""];
-                    const bCategories = Array.isArray(b.category) ? b.category : [b.category || ""];
+                    const aCategories = Array.isArray(a.category)
+                      ? a.category
+                      : [a.category || ""];
+                    const bCategories = Array.isArray(b.category)
+                      ? b.category
+                      : [b.category || ""];
                     const aFirst = aCategories[0] || "";
                     const bFirst = bCategories[0] || "";
                     return aFirst.localeCompare(bFirst);
@@ -59,7 +63,7 @@ export default function List({
                 }
               }}
             >
-              <option value="none"></option>
+              <option value="none">Choose Column...</option>
               <option value="name">Name</option>
               <option value="value">Value</option>
               {attributeName != "expenses" && (
@@ -91,10 +95,12 @@ export default function List({
               {columnList.map((column, i2) => {
                 if (column === "category") {
                   // Convert string to array if needed for backward compatibility
-                  const categoryTags = Array.isArray(item[column]) 
-                    ? item[column] 
-                    : (item[column] ? [item[column]] : []);
-                  
+                  const categoryTags = Array.isArray(item[column])
+                    ? item[column]
+                    : item[column]
+                    ? [item[column]]
+                    : [];
+
                   return (
                     <TagInput
                       key={i2}
@@ -113,7 +119,7 @@ export default function List({
                     />
                   );
                 }
-                
+
                 return (
                   <input
                     key={i2}
@@ -159,7 +165,7 @@ export default function List({
               })}
               <button
                 type="button"
-                className="flex mb-2 ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-300"
+                className="flex mb-auto mt-auto ml-2 p-1 rounded bg-(--color-red) btn-sm pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-300"
                 onClick={(e) => {
                   setUser((prev: any) => ({
                     ...prev,

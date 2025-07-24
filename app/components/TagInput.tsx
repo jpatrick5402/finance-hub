@@ -25,7 +25,7 @@ export default function TagInput({
   };
 
   const removeTag = (tagToRemove: string) => {
-    onChange(tags.filter(tag => tag !== tagToRemove));
+    onChange(tags.filter((tag) => tag !== tagToRemove));
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -44,7 +44,9 @@ export default function TagInput({
   };
 
   return (
-    <div className={`flex flex-wrap items-center gap-1 p-2 border-b-2 border-b-(--color-primary) ${className}`}>
+    <div
+      className={`flex flex-wrap w-full items-center gap-1 p-2 border-b-2 border-b-(--color-primary) ${className}`}
+    >
       {tags.map((tag, index) => (
         <span
           key={index}
@@ -68,7 +70,7 @@ export default function TagInput({
         onKeyDown={handleKeyDown}
         onBlur={handleInputBlur}
         placeholder={tags.length === 0 ? placeholder : ""}
-        className="flex-1 min-w-[100px] bg-transparent outline-none text-sm"
+        className="flex-1 w-full bg-transparent outline-none text-sm"
       />
     </div>
   );
