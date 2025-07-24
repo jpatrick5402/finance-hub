@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 
 import UserContext from "@contexts/UserContext";
 import { reductionParse } from "@lib/reductionParse";
+import TagInput from "@components/TagInput";
 
 // List generates a modifiable list of the specified columns
 export default function List({
@@ -42,7 +43,13 @@ export default function List({
                 } else if (e.target.value === "interest") {
                   sorted.sort((a, b) => b.interest - a.interest);
                 } else if (e.target.value === "category") {
-                  sorted.sort((a, b) => b.category.localeCompare(a.category));
+                  sorted.sort((a, b) => {
+                    const aCategories = Array.isArray(a.category) ? a.category : [a.category || ""];
+                    const bCategories = Array.isArray(b.category) ? b.category : [b.category || ""];
+                    const aFirst = aCategories[0] || "";
+                    const bFirst = bCategories[0] || "";
+                    return aFirst.localeCompare(bFirst);
+                  });
                 }
                 if (e.target.value !== "none") {
                   setUser((prev: any) => ({
@@ -82,6 +89,31 @@ export default function List({
                 }}
               />
               {columnList.map((column, i2) => {
+                if (column === "category") {
+                  // Convert string to array if needed for backward compatibility
+                  const categoryTags = Array.isArray(item[column]) 
+                    ? item[column] 
+                    : (item[column] ? [item[column]] : []);
+                  
+                  return (
+                    <TagInput
+                      key={i2}
+                      tags={categoryTags}
+                      placeholder="Add categories..."
+                      className="w-full m-1"
+                      onChange={(tags) => {
+                        setUser((prev: any) => ({
+                          ...prev,
+                          [attributeName]: prev[attributeName].map(
+                            (cur: any, i: number) =>
+                              i === index ? { ...cur, [column]: tags } : cur
+                          ),
+                        }));
+                      }}
+                    />
+                  );
+                }
+                
                 return (
                   <input
                     key={i2}
@@ -181,7 +213,7 @@ export default function List({
                     name: "",
                     value: "",
                     interest: "",
-                    category: "",
+                    category: [],
                   },
             ],
           }));
