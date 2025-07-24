@@ -193,7 +193,7 @@ export default function List({
                 ? {
                     active: true,
                     date: new Date().toISOString().slice(0, 10),
-                    value: (
+                    value:
                       user.fixed_assets.reduce(
                         (total: number, item: any) =>
                           reductionParse(total, item),
@@ -208,11 +208,7 @@ export default function List({
                         (total: number, item: any) =>
                           reductionParse(total, item),
                         0
-                      )
-                    ).toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    }),
+                      ),
                   }
                 : {
                     active: true,
