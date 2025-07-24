@@ -33,7 +33,6 @@
     --background-darkness: 0.5;
   }
   canvas {
-    color: #ffffff;
     filter: invert(1) hue-rotate(180deg);
   }
 }

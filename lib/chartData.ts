@@ -1,6 +1,4 @@
-import UserContext from "@contexts/UserContext";
 import User from "@models/User";
-import { useContext } from "react";
 import { reductionParse } from "./reductionParse";
 
 export function getNetWorthChartInfo(user: User) {
@@ -24,6 +22,11 @@ export function getNetWorthChartInfo(user: User) {
       plugins: {
         title: {
           display: true,
+        },
+      },
+      scales: {
+        x: {
+          type: "time",
         },
       },
     },
