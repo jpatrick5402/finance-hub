@@ -82,6 +82,7 @@ export default function List({
                 type="checkbox"
                 checked={item.active}
                 value={item.active}
+                className="mt-auto mb-auto"
                 onChange={(e) => {
                   setUser((prev: any) => ({
                     ...prev,
