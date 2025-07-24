@@ -8,73 +8,19 @@ import Form from "next/form";
 import { useContext } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { reductionParse } from "@lib/reductionParse";
+import { getBudgetChartInfo } from "@lib/chartData";
 
 Chart.register(ArcElement, Tooltip);
 
 export default function Budget() {
   const [user, setUser] = useContext(UserContext);
 
-  // --- chart data ---
   const totalExpenses = user.expenses.reduce(
     (total: number, item: any) => reductionParse(total, item),
     0
   );
-  const monthlyIncome = Number(user.salary) / 12;
-  const remaining = Math.floor(monthlyIncome - totalExpenses);
-  // Filter only active expenses
-  const activeExpenses = user.expenses.filter((expense: any) => expense.active);
 
-  const budgetGraphData = {
-    labels: ["Remaining", ...activeExpenses.map((expense) => expense.name)],
-    datasets: [
-      {
-        label: "Value $",
-        data: [
-          remaining > 0 ? remaining : 0,
-          ...activeExpenses.map((expense) => expense.value),
-          activeExpenses.length == 0 && 1,
-        ],
-        backgroundColor: [
-          "rgba(100, 255, 100, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 81, 86, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 81, 86, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 81, 86, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-          "rgba(255, 50, 56, 0.2)",
-        ],
-      },
-    ],
-  };
+  const budgetGraphData: any = getBudgetChartInfo(user);
 
   return (
     <Form

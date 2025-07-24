@@ -9,64 +9,21 @@ import Form from "next/form";
 import { useContext } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { reductionParse } from "@lib/reductionParse";
+import { getAssetChartInfo } from "@lib/chartData";
 
 Chart.register(ArcElement, Tooltip, Title);
 
 export default function Assets() {
   const [user, setUser] = useContext(UserContext);
 
-  // --- Chart Data ---
-  const activeFixedAssets = user.fixed_assets.filter(
-    (asset: any) => asset.active
-  );
-  const fixedAssetsData = {
-    labels: activeFixedAssets.map((asset) => asset.name),
-    datasets: [
-      {
-        label: "$",
-        data: [
-          ...activeFixedAssets.map((asset) => asset.value),
-          user.fixed_assets.length == 0 && 1,
-        ],
-        backgroundColor: ["rgba(50, 255, 56, 0.2)"],
-      },
-    ],
-  };
-  const activeInvestedAssets = user.invested_assets.filter(
-    (asset: any) => asset.active
-  );
-  const investedAssetsData = {
-    labels: activeInvestedAssets.map((asset) => asset.name),
-    datasets: [
-      {
-        label: "$",
-        data: [
-          ...activeInvestedAssets.map((asset) => asset.value),
-          user.invested_assets.length == 0 && 1,
-        ],
-        backgroundColor: ["rgba(50, 255, 56, 0.2)"],
-      },
-    ],
-  };
-  const totalAssetsData = {
-    labels: [
-      ...activeFixedAssets.map((asset) => asset.name),
-      ...activeInvestedAssets.map((asset) => asset.name),
-    ],
-    datasets: [
-      {
-        label: "$",
-        data: [
-          ...activeFixedAssets.map((asset) => asset.value),
-          ...activeInvestedAssets.map((asset) => asset.value),
-          user.fixed_assets.length == 0 && 1,
-          user.invested_assets.length == 0 && 1,
-        ],
-        backgroundColor: ["rgba(50, 255, 56, 0.2)"],
-      },
-    ],
-  };
-
+  const [
+    fixedAssetsData,
+    investedAssetsData,
+    totalAssetsData,
+    fixedOptions,
+    investedOptions,
+    totalOptions,
+  ]: any = getAssetChartInfo(user);
   return (
     <Form
       action={async () => {
@@ -97,91 +54,13 @@ export default function Assets() {
       </div>
       <div className="flex container flex-col sm:flex-row">
         <div className="m-auto">
-          <Doughnut
-            data={fixedAssetsData}
-            options={{
-              plugins: {
-                title: {
-                  display: true,
-                  font: {
-                    size: 14,
-                  },
-                  text:
-                    "Fixed: $" +
-                    user.fixed_assets
-                      .reduce(
-                        (total, item: any) => reductionParse(total, item),
-                        0
-                      )
-                      .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      }),
-                  color: "#000000",
-                },
-              },
-            }}
-          />
+          <Doughnut data={fixedAssetsData} options={fixedOptions} />
         </div>
         <div className="m-auto">
-          <Doughnut
-            data={investedAssetsData}
-            options={{
-              plugins: {
-                title: {
-                  display: true,
-                  font: {
-                    size: 14,
-                  },
-                  text:
-                    "Invested: $" +
-                    user.invested_assets
-                      .reduce(
-                        (total, item: any) => reductionParse(total, item),
-                        0
-                      )
-                      .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      }),
-                  color: "#000000",
-                },
-              },
-            }}
-          />
+          <Doughnut data={investedAssetsData} options={investedOptions} />
         </div>
         <div className="m-auto">
-          <Doughnut
-            data={totalAssetsData}
-            options={{
-              plugins: {
-                title: {
-                  display: true,
-                  font: {
-                    size: 14,
-                  },
-                  text:
-                    "Total: $" +
-                    (
-                      user.fixed_assets.reduce(
-                        (total: number, item: any) =>
-                          reductionParse(total, item),
-                        0
-                      ) +
-                      user.invested_assets.reduce(
-                        (total: number, item: any) =>
-                          reductionParse(total, item),
-                        0
-                      )
-                    ).toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    }),
-                  color: "#000000",
-                },
-              },
-            }}
-          />
+          <Doughnut data={totalAssetsData} options={totalOptions} />
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-3">

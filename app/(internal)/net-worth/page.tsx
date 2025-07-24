@@ -17,6 +17,7 @@ import Form from "next/form";
 import { useContext } from "react";
 import { Line } from "react-chartjs-2";
 import { reductionParse } from "@lib/reductionParse";
+import { getNetWorthChartInfo } from "@lib/chartData";
 
 Chart.register(
   CategoryScale,
@@ -29,29 +30,6 @@ Chart.register(
 
 export default function NetWorth() {
   const [user, setUser] = useContext(UserContext);
-
-  const activeHistory = user.net_worth_history.filter(
-    (data: any) => data.active
-  );
-  const netWorthGraphData = {
-    labels: activeHistory.map((item) => item.date),
-    datasets: [
-      {
-        label: "Net Worth $",
-        data: activeHistory.map((item) => item.value),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
-  const options = {
-    responsive: true,
-    plugins: {
-      title: {
-        display: true,
-      },
-    },
-  };
 
   const net_worth =
     user.fixed_assets.reduce(
@@ -66,6 +44,8 @@ export default function NetWorth() {
       (total: number, item: any) => reductionParse(total, item),
       0
     );
+
+  let [netWorthGraphData, netWorthOptions]: any = getNetWorthChartInfo(user);
 
   return (
     <Form
@@ -90,7 +70,7 @@ export default function NetWorth() {
         <div className="m-auto">
           <Line
             data={netWorthGraphData}
-            options={options}
+            options={netWorthOptions}
             className="flex m-auto w-50%"
           />
         </div>

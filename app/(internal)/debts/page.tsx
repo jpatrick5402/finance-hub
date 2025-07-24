@@ -9,27 +9,14 @@ import { Doughnut } from "react-chartjs-2";
 import { ArcElement, Chart, Tooltip } from "chart.js";
 import InfoIcon from "@components/InfoIcon";
 import { reductionParse } from "@lib/reductionParse";
+import { getDebtChartInfo } from "@lib/chartData";
 
 Chart.register(ArcElement, Tooltip);
 
 export default function Debts() {
   const [user, setUser] = useContext(UserContext);
 
-  const activeDebt = user.debts.filter((debt: any) => debt.active);
-  // -- chart data --
-  const debtData = {
-    labels: [...activeDebt.map((debt) => debt.name)],
-    datasets: [
-      {
-        label: "$",
-        data: [
-          ...activeDebt.map((debt) => debt.value),
-          user.debts.length == 0 && 1,
-        ],
-        backgroundColor: ["rgba(255, 50, 56, 0.2)"],
-      },
-    ],
-  };
+  const debtData = getDebtChartInfo(user);
 
   return (
     <Form
