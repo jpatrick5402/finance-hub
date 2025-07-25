@@ -32,8 +32,6 @@ export const POST = auth(async function POST(req) {
     );
   }
 
-  client.close();
-
   return NextResponse.json(
     JSON.stringify(
       new User(
