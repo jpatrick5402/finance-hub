@@ -1,8 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import User from "@models/User";
 import client from "@utils/db";
-import { Collection } from "mongodb";
 
 export const POST = auth(async function POST(req) {
   if (!req.auth)
@@ -21,10 +20,10 @@ export const POST = auth(async function POST(req) {
     );
   }
 
-  await client.connect();
-  const database = client.db("finance-hub"); // Replace with your database name
-  const collection: Collection<User> = database.collection<User>("user_data"); // Replace with your collection name
-  const result = await collection.findOne({ email: inputEmail });
+  const result = await client
+    .db("finance-hub")
+    .collection<User>("user_data")
+    .findOne({ email: inputEmail });
 
   if (!result) {
     return NextResponse.json(

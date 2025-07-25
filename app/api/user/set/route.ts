@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import client from "@utils/db";
-import { Collection, Db } from "mongodb";
 import User from "@models/User";
 
 export const POST = auth(async function POST(req) {
@@ -19,14 +18,10 @@ export const POST = auth(async function POST(req) {
     );
   }
 
-  await client.connect();
-  const database = client.db("finance-hub"); // Replace with your database name
-  const collection: Collection<User> = database.collection<User>("user_data"); // Replace with your collection name
-  const result = await collection.replaceOne(
-    { email: content["email"] },
-    { ...content },
-    { upsert: true }
-  );
+  const result = await client
+    .db("finance-hub")
+    .collection<User>("user_data")
+    .replaceOne({ email: content["email"] }, { ...content }, { upsert: true });
 
   return NextResponse.json(
     { message: "User information updated: " + result.acknowledged },
