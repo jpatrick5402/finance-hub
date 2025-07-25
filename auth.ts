@@ -8,17 +8,10 @@ import client from "@utils/db";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(client),
   providers: [
-    GitHub({
-      // https://github.com/settings/developers
-      clientId: process.env.AUTH_GITHUB_ID || "",
-      clientSecret: process.env.AUTH_GITHUB_SECRET || "",
-    }),
-    Google({
-      // https://console.cloud.google.com/auth/clients
-      clientId: process.env.AUTH_GOOGLE_ID || "",
-      clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
+    Google({ // https://console.cloud.google.com/auth/clients
       allowDangerousEmailAccountLinking: true,
     }),
+    GitHub(), // https://github.com/settings/developers
     Resend({
       apiKey: process.env.AUTH_RESEND_KEY,
       from: "no-reply@finance-hub.dev",
