@@ -2,15 +2,19 @@ import User from "@models/User";
 import { reductionParse } from "./reductionParse";
 
 export function getNetWorthChartInfo(user: User) {
+  "use client";
   const activeHistory = user.net_worth_history.filter(
     (data: any) => data.active
   );
-  
-  // Get the --foreground CSS variable value for labels and gridlines
-  const foregroundColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--foreground')
-    .trim();
-  
+
+  let foregroundColor: string = "";
+
+  if (typeof window !== "undefined") {
+    foregroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue("--foreground")
+      .trim();
+  }
+
   return [
     {
       labels: activeHistory.map((item) => item.date),
@@ -36,13 +40,13 @@ export function getNetWorthChartInfo(user: User) {
         },
         tooltip: {
           callbacks: {
-            title: function(context: any) {
+            title: function (context: any) {
               // Format the date to show only month, day, year
               const date = new Date(context[0].parsed.x);
-              return date.toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric', 
-                year: 'numeric'
+              return date.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
               });
             },
           },
@@ -55,7 +59,7 @@ export function getNetWorthChartInfo(user: User) {
             color: foregroundColor,
           },
           grid: {
-            color: foregroundColor + '40', // 25% opacity for grid lines
+            color: foregroundColor + "40", // 25% opacity for grid lines
           },
         },
         y: {
@@ -63,7 +67,7 @@ export function getNetWorthChartInfo(user: User) {
             color: foregroundColor,
           },
           grid: {
-            color: foregroundColor + '40', // 25% opacity for grid lines
+            color: foregroundColor + "40", // 25% opacity for grid lines
           },
         },
       },
