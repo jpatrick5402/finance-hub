@@ -11,7 +11,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google({ // https://console.cloud.google.com/auth/clients
       allowDangerousEmailAccountLinking: true,
     }),
-    GitHub(), // https://github.com/settings/developers
+    GitHub({}), // https://github.com/settings/developers
     Resend({
       apiKey: process.env.AUTH_RESEND_KEY,
       from: "no-reply@finance-hub.dev",
