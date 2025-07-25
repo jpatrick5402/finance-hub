@@ -81,7 +81,6 @@ body {
 @media screen and (max-width: 975px) {
   body {
     max-width: revert;
-    padding: 2px;
   }
 
   nav {
