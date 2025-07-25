@@ -44,6 +44,7 @@ export default async function RootLayout({
     { href: "/budget", name: "Budget" },
     { href: "/assets", name: "Assets" },
     { href: "/debts", name: "Debts" },
+    { href: "/help", name: "Help" },
   ];
 
   const authProviders = ["google", "github"];
