@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   const { data: session } = useSession();
   const [userData, setUserData] = useState(
-    new User("", "", 0, [], [], [], [], [])
+    new User("", "", [], [], [], [], [], [])
   );
 
   useEffect(() => {

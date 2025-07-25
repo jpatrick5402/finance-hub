@@ -29,10 +29,10 @@ export const POST = auth(async function POST(req) {
     const result = await client
       .db("finance-hub")
       .collection<User>("user_data")
-      .insertOne(new User(inputEmail, "", 0, [], [], [], [], []));
+      .insertOne(new User(inputEmail, "", [], [], [], [], [], []));
 
     return NextResponse.json(
-      JSON.stringify(new User(inputEmail, "", 0, [], [], [], [], []))
+      JSON.stringify(new User(inputEmail, "", [], [], [], [], [], []))
     );
   }
 
@@ -41,7 +41,7 @@ export const POST = auth(async function POST(req) {
       new User(
         result["email"],
         result["full_name"],
-        result["salary"],
+        result["income"],
         result["fixed_assets"],
         result["invested_assets"],
         result["debts"],

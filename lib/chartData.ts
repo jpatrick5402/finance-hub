@@ -92,7 +92,13 @@ export function getDebtChartInfo(user: User) {
 }
 
 export function getBudgetChartInfo(user: User) {
-  const monthlyIncome = Number(user.salary) / 12;
+  const monthlyIncome =
+    Number(
+      user.income.reduce(
+        (total: number, item: any) => reductionParse(total, item),
+        0
+      )
+    ) / 12;
   const totalExpenses = user.expenses.reduce(
     (total: number, item: any) => reductionParse(total, item),
     0

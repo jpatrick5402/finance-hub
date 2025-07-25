@@ -29,6 +29,10 @@ export default function Budget() {
         location.reload();
       }}
     >
+      <div className="container">
+        <label>Annual Income Sources:</label>
+        <List attributeList={user.income} columnList={["name", "value"]} />
+      </div>
       <div className="container flex flex-col sm:flex-row">
         <div className="flex m-auto">
           <Doughnut data={budgetGraphData} className="flex m-auto w-50%" />
@@ -36,7 +40,14 @@ export default function Budget() {
         <div className="m-auto flex flex-col">
           <p className="text-xl m-auto">
             Monthly Budget: $
-            {(Number(user.salary) / 12).toLocaleString("en-US", {
+            {(
+              Number(
+                user.income.reduce(
+                  (total: number, item: any) => reductionParse(total, item),
+                  0
+                )
+              ) / 12
+            ).toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}
@@ -56,7 +67,13 @@ export default function Budget() {
           <p className="m-auto">
             Remaining: $
             {(
-              Number(user.salary) / 12 -
+              Number(
+                user.income.reduce(
+                  (total: number, item: any) => reductionParse(total, item),
+                  0
+                )
+              ) /
+                12 -
               user.expenses.reduce(
                 (total: number, item: any) => reductionParse(total, item),
                 0

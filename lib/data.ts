@@ -16,7 +16,7 @@ export async function getData(email: string): Promise<User> {
     body: JSON.stringify({ email: email }),
   });
 
-  if (!data.ok) return new User("", "", 0, [], [], [], [], []);
+  if (!data.ok) return new User("", "", [], [], [], [], [], []);
 
   return JSON.parse(await data.json());
 }

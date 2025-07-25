@@ -9,7 +9,7 @@ interface Item {
 export default class User {
   email: string;
   full_name: string;
-  salary: number;
+  income: Item[];
   fixed_assets: Item[];
   invested_assets: Item[];
   debts: Item[];
@@ -19,7 +19,7 @@ export default class User {
   constructor(
     email: string,
     full_name: string,
-    salary: number,
+    income: Item[],
     fixed_assets: Item[],
     invested_assets: Item[],
     debts: Item[],
@@ -28,7 +28,7 @@ export default class User {
   ) {
     this.email = email;
     this.full_name = full_name;
-    this.salary = salary;
+    this.income = income;
     this.fixed_assets = fixed_assets;
     this.invested_assets = invested_assets;
     this.debts = debts;

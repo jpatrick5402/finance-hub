@@ -6,6 +6,7 @@ import { ArcElement, Chart, Tooltip, Title } from "chart.js";
 import { setData } from "@lib/data";
 import UserContext from "@contexts/UserContext";
 import SaveButton from "@components/SaveButton";
+import List from "@components/List";
 
 Chart.register(ArcElement, Tooltip, Title);
 
@@ -41,35 +42,8 @@ export default function Dashboard() {
         </div>
         {/* Salary */}
         <div className="m-auto text-center">
-          <label>Annual Income:</label>
-          <input
-            title="Salary"
-            type="text"
-            className="m-auto text-center"
-            value={user.salary}
-            onChange={(e) => {
-              let val: any = e.target.value;
-              // Allow empty string for controlled input, otherwise parse as float
-              if (val === "") {
-                setUser((prev: any) => ({
-                  ...prev,
-                  salary: val,
-                }));
-                return;
-              }
-              // Only allow valid decimal numbers
-              if (!/^\d*\.?\d*$/.test(val)) {
-                return;
-              }
-              val = parseFloat(val);
-              if (isNaN(val)) val = "";
-
-              setUser((prev: any) => ({
-                ...prev,
-                salary: val,
-              }));
-            }}
-          />
+          <label>Annual Income Sources:</label>
+          <List attributeList={user.income} columnList={["name", "value"]} />
         </div>
       </div>
       <SaveButton />
