@@ -69,11 +69,10 @@ export default function NetWorth() {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row container">
-        <div className="ml-auto mr-auto">
+        <div className="m-auto">
           <Line
             data={netWorthGraphData}
             options={netWorthOptions}
-            className="flex m-auto w-50%"
           />
         </div>
         <div className="flex-col m-auto">

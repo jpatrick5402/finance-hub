@@ -32,16 +32,11 @@
     --color-container: #79716bbb;
     --background-darkness: 0.5;
   }
-  canvas {
-    filter: invert(1) hue-rotate(180deg);
-  }
 }
 
 html {
-  background-image: linear-gradient(
-      rgba(0, 0, 0, var(--background-darkness)),
-      rgba(0, 0, 0, var(--background-darkness))
-    ),
+  background-image: linear-gradient(rgba(0, 0, 0, var(--background-darkness)),
+      rgba(0, 0, 0, var(--background-darkness))),
     url(/water.jpg);
   background-color: var(--background);
   background-size: cover;
@@ -64,6 +59,7 @@ body {
   transition-property: background-color;
   transition-duration: 300ms;
 }
+
 .btn:hover {
   background-color: var(--color-secondary);
   color: black;
@@ -94,6 +90,7 @@ body {
   nav h1 {
     margin-top: 0px;
   }
+
   nav span {
     margin: 0px;
     margin-bottom: 5px;
