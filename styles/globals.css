@@ -78,9 +78,10 @@ body {
   box-shadow: 0px 5px 1rem #00000085;
 }
 
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 975px) {
   body {
     max-width: revert;
+    padding: 2px;
   }
 
   nav {
