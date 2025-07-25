@@ -28,6 +28,8 @@ export const POST = auth(async function POST(req) {
     { upsert: true }
   );
 
+  client.close();
+
   return NextResponse.json(
     { message: "User information updated: " + result.acknowledged },
     { status: 200 }

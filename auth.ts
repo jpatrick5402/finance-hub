@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
-import Apple from "next-auth/providers/apple";
 import Resend from "next-auth/providers/resend";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import client from "@utils/db";
@@ -15,23 +14,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     GitHub({
       // https://github.com/settings/developers
-      clientId: process.env.GITHUB_ID || "",
-      clientSecret: process.env.GITHUB_SECRET || "",
+      clientId: process.env.AUTH_GITHUB_ID || "",
+      clientSecret: process.env.AUTH_GITHUB_SECRET || "",
     }),
     Google({
       // https://console.cloud.google.com/auth/clients
-      clientId: process.env.GOOGLE_ID || "",
-      clientSecret: process.env.GOOGLE_SECRET || "",
+      clientId: process.env.AUTH_GOOGLE_ID || "",
+      clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
       allowDangerousEmailAccountLinking: true,
-    }),
-    Apple({
-      //
-      clientId: process.env.APPLE_ID || "",
-      clientSecret: process.env.APPLE_SECRET || "",
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "database",
   },
   trustHost: true,
 });
