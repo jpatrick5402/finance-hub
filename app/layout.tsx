@@ -110,10 +110,6 @@ export default async function RootLayout({
               &copy; {new Date().getFullYear()} Finance Hub. All rights
               reserved.
             </p>
-            <p className="text-sm mr-4 ml-4">TY Mr. Carrier</p>
-            <p className="text-sm mr-4 ml-4">
-              Developed by <a href="https://github.com/jpatrick5402">JP</a>
-            </p>
             <Link href={"https://coff.ee/jpatrick5402"} className="btn">
               <span className="flex flex-row gap-2">
                 <img
