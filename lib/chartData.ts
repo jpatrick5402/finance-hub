@@ -160,6 +160,14 @@ export function getAssetChartInfo(user: User) {
   const activeInvestedAssets = user.invested_assets.filter(
     (asset: any) => asset.active
   );
+
+  let foregroundColor: string = "";
+  if (typeof window !== "undefined") {
+    foregroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue("--foreground")
+      .trim();
+  }
+
   return [
     {
       labels: activeFixedAssets.map((asset) => asset.name),
@@ -220,7 +228,7 @@ export function getAssetChartInfo(user: User) {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               }),
-          color: "#000000",
+          color: foregroundColor,
         },
       },
     },
@@ -239,7 +247,7 @@ export function getAssetChartInfo(user: User) {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               }),
-          color: "#000000",
+          color: foregroundColor,
         },
       },
     },
@@ -265,7 +273,7 @@ export function getAssetChartInfo(user: User) {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             }),
-          color: "#000000",
+          color: foregroundColor,
         },
       },
     },

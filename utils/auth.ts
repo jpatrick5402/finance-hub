@@ -2,8 +2,8 @@
 import { signIn, signOut } from "@/auth";
 
 export async function login(
-  provider: string,
-  redirectURL: string,
+  provider?: string,
+  redirectURL?: string,
   email?: string
 ) {
   await signIn(provider, { email, redirectTo: redirectURL });
