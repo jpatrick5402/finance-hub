@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { neon } from "@neondatabase/serverless";
 import { auth } from "@/auth";
+import User from "@models/User";
+import client from "@utils/db";
+import { Collection } from "mongodb";
 
 export const POST = auth(async function POST(req) {
   if (!req.auth)
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
 
   let body = await req.json();
-  if (req.auth.user?.email != body) {
+  const inputEmail = body["email"];
+
+  if (req.auth.user?.email != inputEmail) {
     console.error(
       "Suspicious activity on account: " + JSON.stringify(req.auth.user)
     );
@@ -17,17 +21,34 @@ export const POST = auth(async function POST(req) {
     );
   }
 
-  let email = body;
-  let sql = neon(`${process.env.DATABASE_URL}`);
-  let data = await sql`SELECT * FROM data WHERE email=(${email})`;
+  await client.connect();
+  const database = client.db("finance-hub"); // Replace with your database name
+  const collection: Collection<User> = database.collection<User>("user_data"); // Replace with your collection name
+  const result = await collection.findOne({ email: inputEmail });
 
-  if (!data[0]) {
-    // if there's no data for this email, insert blank data
-    data =
-      await sql`INSERT INTO data (email, full_name, salary, fixed_assets, invested_assets, debts, expenses, net_worth_history) VALUES (${email}, '', 0, '[]', '[]', '[]', '[]', '[]')`;
-    data = await sql`SELECT * FROM data WHERE email=(${email})`;
-    return NextResponse.json(JSON.stringify(data[0]));
+  if (!result) {
+    return NextResponse.json(
+      JSON.stringify(new User("", "", 0, [], [], [], [], []))
+    );
   }
 
-  return NextResponse.json(JSON.stringify(data[0]));
+  return NextResponse.json(
+    JSON.stringify(
+      new User(
+        result["email"],
+        result["full_name"],
+        result["salary"],
+        result["fixed_assets"],
+        result["invested_assets"],
+        result["debts"],
+        result["expenses"],
+        Array.isArray(result["net_worth_history"])
+          ? result["net_worth_history"].map((item: any) => ({
+              ...item,
+              active: item.active ?? false,
+            }))
+          : []
+      )
+    )
+  );
 });
