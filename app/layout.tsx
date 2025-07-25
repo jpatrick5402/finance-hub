@@ -117,7 +117,7 @@ export default async function RootLayout({
             <Link href={"https://coff.ee/jpatrick5402"} className="btn">
               <span className="flex flex-row gap-2">
                 <img
-                  className="h-auto w-auto max-h-10"
+                  className="h-auto w-auto max-h-8"
                   src="/bmc-logo-no-background.png"
                   alt="Coffee Cup"
                 />
