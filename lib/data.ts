@@ -7,27 +7,16 @@ export async function setData(currentUser: User) {
   });
 
   if (!response.ok) return "Error";
-  else return await response.json();
+  else return response;
 }
 
 export async function getData(email: string): Promise<User> {
   let data = await fetch("/api/user/get", {
     method: "POST",
-    body: JSON.stringify(email),
+    body: JSON.stringify({ email: email }),
   });
 
   if (!data.ok) return new User("", "", 0, [], [], [], [], []);
 
-  let response = JSON.parse(await data.json());
-
-  return new User(
-    response["email"],
-    response["full_name"],
-    response["salary"],
-    JSON.parse(response["fixed_assets"]),
-    JSON.parse(response["invested_assets"]),
-    JSON.parse(response["debts"]),
-    JSON.parse(response["expenses"]),
-    JSON.parse(response["net_worth_history"])
-  );
+  return JSON.parse(await data.json());
 }
