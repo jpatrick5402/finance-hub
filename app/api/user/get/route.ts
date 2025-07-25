@@ -26,8 +26,13 @@ export const POST = auth(async function POST(req) {
     .findOne({ email: inputEmail });
 
   if (!result) {
+    const result = await client
+      .db("finance-hub")
+      .collection<User>("user_data")
+      .insertOne(new User(inputEmail, "", 0, [], [], [], [], []));
+
     return NextResponse.json(
-      JSON.stringify(new User("", "", 0, [], [], [], [], []))
+      JSON.stringify(new User(inputEmail, "", 0, [], [], [], [], []))
     );
   }
 
