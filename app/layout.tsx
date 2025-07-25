@@ -54,7 +54,7 @@ export default async function RootLayout({
       >
         <SessionProvider session={session} refetchOnWindowFocus={false}>
           <nav className="flex mt-3 mb-3 bg-(--color-header) p-1 rounded-lg items-center shadow-xl/20">
-            <div className="m-auto sm:ml-0 flex flex-col sm:flex-row">
+            <div className="m-auto sm:ml-0 flex flex-col sm:flex-row p-2 sm:p-0">
               <a
                 href="/"
                 className="
