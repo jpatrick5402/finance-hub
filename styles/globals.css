@@ -80,7 +80,6 @@ body {
 
 @media screen and (max-width: 1020px) {
   body {
-    padding: 0 1rem;
     max-width: revert;
   }
 

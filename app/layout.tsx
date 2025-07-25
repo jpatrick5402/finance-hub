@@ -47,8 +47,6 @@ export default async function RootLayout({
     { href: "/help", name: "Help" },
   ];
 
-  const authProviders = ["google", "github"];
-
   return (
     <html lang="en">
       <body
@@ -76,7 +74,7 @@ export default async function RootLayout({
                 Finance Hub
               </p>
               {/* Sign Out Button */}
-              {session && (
+              {session ? (
                 <form
                   className="m-auto"
                   action={async () => {
@@ -88,67 +86,24 @@ export default async function RootLayout({
                     Sign Out
                   </button>
                 </form>
+              ) : (
+                <form
+                  className="m-auto"
+                  action={async () => {
+                    "use server";
+                    await login();
+                  }}
+                >
+                  <button className="btn m-auto" type="submit">
+                    Sign In
+                  </button>
+                </form>
               )}
             </div>
             <div className="m-auto sm:m-2">
               <Links links={links} session={session} />
             </div>
           </nav>
-          {/* Auth */}
-          {!session?.user ? (
-            <div className="m-auto bg-(--color-container) grid gap-3 rounded-lg p-5 backdrop-blur-2xl shadow-2xl shadow-[#00000085]">
-              <p className="m-auto text-xl">
-                Please sign in to save your data :)
-              </p>
-              <div className="flex flex-col sm:flex-row m-auto self-center">
-                {authProviders.map((provider) => {
-                  return (
-                    <button
-                      key={provider}
-                      className="btn m-3"
-                      onClick={async () => {
-                        "use server";
-                        await login(provider, "/dashboard");
-                      }}
-                    >
-                      <div className="flex flex-row gap-2">
-                        <img
-                          height={20}
-                          width={30}
-                          src={"/" + provider + ".png"}
-                          alt={provider}
-                        />
-                        <p className="m-auto">Sign in with {provider}</p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-              <p className="m-auto">- or -</p>
-              <div className="flex flex-col sm:flex-row m-auto self-center">
-                <form
-                  className="flex flex-col sm:flex-row"
-                  action={async (formData) => {
-                    "use server";
-                    const email = formData.get("email")?.toString();
-                    if (email && /^.+\@.+\..+/.test(email)) {
-                      await login("resend", "/dashboard", email);
-                    }
-                  }}
-                >
-                  <input
-                    className="border-b-2 border-b-(--color-primary) m-2"
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                  />
-                  <button className="btn" type="submit">
-                    Sign in with your email
-                  </button>
-                </form>
-              </div>
-            </div>
-          ) : null}
           <div className="grow-1">{children}</div>
           <footer className="flex justify-center items-center p-4 bg-(--color-footer) mt-8 rounded-t-lg flex-col sm:flex-row gap-2">
             <p className="text-sm mr-4 ml-4">
