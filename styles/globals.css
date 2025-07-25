@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --breakpoint-sm: 55rem;
+  --breakpoint-sm: 975px;
 }
 
 :root {
@@ -35,8 +35,10 @@
 }
 
 html {
-  background-image: linear-gradient(rgba(0, 0, 0, var(--background-darkness)),
-      rgba(0, 0, 0, var(--background-darkness))),
+  background-image: linear-gradient(
+      rgba(0, 0, 0, var(--background-darkness)),
+      rgba(0, 0, 0, var(--background-darkness))
+    ),
     url(/water.jpg);
   background-color: var(--background);
   background-size: cover;

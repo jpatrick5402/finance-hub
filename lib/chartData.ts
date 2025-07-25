@@ -8,7 +8,6 @@ export function getNetWorthChartInfo(user: User) {
   );
 
   let foregroundColor: string = "";
-
   if (typeof window !== "undefined") {
     foregroundColor = getComputedStyle(document.documentElement)
       .getPropertyValue("--foreground")

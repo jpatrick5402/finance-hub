@@ -11,9 +11,9 @@ export default function ({ infoText }: { infoText: string }) {
       onMouseOut={() => setShowText((prev) => !prev)}
       style={{ cursor: "pointer" }}
     >
-      <img src="/info.png" alt="info" className="h-4 w-4 " />
+      <img src="/info.png" alt="info" className="h-5 w-5 " />
       {showText && (
-        <p className="text-sm absolute bg-(--color-primary) p-2 rounded mt-3 transition-all duration-300">
+        <p className="text-sm absolute bg-(--color-primary) p-2 rounded transition-all duration-300">
           {infoText}
         </p>
       )}
