@@ -10,9 +10,11 @@ import {
   LinearScale,
   LineElement,
   PointElement,
+  TimeSeriesScale,
   Title,
   Tooltip,
 } from "chart.js";
+import "chartjs-adapter-date-fns";
 import Form from "next/form";
 import { useContext } from "react";
 import { Line } from "react-chartjs-2";
@@ -24,7 +26,7 @@ Chart.register(
   LinearScale,
   PointElement,
   LineElement,
-  Title,
+  TimeSeriesScale,
   Tooltip
 );
 
@@ -71,7 +73,6 @@ export default function NetWorth() {
           <Line
             data={netWorthGraphData}
             options={netWorthOptions}
-            className="flex m-auto w-50%"
           />
         </div>
         <div className="flex-col m-auto">

@@ -1,12 +1,16 @@
-import UserContext from "@contexts/UserContext";
 import User from "@models/User";
-import { useContext } from "react";
 import { reductionParse } from "./reductionParse";
 
 export function getNetWorthChartInfo(user: User) {
   const activeHistory = user.net_worth_history.filter(
     (data: any) => data.active
   );
+  
+  // Get the --foreground CSS variable value for labels and gridlines
+  const foregroundColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--foreground')
+    .trim();
+  
   return [
     {
       labels: activeHistory.map((item) => item.date),
@@ -24,6 +28,43 @@ export function getNetWorthChartInfo(user: User) {
       plugins: {
         title: {
           display: true,
+        },
+        legend: {
+          labels: {
+            color: foregroundColor,
+          },
+        },
+        tooltip: {
+          callbacks: {
+            title: function(context: any) {
+              // Format the date to show only month, day, year
+              const date = new Date(context[0].parsed.x);
+              return date.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric', 
+                year: 'numeric'
+              });
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: "time",
+          ticks: {
+            color: foregroundColor,
+          },
+          grid: {
+            color: foregroundColor + '40', // 25% opacity for grid lines
+          },
+        },
+        y: {
+          ticks: {
+            color: foregroundColor,
+          },
+          grid: {
+            color: foregroundColor + '40', // 25% opacity for grid lines
+          },
         },
       },
     },
