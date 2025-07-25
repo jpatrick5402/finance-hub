@@ -32,7 +32,7 @@ export default function Links({ links, session }: LinksParam) {
       <div
         className={`${
           open ? "flex" : "hidden"
-        } flex-col absolute left-3 top-14 bg-(--background-accent) shadow-lg rounded-lg p-4 gap-2 z-50 sm:hidden`}
+        } flex-col absolute right-5 top-14 bg-(--background-accent) shadow-lg rounded-lg p-4 gap-2 z-50 sm:hidden`}
       >
         {links.map((link) => {
           let isLoggedIn = current === link.href;

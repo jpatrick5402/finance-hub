@@ -30,39 +30,11 @@ export default function Budget() {
       }}
     >
       <div className="container flex flex-col sm:flex-row">
-        <div className="m-auto">
-          <div className="m-auto mb-4">
-            <label className="mt-auto mb-auto">Annual Income:</label>
-            <input
-              className="pl-2"
-              type="text"
-              step="any"
-              value={user.salary}
-              onChange={(e) => {
-                let val: any = e.target.value;
-                // Allow empty string for controlled input, otherwise parse as float
-                if (val === "") {
-                  setUser((prev: any) => ({
-                    ...prev,
-                    salary: val,
-                  }));
-                  return;
-                }
-                // Only allow valid decimal numbers
-                if (!/^\d*\.?\d*$/.test(val)) {
-                  return;
-                }
-                val = parseFloat(val);
-                if (isNaN(val)) val = "";
-
-                setUser((prev: any) => ({
-                  ...prev,
-                  salary: val,
-                }));
-              }}
-            />
-          </div>
-          <p className="text-xl">
+        <div className="flex m-auto">
+          <Doughnut data={budgetGraphData} className="flex m-auto w-50%" />
+        </div>
+        <div className="m-auto flex flex-col">
+          <p className="text-xl m-auto">
             Monthly Budget: $
             {(Number(user.salary) / 12).toLocaleString("en-US", {
               minimumFractionDigits: 2,
@@ -70,7 +42,7 @@ export default function Budget() {
             })}
             /month
           </p>
-          <p>
+          <p className="m-auto">
             Monthly Expenses: $
             {totalExpenses.toLocaleString("en-US", {
               minimumFractionDigits: 2,
@@ -81,7 +53,7 @@ export default function Budget() {
             attributeList={user.expenses}
             columnList={["name", "value", "category"]}
           />
-          <p>
+          <p className="m-auto">
             Remaining: $
             {(
               Number(user.salary) / 12 -
@@ -94,9 +66,6 @@ export default function Budget() {
               maximumFractionDigits: 2,
             })}
           </p>
-        </div>
-        <div className="flex m-auto">
-          <Doughnut data={budgetGraphData} className="flex m-auto w-50%" />
         </div>
       </div>
       <SaveButton />

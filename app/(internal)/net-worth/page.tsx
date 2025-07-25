@@ -70,10 +70,7 @@ export default function NetWorth() {
       </div>
       <div className="flex flex-col sm:flex-row container">
         <div className="m-auto">
-          <Line
-            data={netWorthGraphData}
-            options={netWorthOptions}
-          />
+          <Line data={netWorthGraphData} options={netWorthOptions} />
         </div>
         <div className="flex-col m-auto">
           <List
@@ -85,7 +82,7 @@ export default function NetWorth() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex flex-row container">
-          <div className="flex flex-col">
+          <div className="flex flex-col m-auto">
             <div className="flex flex-row ml-auto mr-auto ">
               <InfoIcon infoText="A combined total of all assets" />
               <p className="text-2xl">
@@ -105,7 +102,7 @@ export default function NetWorth() {
                 })}
               </p>
             </div>
-            <div className="flex flex-row">
+            <div className="flex flex-row m-auto">
               <InfoIcon infoText="Assets that have no standard variance in value (i.e. gold, cash, vehicles, ...)" />
               <p className="text-xl">
                 Fixed Assets $
@@ -124,7 +121,7 @@ export default function NetWorth() {
               attributeList={user.fixed_assets}
               columnList={["name", "value", "category"]}
             />
-            <div className="flex flex-row">
+            <div className="flex flex-row m-auto">
               <InfoIcon infoText="Assets that vary in value (i.e. stocks, bonds, ...)" />
               <p className="text-xl">
                 Invested Assets $
