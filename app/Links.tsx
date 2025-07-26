@@ -32,7 +32,7 @@ export default function Links({ links, session }: LinksParam) {
       <div
         className={`${
           open ? "flex" : "hidden"
-        } flex-col absolute right-5 top-14 bg-(--background-accent) shadow-lg rounded-lg p-4 gap-2 z-50 sm:hidden`}
+        } flex-col absolute right-5 top-14 bg-(--background-accent) shadow-lg rounded-lg p-4 gap-2 z-50 sm:hidden text-center`}
       >
         {links.map((link) => {
           let isLoggedIn = current === link.href;
@@ -66,8 +66,11 @@ export default function Links({ links, session }: LinksParam) {
             <img
               src={session.user.image}
               alt=""
-              className="w-12 h-12 rounded-3xl hover:border-1 hover:border-white"
-              title="Profile"
+              className={`w-12 h-12 rounded-3xl m-auto ${
+                current === "/profile"
+                  ? "border-2 border-(--color-primary) cursor-default"
+                  : "hover:border-1 hover:border-white"
+              }`}
             />
           ) : (
             <p>Profile</p>
@@ -106,7 +109,11 @@ export default function Links({ links, session }: LinksParam) {
             <img
               src={session.user.image}
               alt=""
-              className="w-12 h-12 rounded-3xl hover:border-1 hover:border-white"
+              className={`w-12 h-12 rounded-3xl m-auto ${
+                current === "/profile"
+                  ? "border-2 border-(--color-primary) cursor-default"
+                  : "hover:border-1 hover:border-white"
+              }`}
               title="Profile"
             />
           ) : (
