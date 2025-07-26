@@ -22,15 +22,14 @@ export default function Dashboard() {
       className="flex flex-col items-center"
       id="dashboardForm"
     >
-      <div className="container text-xl flex flex-col lg:flex-row">
+      <div className="container text-xl flex flex-col">
         {/* Email */}
         <p className="m-auto text-center">{user.email}</p>
         {/* Name */}
         <div className="m-auto text-center">
-          <label>Name:</label>
           <input
             type="text"
-            className="m-auto text-center"
+            className="w-full border-b-2 border-b-(--color-primary) pl-2 m-1 text-center"
             value={user.full_name}
             onChange={(e) => {
               setUser((prev) => ({

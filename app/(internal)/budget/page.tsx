@@ -29,8 +29,8 @@ export default function Budget() {
         location.reload();
       }}
     >
-      <div className="container">
-        <label>Annual Income Sources:</label>
+      <div className="container flex flex-col">
+        <p className="m-auto">Annual Income Sources:</p>
         <List attributeList={user.income} columnList={["name", "value"]} />
       </div>
       <div className="container flex flex-col sm:flex-row">
