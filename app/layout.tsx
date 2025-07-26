@@ -48,12 +48,15 @@ export default async function RootLayout({
   ];
 
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className="bg-(--background) bg-cover backdrop-brightness-50"
+    >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto p-2 max-w-1300px min-h-[100vh] flex-col flex text-(--foreground)`}
       >
         <SessionProvider session={session} refetchOnWindowFocus={false}>
-          <nav className="flex mt-3 mb-3 bg-(--color-header) p-1 rounded-lg items-center shadow-xl/20">
+          <nav className="flex mt-0 mb-3 bg-(--color-header) p-1 rounded-lg items-center shadow-xl/20">
             <div className="m-auto sm:ml-0 flex flex-col sm:flex-row p-2 sm:p-0">
               <a
                 href="/"
