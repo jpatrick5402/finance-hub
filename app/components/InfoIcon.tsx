@@ -1,3 +1,4 @@
+import { Info } from "lucide-react";
 import { useState } from "react";
 
 export default function ({ infoText }: { infoText: string }) {
@@ -11,9 +12,9 @@ export default function ({ infoText }: { infoText: string }) {
       onMouseOut={() => setShowText((prev) => !prev)}
       style={{ cursor: "pointer" }}
     >
-      <img src="/info.png" alt="info" className="h-5 w-5 " />
+      <Info className="h-5 w-5 " />
       {showText && (
-        <p className="text-sm absolute bg-(--color-primary) p-2 rounded transition-all duration-300">
+        <p className="-translate-y-14 text-sm absolute bg-(--color-primary) p-2 rounded transition-all duration-300 whitespace-wrap">
           {infoText}
         </p>
       )}
