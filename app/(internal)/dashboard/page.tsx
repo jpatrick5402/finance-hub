@@ -49,20 +49,20 @@ export default function Dashboard() {
     <div>
       <div className="flex container flex-col sm:flex-row">
         <div className="m-auto">
-          <p>Net Worth</p>
+          <p className="text-center m-2">Net Worth</p>
           <Line data={netWorthGraphData} options={netWorthOptions} />
         </div>
         <div className="m-auto">
-          <p>Expenses</p>
+          <p className="text-center m-2">Expenses</p>
           <Doughnut data={budgetGraphData} className="flex m-auto w-50%" />
         </div>
         <div className="m-auto">
-          <p>Debts</p>
+          <p className="text-center m-2">Debts</p>
           <Doughnut data={debtData} />
         </div>
       </div>
       <div className="flex container flex-col sm:flex-row">
-        <p>Assets</p>
+        <p className="text-center m-2">Assets</p>
         <div className="m-auto">
           <Doughnut data={fixedAssetsData} options={fixedOptions} />
         </div>
